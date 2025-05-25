@@ -118,6 +118,11 @@
       display: flex;
       justify-content: space-between;
     }
+    .verified-badge {
+      color: var(--accent-green);
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+    }
     .max-registered {
       color: var(--accent-red);
       font-weight: bold;
@@ -139,7 +144,6 @@
       padding: 0.8rem;
       border-radius: 6px;
       text-align: center;
-      background: rgba(139, 148, 158, 0.1);
     }
     .collapsible-toggle {
       cursor: pointer;
@@ -252,7 +256,8 @@
       <li><strong>Complete verification</strong>:
         <ul>
           <li>Go to <code>#verify</code> channel</li>
-          <li>Link your Epic Games account</li>
+          <li>Use <code>/verify [YourEpicUsername]</code></li>
+          <li>Wait for Yunite confirmation</li>
         </ul>
       </li>
     </ol>
@@ -267,11 +272,11 @@
   <div class="collapsible-content" id="registrationSection">
     <form id="duoForm">
       <label>Your Discord Username:</label>
-      <input id="player" placeholder="e.g. Sypher1234" required type="text"/>
-      <small>Your exact current Discord username (case sensitive)</small>
+      <input id="player" placeholder="e.g. Player123" required type="text"/>
+      <small>Your exact current Discord username (without #)</small>
       
       <label>Duo Partner's Discord Username:</label>
-      <input id="duo" placeholder="e.g. Ninja5678" required type="text"/>
+      <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
       
       <button class="button" type="submit" id="submitButton">Submit Registration</button>
     </form>
@@ -303,19 +308,14 @@
         <tr><td>2nd Place</td><td>R500</td></tr>
         <tr><td>3rd Place</td><td>R300</td></tr>
         <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
-        <tr><td>Most Eliminations</td><td>Special Discord Role</td></tr>
       </tbody>
     </table>
-    <p style="margin-top:1rem;color:var(--text-secondary);">
-      <small>Prizes will be distributed within 48 hours after verification.</small>
-    </p>
   </div>
 </section>
 
 <section>
   <h2 class="collapsible-toggle">🎯 Scoring System</h2>
   <div class="collapsible-content">
-    <h3>Placement Points</h3>
     <table>
       <thead>
         <tr><th>Placement</th><th>Points</th></tr>
@@ -325,49 +325,36 @@
         <tr><td>2nd</td><td>17</td></tr>
         <tr><td>3rd</td><td>15</td></tr>
         <tr><td>4th</td><td>13</td></tr>
-        <tr><td>5th</td><td>11</td></tr>
-        <tr><td>6th-10th</td><td>9</td></tr>
+        <tr><td>5th-10th</td><td>9</td></tr>
         <tr><td>11th-15th</td><td>5</td></tr>
         <tr><td>16th-20th</td><td>2</td></tr>
       </tbody>
     </table>
-    <h3 style="margin-top:1.5rem;">Elimination Points</h3>
-    <ul>
-      <li>1 point per elimination</li>
-      <li>Team wipes count as 2 bonus points</li>
-    </ul>
-    <p style="margin-top:1rem;color:var(--text-secondary);">
-      <small>Total score = Placement Points + Elimination Points</small>
-    </p>
+    <p style="margin-top:1rem;"><strong>+1 point per elimination</strong></p>
   </div>
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">🚫 Disallowed Behavior</h2>
+  <h2 class="collapsible-toggle">🚫 Rules</h2>
   <div class="collapsible-content">
     <ul>
-      <li><strong>Teaming:</strong> Collaborating with other teams is strictly prohibited</li>
-      <li><strong>Exploits:</strong> Any glitches or unintended game mechanics</li>
-      <li><strong>Cheating:</strong> Third-party tools, macros, or input automation</li>
-      <li><strong>Account Sharing:</strong> Must play on your own registered account</li>
-      <li><strong>Toxicity:</strong> Racism, hate speech, or harassment will result in ban</li>
+      <li>No teaming with other duos</li>
+      <li>No exploits or glitches</li>
+      <li>Must use your own account</li>
+      <li>Verification required before start</li>
+      <li>Decisions by admins are final</li>
     </ul>
-    <p style="margin-top:1rem;color:var(--accent-red);">
-      <strong>Violations will result in immediate disqualification and ban from future events.</strong>
-    </p>
   </div>
 </section>
 
 <footer>
-  <p>FKZA Customs © 2025 – Powered by Yunite</p>
-  <p>Hosted on GitHub Pages | Contact: admin@fkza.gg</p>
+  <p>FKZA Customs © 2025</p>
 </footer>
 
 <script>
-  // Configuration - REPLACE THESE VALUES
+  // Configuration
   const CONFIG = {
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz4z84-4IfyEtIqEVTLii0f177ccCWFidTSOqjo46WkoUHE4hWlBB1Vsdma1XntKaPa/exec",
-    SECRET_KEY: "FKZA_2025_SECURE_KEY", // Must match Google Script
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyKDcdQtyYjdVdjJO9Lu0Lp5kY8qOG4qdOucG-XxgeDkqjBmvvqZx5K3yYMmM-DCI6R/exec",
     MAX_TEAMS: 20,
     TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
   };
@@ -388,6 +375,7 @@
     initCountdown();
     setupCollapsibles();
     fetchRegistrations();
+    setupForm();
   });
 
   // Countdown timer
@@ -415,33 +403,35 @@
   }
 
   // Form handling
-  elements.duoForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
-    const player = document.getElementById("player").value.trim();
-    const duo = document.getElementById("duo").value.trim();
+  function setupForm() {
+    elements.duoForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const player = document.getElementById("player").value.trim();
+      const duo = document.getElementById("duo").value.trim();
 
-    if (!validateInput(player, duo)) return;
+      if (!validateInput(player, duo)) return;
 
-    elements.submitButton.disabled = true;
-    showStatus("Submitting registration...", "var(--text-secondary)");
+      elements.submitButton.disabled = true;
+      showStatus("Submitting registration...", "var(--text-secondary)");
 
-    try {
-      const success = await submitRegistration(player, duo);
-      if (success) {
-        showStatus("✅ Registration submitted!", "var(--accent-green)");
-        elements.duoForm.reset();
-        await fetchRegistrations();
-      } else {
-        showStatus("❌ Registration failed. Please try again.", "var(--accent-red)");
+      try {
+        const success = await submitRegistration(player, duo);
+        if (success) {
+          showStatus("✅ Registration submitted!", "var(--accent-green)");
+          elements.duoForm.reset();
+          await fetchRegistrations();
+        } else {
+          showStatus("❌ Registration failed. Please try again.", "var(--accent-red)");
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        showStatus(`❌ Error: ${error.message}`, "var(--accent-red)");
+      } finally {
+        elements.submitButton.disabled = false;
       }
-    } catch (error) {
-      console.error("Registration error:", error);
-      showStatus("❌ Network error. Please try again.", "var(--accent-red)");
-    } finally {
-      elements.submitButton.disabled = false;
-    }
-  });
+    });
+  }
 
   function validateInput(player, duo) {
     if (!player || !duo) {
@@ -458,30 +448,43 @@
   }
 
   async function submitRegistration(player, duo) {
-    const response = await fetch(CONFIG.SCRIPT_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        player, 
-        duo, 
-        key: CONFIG.SECRET_KEY 
-      })
-    });
-    
-    const result = await response.json();
-    return result.success;
+    try {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+      const response = await fetch(CONFIG.SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player, duo }),
+        signal: controller.signal
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Submission error:", error);
+      throw new Error("Network error. Please check your connection.");
+    }
   }
 
   // Registration data
   async function fetchRegistrations() {
     try {
       const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`);
-      const { registrations } = await response.json();
+      if (!response.ok) throw new Error("Failed to fetch data");
       
-      updateUI(registrations);
+      const { registrations, error } = await response.json();
+      if (error) throw new Error(error);
+      
+      updateUI(registrations || []);
     } catch (error) {
-      console.error("Failed to load registrations:", error);
-      elements.registeredDuosList.innerHTML = '<li>Error loading teams. Please refresh.</li>';
+      console.error("Fetch error:", error);
+      elements.registeredDuosList.innerHTML = `
+        <li style="color:var(--accent-red)">Error loading teams: ${error.message}</li>
+      `;
     }
   }
 
@@ -501,8 +504,13 @@
       .slice(0, CONFIG.MAX_TEAMS)
       .map(team => `
         <li>
-          <span class="team-number">Team ${team.id}:</span>
-          <span>${team.player} & ${team.duo}</span>
+          <span>
+            <span class="team-number">Team ${team.id}:</span>
+            ${team.player} & ${team.duo}
+            ${team.verified === 'Y' ? 
+              '<span class="verified-badge">✓ Verified</span>' : ''}
+          </span>
+          ${team.epicName ? `<small>Epic: ${team.epicName}</small>` : ''}
         </li>
       `).join('');
   }
@@ -531,6 +539,7 @@
     elements.submitStatus.textContent = message;
     elements.submitStatus.style.color = color;
     elements.submitStatus.style.border = `1px solid ${color}`;
+    elements.submitStatus.style.backgroundColor = `${color}20`;
   }
 
   // Collapsible sections
