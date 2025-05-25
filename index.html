@@ -166,13 +166,12 @@
   <h2 class="collapsible-toggle">📝 Register Your Duo</h2>
   <div class="collapsible-content" id="registrationSection">
     <form id="duoForm">
-      <label>Your Full Discord Username:</label>
-      <input id="player" placeholder="e.g. Sypher#1234" required type="text"/>
-      <small>Include your numbers after the # (required for verification)</small>
+      <label>Your Discord Username:</label>
+      <input id="player" placeholder="e.g. Sypher1234" required type="text"/>
+      <small>Enter your exact current Discord username</small>
       
-      <label>Duo Partner's Full Discord Username:</label>
-      <input id="duo" placeholder="e.g. Ninja#5678" required type="text"/>
-      <small>Include their numbers after the #</small>
+      <label>Duo Partner's Discord Username:</label>
+      <input id="duo" placeholder="e.g. Ninja5678" required type="text"/>
       
       <button class="button" type="submit" id="submitButton">Submit Registration</button>
     </form>
@@ -196,7 +195,7 @@
 
 <script>
   // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyHJp5GyWgBAPZBOlrm9yloBre6jQE2DiiaD43EBN1ZHlNG0i4g1I-PM04tCEcvFv8D/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
   const MAX_TEAMS = 20;
 
   // DOM elements
@@ -258,8 +257,8 @@
     const duo = document.getElementById("duo").value.trim();
 
     // Validation
-    if (!validateDiscordUsername(player) || !validateDiscordUsername(duo)) {
-      showStatus("❌ Please include full Discord usernames with #numbers", "red");
+    if (!player || !duo) {
+      showStatus("❌ Please fill in both usernames", "red");
       return;
     }
 
@@ -276,7 +275,7 @@
       const result = await response.json();
       
       if (result.success) {
-        showStatus("✅ Registration submitted!", "lightgreen");
+        showStatus("✅ Registration submitted successfully!", "lightgreen");
         document.getElementById("duoForm").reset();
         fetchRegistrations(); // Refresh the list
       } else {
@@ -284,18 +283,13 @@
       }
     } catch (error) {
       console.error("Registration error:", error);
-      showStatus("❌ Network error. Please try again.", "red");
+      showStatus("❌ Network error. Please check your connection.", "red");
     } finally {
       submitButton.disabled = false;
     }
   });
 
-  // Validate Discord username format
-  function validateDiscordUsername(username) {
-    return username.includes('#') && username.split('#')[1].match(/^\d+$/);
-  }
-
-  // Update the registered duos list (shows names WITHOUT numbers)
+  // Update the registered duos list
   function updateRegisteredDuosList(registrations) {
     if (registrations.length === 0) {
       registeredDuosList.innerHTML = '<li>No duos registered yet</li>';
