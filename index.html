@@ -93,7 +93,22 @@
       background: #161b22;
       color: #8b949e;
     }
-  </style>
+  
+    .collapsible-toggle {
+      cursor: pointer;
+      color: #58a6ff;
+      margin: 0;
+    }
+    .collapsible-content {
+      display: block;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .collapsed + .collapsible-content {
+      display: none;
+    }
+    </style>
+    
 </head>
 <body>
 <header>
@@ -101,20 +116,28 @@
 <h1>FKZA Duo Cash Cup</h1>
 <div id="countdown">Loading...</div>
 </header>
-<section><h2>📅 Tournament </h2>
+<section>
+<h2 class="collapsible-toggle">📅 Tournament </h2>
+<div class="collapsible-content">
 <ul>
 <li><strong>Date &amp; Time:</strong> 31st May 2025, 7PM SAST</li>
 <li><strong>Format:</strong> Duos</li>
 <li><strong>Game Mode:</strong> Reload Zero Builds</li>
 <li><strong>Server:</strong> EU</li>
 </ul>
+</div>
 </section>
-<section><h2>📥 How to Register</h2>
+<section>
+<h2 class="collapsible-toggle">📥 How to Register</h2>
+<div class="collapsible-content">
 <p>1. Join our Discord: <a href="https://discord.gg/PC5ArHu6" target="_blank">discord.gg/PC5ArHu6</a></p>
 <p>2. Go to <code>#verify</code> and type <code>/verify</code></p>
 <p>3. Go to <code>#tournament-registration</code> and type <code>/register</code></p>
+</div>
 </section>
-<section><h2>📝 Register Your Duo</h2>
+<section>
+<h2 class="collapsible-toggle">📝 Register Your Duo</h2>
+<div class="collapsible-content">
 <form id="duoForm">
 <label>Your Discord Name:</label>
 <input id="player" placeholder="e.g. Faeez#1234" required="" type="text"/>
@@ -123,8 +146,11 @@
 <button class="button" type="submit">Submit Registration</button>
 </form>
 <p id="submitStatus" style="margin-top: 1rem;"></p>
+</div>
 </section>
-<section><h2>💰 Prizepool</h2>
+<section>
+<h2 class="collapsible-toggle">💰 Prizepool</h2>
+<div class="collapsible-content">
 <table>
 <thead>
 <tr><th>Placement</th><th>Prize</th></tr>
@@ -136,6 +162,7 @@
 <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
 </tbody>
 </table>
+</div>
 </section>
 <footer>
     FKZA Customs © 2025 – Powered by Yunite | Hosted on GitHub Pages
@@ -186,5 +213,20 @@
       }
     });
   </script>
+
+  <script>
+    document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
+      h2.addEventListener('click', () => {
+        h2.classList.toggle('collapsed');
+        const content = h2.nextElementSibling;
+        if (content.style.display === 'none') {
+          content.style.display = 'block';
+        } else {
+          content.style.display = 'none';
+        }
+      });
+    });
+  </script>
 </body>
+
 </html>
