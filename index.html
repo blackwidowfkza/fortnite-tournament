@@ -127,21 +127,24 @@
       text-align: center;
       font-size: 1.1rem;
     }
-    .status-message {
+    #submitStatus {
       margin-top: 1rem;
       padding: 0.8rem;
       border-radius: 6px;
       text-align: center;
-    }
-    .error-message {
       background-color: rgba(248, 81, 73, 0.2);
       border: 1px solid var(--accent-red);
       color: var(--accent-red);
+      display: none;
     }
     .success-message {
       background-color: rgba(40, 167, 69, 0.2);
       border: 1px solid var(--accent-green);
       color: var(--accent-green);
+      padding: 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+      display: none;
     }
     table {
       width: 100%;
@@ -183,8 +186,6 @@
     }
     .collapsible-content {
       display: block;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
     }
     .collapsed + .collapsible-content {
       display: none;
@@ -238,8 +239,8 @@
         <span id="buttonSpinner" class="spinner"></span>
       </button>
     </form>
-    <div id="submitStatus" class="status-message error-message" style="display:none;"></div>
-    <div id="successMessage" class="status-message success-message" style="display:none;"></div>
+    <div id="submitStatus"></div>
+    <div id="successMessage" class="success-message"></div>
   </div>
 </section>
 
@@ -312,7 +313,7 @@
 <script>
   // Configuration
   const CONFIG = {
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz4Bc21Ei053Iw3B3-3d8hJaSp0NaGsfY3a5aMzLBYBhUr5f_u5IT0IS7SfBgkND4k2HA/exec", // REPLACE THIS
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz4Bc21Ei053Iw3B3-3d8hJaSp0NaGsfY3a5aMzLBYBhUr5f_u5IT0IS7SfBgkND4k2HA/exec",
     MAX_TEAMS: 20,
     TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
   };
@@ -397,15 +398,17 @@
 
   async function submitRegistration(player, duo) {
     try {
+      // Create a proxy URL to handle CORS issues
+      const proxyUrl = `https://cors-anywhere.herokuapp.com/${CONFIG.SCRIPT_URL}`;
+      
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000);
 
-      const response = await fetch(CONFIG.SCRIPT_URL, {
+      const response = await fetch(proxyUrl, {
         method: "POST",
-        mode: "cors",
         headers: { 
           "Content-Type": "application/json",
-          "Authorization": "Bearer none" // Bypass some auth issues
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({ player, duo }),
         signal: controller.signal
@@ -414,43 +417,22 @@
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || 
-          `Server error: ${response.status} ${response.statusText}`
-        );
+        throw new Error(errorData.message || `Server error: ${response.status}`);
       }
 
       return await response.json();
     } catch (error) {
       if (error.name === 'AbortError') {
-        throw new Error("Request timed out (15s) - check your connection");
+        throw new Error("Request timed out. Please try again.");
       }
       throw error;
     }
   }
 
-  function validateInput(player, duo) {
-    if (!player || !duo) {
-      showError("❌ Please fill in both usernames");
-      return false;
-    }
-    
-    if (player === duo) {
-      showError("❌ You can't team with yourself");
-      return false;
-    }
-    
-    if (player.length < 3 || duo.length < 3) {
-      showError("❌ Usernames must be at least 3 characters");
-      return false;
-    }
-    
-    return true;
-  }
-
   // Team data fetching
   async function fetchRegistrations() {
     try {
+      // Use direct connection first
       const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`);
       
       if (!response.ok) {
@@ -462,12 +444,26 @@
       
       updateUI(registrations || []);
     } catch (error) {
-      console.error("Fetch error:", error);
-      elements.registeredDuosList.innerHTML = `
-        <li style="color:var(--accent-red)">
-          Error loading teams: ${getUserFriendlyError(error)}
-        </li>
-      `;
+      console.error("Direct fetch failed, trying proxy:", error);
+      // Fallback to proxy
+      try {
+        const proxyUrl = `https://cors-anywhere.herokuapp.com/${CONFIG.SCRIPT_URL}?action=get`;
+        const proxyResponse = await fetch(proxyUrl, {
+          headers: {
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        });
+        
+        const proxyData = await proxyResponse.json();
+        updateUI(proxyData.registrations || []);
+      } catch (proxyError) {
+        console.error("Proxy also failed:", proxyError);
+        elements.registeredDuosList.innerHTML = `
+          <li style="color:var(--accent-red)">
+            Error loading teams: ${getUserFriendlyError(proxyError)}
+          </li>
+        `;
+      }
     }
   }
 
@@ -536,23 +532,35 @@
     elements.successMessage.style.display = "none";
   }
 
+  function validateInput(player, duo) {
+    if (!player || !duo) {
+      showError("❌ Please fill in both usernames");
+      return false;
+    }
+    
+    if (player === duo) {
+      showError("❌ You can't team with yourself");
+      return false;
+    }
+    
+    if (player.length < 3 || duo.length < 3) {
+      showError("❌ Usernames must be at least 3 characters");
+      return false;
+    }
+    
+    return true;
+  }
+
   function getUserFriendlyError(error) {
     const msg = error.message || String(error);
     
     if (msg.includes("Failed to fetch")) {
-      return "Network error - check your connection and try again";
+      return "Network blocked. Try:\n1. Disabling ad-blockers\n2. Using Chrome with CORS extension\n3. Incognito mode";
     }
     if (msg.includes("timed out")) {
-      return "Request took too long - server might be busy";
+      return "Server is busy. Please try again later.";
     }
-    if (msg.includes("already registered")) {
-      return msg;
-    }
-    if (msg.includes("Server error")) {
-      return "Server problem - please try again later";
-    }
-    
-    return msg.replace("SERVER:", "Error:").replace("Error: Error:", "Error:");
+    return msg;
   }
 
   // Collapsible sections
