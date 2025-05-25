@@ -76,6 +76,10 @@
       transition: all 0.2s;
       width: 100%;
       margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     .button:hover {
       background: #2ea043;
@@ -162,6 +166,25 @@
     .collapsed + .collapsible-content {
       display: none;
     }
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .success-message {
+      background-color: rgba(40, 167, 69, 0.2);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      padding: 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -194,9 +217,13 @@
       <label>Duo Partner's Username:</label>
       <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
       
-      <button class="button" type="submit" id="submitButton">Submit Registration</button>
+      <button class="button" type="submit" id="submitButton">
+        <span id="buttonText">Submit Registration</span>
+        <span id="buttonSpinner" class="spinner" style="display:none;"></span>
+      </button>
     </form>
     <div id="submitStatus"></div>
+    <div id="successMessage" class="success-message" style="display:none;"></div>
   </div>
 </section>
 
@@ -269,7 +296,7 @@
 <script>
   // Configuration
   const CONFIG = {
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyQm8gwUVdY9JAmcu_oLHyTsh83RAHfEecUfaXZ23zap1aJ9SkZgJ_igJgCid4Tvs4/exec",
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwvrmau88bnSlVMWNqdZE1e2rra_CUzcKbQH7l7-Uij6dlaeRRvBe2GPM8ATRDBTHmN/exec",
     MAX_TEAMS: 20,
     TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
   };
@@ -278,7 +305,10 @@
   const elements = {
     duoForm: document.getElementById("duoForm"),
     submitButton: document.getElementById("submitButton"),
+    buttonText: document.getElementById("buttonText"),
+    buttonSpinner: document.getElementById("buttonSpinner"),
     submitStatus: document.getElementById("submitStatus"),
+    successMessage: document.getElementById("successMessage"),
     registeredDuosList: document.getElementById("registeredDuosList"),
     spotsRemaining: document.getElementById("spotsRemaining"),
     registrationSection: document.getElementById("registrationSection"),
@@ -327,22 +357,29 @@
 
       if (!validateInput(player, duo)) return;
 
+      // Show loading state
+      elements.buttonText.textContent = "Processing...";
+      elements.buttonSpinner.style.display = "block";
       elements.submitButton.disabled = true;
       showStatus("Submitting registration...", "var(--text-secondary)");
+      hideSuccessMessage();
 
       try {
-        const success = await submitRegistration(player, duo);
-        if (success) {
-          showStatus("✅ Registration submitted!", "var(--accent-green)");
+        const response = await submitRegistration(player, duo);
+        if (response.success) {
+          showSuccessMessage(`✅ Success! You are registered as Team ${response.teamId}`);
           elements.duoForm.reset();
           await fetchRegistrations();
         } else {
-          showStatus("❌ Registration failed. Please try again.", "var(--accent-red)");
+          showStatus(`❌ ${response.message || "Registration failed"}`, "var(--accent-red)");
         }
       } catch (error) {
         console.error("Registration error:", error);
         showStatus(`❌ Error: ${error.message}`, "var(--accent-red)");
       } finally {
+        // Reset button state
+        elements.buttonText.textContent = "Submit Registration";
+        elements.buttonSpinner.style.display = "none";
         elements.submitButton.disabled = false;
       }
     });
@@ -356,6 +393,11 @@
     
     if (player === duo) {
       showStatus("❌ You can't team with yourself", "var(--accent-red)");
+      return false;
+    }
+    
+    if (player.length < 3 || duo.length < 3) {
+      showStatus("❌ Usernames must be at least 3 characters", "var(--accent-red)");
       return false;
     }
     
@@ -450,6 +492,17 @@
     elements.submitStatus.style.color = color;
     elements.submitStatus.style.border = `1px solid ${color}`;
     elements.submitStatus.style.backgroundColor = `${color}20`;
+    elements.submitStatus.style.display = "block";
+  }
+
+  function showSuccessMessage(message) {
+    elements.successMessage.textContent = message;
+    elements.successMessage.style.display = "block";
+    elements.submitStatus.style.display = "none";
+  }
+
+  function hideSuccessMessage() {
+    elements.successMessage.style.display = "none";
   }
 
   // Collapsible sections
