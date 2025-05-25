@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
   <meta name="theme-color" content="#1f6feb">
   <meta property="og:title" content="FKZA Duo Cash Cup">
   <meta property="og:description" content="Join the FKZA Duo Zero Build Cup - Register, Verify and Compete!">
-  <meta property="og:image" content="https://i.imgur.com/1D6wRaW.jpg">
+  <meta property="og:image" content="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png">
   <meta name="twitter:card" content="summary_large_image">
   <style>
     body {
@@ -17,16 +18,22 @@
       color: #f0f6fc;
     }
     header {
-      background: #0d1117;
-      padding: 5rem 1rem 2rem 1rem;
       text-align: center;
+      padding: 2rem 1rem 1rem 1rem;
     }
-    h1 {
-      font-size: 2.5rem;
-      background: rgba(0,0,0,0.6);
-      display: inline-block;
-      padding: 0.5rem 1.5rem;
-      border-radius: 8px;
+    header img {
+      max-height: 160px;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      margin: 0.5rem 0;
+    }
+    #countdown {
+      font-size: 1.5rem;
+      color: #f9c846;
+      margin-top: 0.5rem;
     }
     section {
       max-width: 800px;
@@ -37,6 +44,9 @@
       border-bottom: 2px solid #30363d;
       padding-bottom: 0.5rem;
       color: #58a6ff;
+    }
+    ul {
+      line-height: 1.8;
     }
     .button {
       background: #238636;
@@ -65,6 +75,17 @@
       border-bottom: 1px solid #30363d;
       padding: 0.5rem 0;
     }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #161b22;
+      color: #f0f6fc;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #30363d;
+    }
     footer {
       text-align: center;
       padding: 2rem;
@@ -76,17 +97,23 @@
 <body>
 
   <header>
-    <img src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" alt="Clan Logo" style="max-height:160px; max-width:95%; height:auto; border-radius:12px; margin-bottom:0.5rem;"><br><h1 style="font-size:3rem;">FKZA Duo Cash Cup</h1>
-<div id="countdown" style="font-size:1.5rem; color:#f9c846; margin-top:0.5rem;">Loading...</div>
+    <img src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" alt="Clan Logo">
+    <h1>FKZA Duo Cash Cup</h1>
+    <div id="countdown">Loading...</div>
   </header>
 
   <section>
-    <h2>⏳ Countdown</h2>
-    
+    <h2>📅 Tournament Details</h2>
+    <ul>
+      <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
+      <li><strong>Format:</strong> Duos</li>
+      <li><strong>Game Mode:</strong> Reload Zero Builds</li>
+      <li><strong>Server:</strong> EU</li>
+    </ul>
   </section>
 
   <section>
-    <h2>🎮 How to Join</h2>
+    <h2>📥 How to Register</h2>
     <p>1. Join our Discord: <a href="https://discord.gg/PC5ArHu6" target="_blank">discord.gg/PC5ArHu6</a></p>
     <p>2. Go to <code>#verify</code> and type <code>/verify</code></p>
     <p>3. Go to <code>#tournament-registration</code> and type <code>/register</code></p>
@@ -120,14 +147,18 @@
   </section>
 
   <section>
-    <h2>📜 Rules</h2>
-    <ul>
-      <li>Zero Build Duos only</li>
-      <li>No teaming, cheating, or exploiting bugs</li>
-      <li>All players must be verified on Discord</li>
-      <li>2 points per elimination, 20 for Victory Royale</li>
-      <li>Toxic behavior = instant disqualification</li>
-    </ul>
+    <h2>💰 Prizepool</h2>
+    <table>
+      <thead>
+        <tr><th>Placement</th><th>Prize</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1st Place</td><td>R800</td></tr>
+        <tr><td>2nd Place</td><td>R500</td></tr>
+        <tr><td>3rd Place</td><td>R300</td></tr>
+        <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
+      </tbody>
+    </table>
   </section>
 
   <footer>
@@ -135,21 +166,25 @@
   </footer>
 
   <script>
-    const countdown = document.getElementById("countdown");
-    const targetDate = new Date("2025-05-31T17:00:00Z");
+    const eventDate = new Date("2025-05-31T17:00:00Z");
     function updateCountdown() {
       const now = new Date();
-      const diff = targetDate - now;
+      const diff = eventDate - now;
+      const el = document.getElementById("countdown");
+
       if (diff <= 0) {
-        countdown.textContent = "Tournament is live!";
+        el.textContent = "The tournament is live!";
         return;
       }
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-      countdown.textContent = `${d}d ${h}h ${m}m ${s}s`;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
+
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
