@@ -100,14 +100,14 @@
       color: var(--text-primary);
       font-size: 1rem;
     }
-    .registered-duos {
+    .registered-teams {
       background: var(--bg-secondary);
       border-radius: 8px;
       padding: 1.2rem;
       margin-top: 1rem;
       border: 1px solid var(--border-color);
     }
-    .registered-duos li {
+    .registered-teams li {
       padding: 0.8rem 0;
       border-bottom: 1px solid var(--border-color);
     }
@@ -132,6 +132,14 @@
       padding: 0.8rem;
       border-radius: 6px;
       text-align: center;
+    }
+    .success-message {
+      background-color: rgba(40, 167, 69, 0.2);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      padding: 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
     }
     table {
       width: 100%;
@@ -159,9 +167,22 @@
       cursor: pointer;
       color: var(--accent-blue);
       margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .collapsible-toggle::before {
+      content: "▶";
+      font-size: 0.8em;
+      transition: transform 0.2s;
+    }
+    .collapsible-toggle.collapsed::before {
+      transform: rotate(90deg);
     }
     .collapsible-content {
       display: block;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
     }
     .collapsed + .collapsible-content {
       display: none;
@@ -173,17 +194,18 @@
       border-radius: 50%;
       border-top-color: #fff;
       animation: spin 1s ease-in-out infinite;
+      display: none;
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    .success-message {
-      background-color: rgba(40, 167, 69, 0.2);
-      border: 1px solid var(--accent-green);
-      color: var(--accent-green);
+    .error-box {
+      background-color: rgba(248, 81, 73, 0.2);
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
       padding: 1rem;
       border-radius: 6px;
-      margin-top: 1rem;
+      margin: 1rem 0;
     }
   </style>
 </head>
@@ -195,7 +217,7 @@
 </header>
 
 <section>
-  <h2 class="collapsible-toggle">📅 Tournament Details</h2>
+  <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
   <div class="collapsible-content">
     <ul>
       <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
@@ -208,7 +230,7 @@
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">📝 Register Your Duo</h2>
+  <h2 class="collapsible-toggle"><span>📝 Register Your Duo</span></h2>
   <div class="collapsible-content" id="registrationSection">
     <form id="duoForm">
       <label>Your Username:</label>
@@ -219,18 +241,18 @@
       
       <button class="button" type="submit" id="submitButton">
         <span id="buttonText">Submit Registration</span>
-        <span id="buttonSpinner" class="spinner" style="display:none;"></span>
+        <span id="buttonSpinner" class="spinner"></span>
       </button>
     </form>
-    <div id="submitStatus"></div>
+    <div id="submitStatus" class="error-box" style="display:none;"></div>
     <div id="successMessage" class="success-message" style="display:none;"></div>
   </div>
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">🏆 Registered Teams</h2>
+  <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
   <div class="collapsible-content">
-    <div class="registered-duos">
+    <div class="registered-teams">
       <ul id="registeredDuosList">
         <li>Loading registered teams...</li>
       </ul>
@@ -240,7 +262,7 @@
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">💰 Prize Pool</h2>
+  <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
   <div class="collapsible-content">
     <table>
       <thead>
@@ -257,7 +279,7 @@
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">🎯 Scoring System</h2>
+  <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
   <div class="collapsible-content">
     <table>
       <thead>
@@ -278,7 +300,7 @@
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">🚫 Rules</h2>
+  <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
   <div class="collapsible-content">
     <ul>
       <li>No teaming with other duos</li>
@@ -296,7 +318,7 @@
 <script>
   // Configuration
   const CONFIG = {
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz4Bc21Ei053Iw3B3-3d8hJaSp0NaGsfY3a5aMzLBYBhUr5f_u5IT0IS7SfBgkND4k2HA/exec",
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz4Bc21Ei053Iw3B3-3d8hJaSp0NaGsfY3a5aMzLBYBhUr5f_u5IT0IS7SfBgkND4k2HA/exec", // REPLACE WITH YOUR URL
     MAX_TEAMS: 20,
     TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
   };
@@ -357,57 +379,32 @@
 
       if (!validateInput(player, duo)) return;
 
-      // Show loading state
-      elements.buttonText.textContent = "Processing...";
-      elements.buttonSpinner.style.display = "block";
-      elements.submitButton.disabled = true;
-      showStatus("Submitting registration...", "var(--text-secondary)");
-      hideSuccessMessage();
+      setLoadingState(true);
+      clearMessages();
 
       try {
         const response = await submitRegistration(player, duo);
+        
         if (response.success) {
-          showSuccessMessage(`✅ Success! You are registered as Team ${response.teamId}`);
+          showSuccess(`✅ Success! You are registered as Team ${response.teamId}`);
           elements.duoForm.reset();
           await fetchRegistrations();
         } else {
-          showStatus(`❌ ${response.message || "Registration failed"}`, "var(--accent-red)");
+          throw new Error(response.message || "Registration failed");
         }
       } catch (error) {
+        showError(getUserFriendlyError(error));
         console.error("Registration error:", error);
-        showStatus(`❌ Error: ${error.message}`, "var(--accent-red)");
       } finally {
-        // Reset button state
-        elements.buttonText.textContent = "Submit Registration";
-        elements.buttonSpinner.style.display = "none";
-        elements.submitButton.disabled = false;
+        setLoadingState(false);
       }
     });
-  }
-
-  function validateInput(player, duo) {
-    if (!player || !duo) {
-      showStatus("❌ Please fill in both usernames", "var(--accent-red)");
-      return false;
-    }
-    
-    if (player === duo) {
-      showStatus("❌ You can't team with yourself", "var(--accent-red)");
-      return false;
-    }
-    
-    if (player.length < 3 || duo.length < 3) {
-      showStatus("❌ Usernames must be at least 3 characters", "var(--accent-red)");
-      return false;
-    }
-    
-    return true;
   }
 
   async function submitRegistration(player, duo) {
     try {
       const controller = new AbortController();
-      setTimeout(() => controller.abort(), 10000); // 10s timeout
+      const timeout = setTimeout(() => controller.abort(), 15000);
 
       const response = await fetch(CONFIG.SCRIPT_URL, {
         method: "POST",
@@ -415,24 +412,53 @@
         body: JSON.stringify({ player, duo }),
         signal: controller.signal
       });
+      clearTimeout(timeout);
 
       if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || 
+          `Server error: ${response.status} ${response.statusText}`
+        );
       }
 
       return await response.json();
     } catch (error) {
-      console.error("Submission error:", error);
-      throw new Error("Network error. Please check your connection.");
+      if (error.name === 'AbortError') {
+        throw new Error("Request timed out (15s) - check your connection");
+      }
+      throw error;
     }
   }
 
-  // Registration data
+  function validateInput(player, duo) {
+    if (!player || !duo) {
+      showError("❌ Please fill in both usernames");
+      return false;
+    }
+    
+    if (player === duo) {
+      showError("❌ You can't team with yourself");
+      return false;
+    }
+    
+    if (player.length < 3 || duo.length < 3) {
+      showError("❌ Usernames must be at least 3 characters");
+      return false;
+    }
+    
+    return true;
+  }
+
+  // Team data fetching
   async function fetchRegistrations() {
     try {
       const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`);
-      if (!response.ok) throw new Error("Failed to fetch data");
       
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+
       const { registrations, error } = await response.json();
       if (error) throw new Error(error);
       
@@ -440,7 +466,9 @@
     } catch (error) {
       console.error("Fetch error:", error);
       elements.registeredDuosList.innerHTML = `
-        <li style="color:var(--accent-red)">Error loading teams: ${error.message}</li>
+        <li style="color:var(--accent-red)">
+          Error loading teams: ${getUserFriendlyError(error)}
+        </li>
       `;
     }
   }
@@ -461,7 +489,7 @@
       .slice(0, CONFIG.MAX_TEAMS)
       .map(team => `
         <li>
-          <span class="team-number">Team ${team.id}:</span>
+          <strong>Team ${team.id}:</strong>
           ${team.player} & ${team.duo}
         </li>
       `).join('');
@@ -487,22 +515,46 @@
   }
 
   // UI helpers
-  function showStatus(message, color) {
-    elements.submitStatus.textContent = message;
-    elements.submitStatus.style.color = color;
-    elements.submitStatus.style.border = `1px solid ${color}`;
-    elements.submitStatus.style.backgroundColor = `${color}20`;
-    elements.submitStatus.style.display = "block";
+  function setLoadingState(isLoading) {
+    elements.submitButton.disabled = isLoading;
+    elements.buttonText.textContent = isLoading ? "Processing..." : "Submit Registration";
+    elements.buttonSpinner.style.display = isLoading ? "inline-block" : "none";
   }
 
-  function showSuccessMessage(message) {
+  function showError(message) {
+    elements.submitStatus.textContent = message;
+    elements.submitStatus.style.display = "block";
+    elements.successMessage.style.display = "none";
+  }
+
+  function showSuccess(message) {
     elements.successMessage.textContent = message;
     elements.successMessage.style.display = "block";
     elements.submitStatus.style.display = "none";
   }
 
-  function hideSuccessMessage() {
+  function clearMessages() {
+    elements.submitStatus.style.display = "none";
     elements.successMessage.style.display = "none";
+  }
+
+  function getUserFriendlyError(error) {
+    const msg = error.message || String(error);
+    
+    if (msg.includes("Failed to fetch")) {
+      return "Network error - check your connection and try again";
+    }
+    if (msg.includes("timed out")) {
+      return "Request took too long - server might be busy";
+    }
+    if (msg.includes("already registered")) {
+      return msg;
+    }
+    if (msg.includes("Server error")) {
+      return "Server problem - please try again later";
+    }
+    
+    return msg.replace("SERVER:", "Error:").replace("Error: Error:", "Error:");
   }
 
   // Collapsible sections
