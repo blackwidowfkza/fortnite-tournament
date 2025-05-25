@@ -5,13 +5,20 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>FKZA Duo Cash Cup</title>
   <meta content="#1f6feb" name="theme-color"/>
+  <meta content="FKZA Duo Cash Cup" property="og:title"/>
+  <meta content="Join the FKZA Duo Cash Cup - Register and Compete!" property="og:description"/>
+  <meta content="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" property="og:image"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
   <style>
     :root {
       --bg-primary: #0d1117;
       --bg-secondary: #161b22;
       --text-primary: #f0f6fc;
+      --text-secondary: #8b949e;
       --accent-blue: #58a6ff;
       --accent-green: #238636;
+      --accent-yellow: #f9c846;
       --accent-red: #f85149;
       --border-color: #30363d;
     }
@@ -21,328 +28,543 @@
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
-      padding: 20px;
     }
     header {
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 1rem;
       background: var(--bg-secondary);
       border-bottom: 1px solid var(--border-color);
-      border-radius: 8px;
-      margin-bottom: 20px;
     }
-    h1 {
+    header img {
+      max-height: 140px;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+      border: 2px solid var(--accent-blue);
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0.5rem 0;
       color: var(--accent-blue);
     }
     #countdown {
-      font-size: 1.2rem;
-      color: #f9c846;
+      font-size: 1.4rem;
+      color: var(--accent-yellow);
+      margin-top: 0.5rem;
       font-weight: bold;
     }
     section {
-      background: var(--bg-secondary);
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border: 1px solid var(--border-color);
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
     }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    h2 {
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      color: var(--accent-blue);
+      font-size: 1.8rem;
+      margin-top: 2rem;
     }
-    input {
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      background: var(--bg-primary);
-      color: var(--text-primary);
-    }
-    button {
+    .button {
       background: var(--accent-green);
       color: white;
       border: none;
-      padding: 12px;
+      padding: 0.8rem 1.8rem;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 1.1rem;
       font-weight: bold;
+      transition: all 0.2s;
+      width: 100%;
+      margin-top: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
     }
-    button:disabled {
+    .button:hover {
+      background: #2ea043;
+      transform: translateY(-1px);
+    }
+    .button:disabled {
       background: #484f58;
       cursor: not-allowed;
+      transform: none;
     }
-    #spinner {
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+    .registered-teams {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 1.2rem;
+      margin-top: 1rem;
+      border: 1px solid var(--border-color);
+    }
+    .registered-teams li {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .max-registered {
+      color: var(--accent-red);
+      font-weight: bold;
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border: 1px solid var(--accent-red);
+    }
+    .spots-remaining {
+      color: var(--accent-yellow);
+      font-weight: bold;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .status-message {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .error-message {
+      background-color: rgba(248, 81, 73, 0.2);
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+    }
+    .success-message {
+      background-color: rgba(40, 167, 69, 0.2);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      margin: 1rem 0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .collapsible-toggle {
+      cursor: pointer;
+      color: var(--accent-blue);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .collapsible-toggle::before {
+      content: "▶";
+      font-size: 0.8em;
+      transition: transform 0.2s;
+    }
+    .collapsible-toggle.collapsed::before {
+      transform: rotate(90deg);
+    }
+    .collapsible-content {
+      display: block;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .collapsed + .collapsible-content {
       display: none;
+    }
+    .spinner {
       width: 20px;
       height: 20px;
       border: 3px solid rgba(255,255,255,0.3);
       border-radius: 50%;
-      border-top-color: white;
-      animation: spin 1s linear infinite;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      display: none;
     }
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    #error-message {
-      color: var(--accent-red);
-      padding: 10px;
-      background: rgba(248, 81, 73, 0.2);
-      border-radius: 6px;
-      margin-top: 10px;
-      white-space: pre-line;
-    }
-    #success-message {
-      color: var(--accent-green);
-      padding: 10px;
-      background: rgba(35, 134, 54, 0.2);
-      border-radius: 6px;
-      margin-top: 10px;
-    }
-    ul {
-      padding-left: 20px;
-    }
-    .team-list {
-      max-height: 300px;
-      overflow-y: auto;
-      background: var(--bg-primary);
-      padding: 10px;
-      border-radius: 6px;
-    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>FKZA Duo Cash Cup</h1>
-    <div id="countdown">Loading countdown...</div>
-  </header>
+<header>
+  <img alt="FKZA Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
+  <h1>FKZA Duo Cash Cup</h1>
+  <div id="countdown">Loading...</div>
+</header>
 
-  <section>
-    <h2>📝 Register Your Duo</h2>
-    <form id="registration-form">
-      <input type="text" id="player" placeholder="Your username" required>
-      <input type="text" id="duo" placeholder="Duo's username" required>
-      <button type="submit" id="submit-button">
-        <span id="button-text">Submit Registration</span>
-        <span id="spinner"></span>
-      </button>
-      <div id="error-message"></div>
-      <div id="success-message"></div>
-    </form>
-  </section>
+<section>
+  <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
+  <div class="collapsible-content">
+    <ul>
+      <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
+      <li><strong>Format:</strong> Duos (20 teams max)</li>
+      <li><strong>Game Mode:</strong> Reload Zero Builds</li>
+      <li><strong>Server:</strong> Europe (EU)</li>
+      <li><strong>Duration:</strong> 3 hours (6 matches)</li>
+    </ul>
+  </div>
+</section>
 
-  <section>
-    <h2>🏆 Registered Teams</h2>
-    <div class="team-list" id="registered-teams">
-      Loading teams...
-    </div>
-    <p id="spots-remaining">Spots remaining: 20/20</p>
-  </section>
-
-  <script>
-    // Configuration - REPLACE WITH YOUR DEPLOYED URL
-    const CONFIG = {
-      SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz4Bc21Ei053Iw3B3-3d8hJaSp0NaGsfY3a5aMzLBYBhUr5f_u5IT0IS7SfBgkND4k2HA/exec",
-      MAX_TEAMS: 20,
-      TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00"
-    };
-
-    // DOM Elements
-    const elements = {
-      form: document.getElementById("registration-form"),
-      playerInput: document.getElementById("player"),
-      duoInput: document.getElementById("duo"),
-      submitBtn: document.getElementById("submit-button"),
-      buttonText: document.getElementById("button-text"),
-      spinner: document.getElementById("spinner"),
-      errorMsg: document.getElementById("error-message"),
-      successMsg: document.getElementById("success-message"),
-      teamsList: document.getElementById("registered-teams"),
-      spotsRemaining: document.getElementById("spots-remaining"),
-      countdown: document.getElementById("countdown")
-    };
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      initCountdown();
-      loadTeams();
-      setupForm();
-    });
-
-    // Countdown Timer
-    function initCountdown() {
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    }
-
-    function updateCountdown() {
-      const eventDate = new Date(CONFIG.TOURNAMENT_DATE);
-      const now = new Date();
-      const diff = eventDate - now;
-
-      if (diff <= 0) {
-        elements.countdown.textContent = "The tournament is live!";
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      elements.countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    // Form Handling
-    function setupForm() {
-      elements.form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        clearMessages();
-        setLoading(true);
-
-        try {
-          const player = elements.playerInput.value.trim();
-          const duo = elements.duoInput.value.trim();
-
-          if (!validateInput(player, duo)) return;
-
-          const result = await submitRegistration(player, duo);
-          
-          if (result.success) {
-            showSuccess(`✅ Registered as Team ${result.teamId}!`);
-            elements.form.reset();
-            await loadTeams();
-          } else {
-            throw new Error(result.message || "Registration failed");
-          }
-        } catch (error) {
-          showError(getFriendlyError(error));
-          console.error("Error:", error);
-        } finally {
-          setLoading(false);
-        }
-      });
-    }
-
-    async function submitRegistration(player, duo) {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 10000);
-
-        const response = await fetch(CONFIG.SCRIPT_URL, {
-          method: "POST",
-          mode: "cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ player, duo }),
-          signal: controller.signal
-        });
-        clearTimeout(timeout);
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.message || `Server error: ${response.status}`);
-        }
-
-        return await response.json();
-      } catch (error) {
-        throw enhanceError(error);
-      }
-    }
-
-    // Team Data
-    async function loadTeams() {
-      try {
-        const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-
-        const { registrations, error } = await response.json();
-        if (error) throw new Error(error);
-        
-        updateTeamsUI(registrations || []);
-      } catch (error) {
-        elements.teamsList.innerHTML = `
-          <p style="color:var(--accent-red)">
-            Error loading teams: ${getFriendlyError(error)}
-          </p>
-        `;
-      }
-    }
-
-    function updateTeamsUI(teams) {
-      elements.teamsList.innerHTML = teams.length > 0
-        ? teams.slice(0, CONFIG.MAX_TEAMS).map(team => `
-            <div>Team ${team.id}: ${team.player} & ${team.duo}</div>
-          `).join('')
-        : '<div>No teams registered yet</div>';
-
-      const remaining = Math.max(0, CONFIG.MAX_TEAMS - teams.length);
-      elements.spotsRemaining.textContent = 
-        `Spots remaining: ${remaining}/${CONFIG.MAX_TEAMS}`;
-    }
-
-    // Helpers
-    function setLoading(isLoading) {
-      elements.submitBtn.disabled = isLoading;
-      elements.buttonText.textContent = isLoading ? "Processing..." : "Submit Registration";
-      elements.spinner.style.display = isLoading ? "inline-block" : "none";
-    }
-
-    function validateInput(player, duo) {
-      if (!player || !duo) {
-        showError("Both usernames are required");
-        return false;
-      }
-      if (player === duo) {
-        showError("You can't team with yourself");
-        return false;
-      }
-      if (player.length < 3 || duo.length < 3) {
-        showError("Usernames must be at least 3 characters");
-        return false;
-      }
-      return true;
-    }
-
-    function showError(message) {
-      elements.errorMsg.textContent = message;
-    }
-
-    function showSuccess(message) {
-      elements.successMsg.textContent = message;
-    }
-
-    function clearMessages() {
-      elements.errorMsg.textContent = '';
-      elements.successMsg.textContent = '';
-    }
-
-    function getFriendlyError(error) {
-      const msg = error.message || String(error);
+<section>
+  <h2 class="collapsible-toggle"><span>📝 Register Your Duo</span></h2>
+  <div class="collapsible-content" id="registrationSection">
+    <form id="duoForm">
+      <label>Your Username:</label>
+      <input id="player" placeholder="e.g. Player123" required type="text"/>
       
-      if (msg.includes("Failed to fetch")) {
-        return "Network blocked. Try:\n• Disabling ad-blockers\n• Using Chrome with CORS extension\n• Incognito mode";
+      <label>Duo Partner's Username:</label>
+      <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
+      
+      <button class="button" type="submit" id="submitButton">
+        <span id="buttonText">Submit Registration</span>
+        <span id="buttonSpinner" class="spinner"></span>
+      </button>
+    </form>
+    <div id="submitStatus" class="status-message error-message" style="display:none;"></div>
+    <div id="successMessage" class="status-message success-message" style="display:none;"></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
+  <div class="collapsible-content">
+    <div class="registered-teams">
+      <ul id="registeredDuosList">
+        <li>Loading registered teams...</li>
+      </ul>
+      <p id="spotsRemaining" class="spots-remaining">Spots remaining: 20/20</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
+  <div class="collapsible-content">
+    <table>
+      <thead>
+        <tr><th>Placement</th><th>Prize</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1st Place</td><td>R800</td></tr>
+        <tr><td>2nd Place</td><td>R500</td></tr>
+        <tr><td>3rd Place</td><td>R300</td></tr>
+        <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
+  <div class="collapsible-content">
+    <table>
+      <thead>
+        <tr><th>Placement</th><th>Points</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1st</td><td>20</td></tr>
+        <tr><td>2nd</td><td>17</td></tr>
+        <tr><td>3rd</td><td>15</td></tr>
+        <tr><td>4th</td><td>13</td></tr>
+        <tr><td>5th-10th</td><td>9</td></tr>
+        <tr><td>11th-15th</td><td>5</td></tr>
+        <tr><td>16th-20th</td><td>2</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;"><strong>+1 point per elimination</strong></p>
+  </div>
+</section>
+
+<section>
+  <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
+  <div class="collapsible-content">
+    <ul>
+      <li>No teaming with other duos</li>
+      <li>No exploits or glitches</li>
+      <li>Must use your own account</li>
+      <li>Decisions by admins are final</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>FKZA Customs © 2025</p>
+</footer>
+
+<script>
+  // Configuration
+  const CONFIG = {
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbz4Bc21Ei053Iw3B3-3d8hJaSp0NaGsfY3a5aMzLBYBhUr5f_u5IT0IS7SfBgkND4k2HA/exec", // REPLACE THIS
+    MAX_TEAMS: 20,
+    TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
+  };
+
+  // DOM elements
+  const elements = {
+    duoForm: document.getElementById("duoForm"),
+    submitButton: document.getElementById("submitButton"),
+    buttonText: document.getElementById("buttonText"),
+    buttonSpinner: document.getElementById("buttonSpinner"),
+    submitStatus: document.getElementById("submitStatus"),
+    successMessage: document.getElementById("successMessage"),
+    registeredDuosList: document.getElementById("registeredDuosList"),
+    spotsRemaining: document.getElementById("spotsRemaining"),
+    registrationSection: document.getElementById("registrationSection"),
+    countdown: document.getElementById("countdown")
+  };
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    initCountdown();
+    setupCollapsibles();
+    fetchRegistrations();
+    setupForm();
+  });
+
+  // Countdown timer
+  function initCountdown() {
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+
+  function updateCountdown() {
+    const eventDate = new Date(CONFIG.TOURNAMENT_DATE);
+    const now = new Date();
+    const diff = eventDate - now;
+
+    if (diff <= 0) {
+      elements.countdown.textContent = "The tournament is live!";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    elements.countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  // Form handling
+  function setupForm() {
+    elements.duoForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const player = document.getElementById("player").value.trim();
+      const duo = document.getElementById("duo").value.trim();
+
+      if (!validateInput(player, duo)) return;
+
+      setLoadingState(true);
+      clearMessages();
+
+      try {
+        const response = await submitRegistration(player, duo);
+        
+        if (response.success) {
+          showSuccess(`✅ Success! You are registered as Team ${response.teamId}`);
+          elements.duoForm.reset();
+          await fetchRegistrations();
+        } else {
+          throw new Error(response.message || "Registration failed");
+        }
+      } catch (error) {
+        showError(getUserFriendlyError(error));
+        console.error("Registration error:", error);
+      } finally {
+        setLoadingState(false);
       }
-      if (msg.includes("timed out")) {
-        return "Request took too long. Try again later.";
+    });
+  }
+
+  async function submitRegistration(player, duo) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+
+      const response = await fetch(CONFIG.SCRIPT_URL, {
+        method: "POST",
+        mode: "cors",
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": "Bearer none" // Bypass some auth issues
+        },
+        body: JSON.stringify({ player, duo }),
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || 
+          `Server error: ${response.status} ${response.statusText}`
+        );
       }
-      if (msg.includes("CORS")) {
-        return "CORS issue detected. Try different browser or CORS extension.";
+
+      return await response.json();
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        throw new Error("Request timed out (15s) - check your connection");
       }
+      throw error;
+    }
+  }
+
+  function validateInput(player, duo) {
+    if (!player || !duo) {
+      showError("❌ Please fill in both usernames");
+      return false;
+    }
+    
+    if (player === duo) {
+      showError("❌ You can't team with yourself");
+      return false;
+    }
+    
+    if (player.length < 3 || duo.length < 3) {
+      showError("❌ Usernames must be at least 3 characters");
+      return false;
+    }
+    
+    return true;
+  }
+
+  // Team data fetching
+  async function fetchRegistrations() {
+    try {
+      const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+
+      const { registrations, error } = await response.json();
+      if (error) throw new Error(error);
+      
+      updateUI(registrations || []);
+    } catch (error) {
+      console.error("Fetch error:", error);
+      elements.registeredDuosList.innerHTML = `
+        <li style="color:var(--accent-red)">
+          Error loading teams: ${getUserFriendlyError(error)}
+        </li>
+      `;
+    }
+  }
+
+  function updateUI(registrations) {
+    updateRegisteredDuosList(registrations);
+    updateSpotsRemaining(registrations.length);
+    checkMaxRegistrations(registrations.length);
+  }
+
+  function updateRegisteredDuosList(registrations) {
+    if (!registrations || registrations.length === 0) {
+      elements.registeredDuosList.innerHTML = '<li>No teams registered yet</li>';
+      return;
+    }
+    
+    elements.registeredDuosList.innerHTML = registrations
+      .slice(0, CONFIG.MAX_TEAMS)
+      .map(team => `
+        <li>
+          <strong>Team ${team.id}:</strong>
+          ${team.player} & ${team.duo}
+        </li>
+      `).join('');
+  }
+
+  function updateSpotsRemaining(count) {
+    const remaining = CONFIG.MAX_TEAMS - count;
+    elements.spotsRemaining.innerHTML = `
+      Spots remaining: <strong>${remaining > 0 ? remaining : 0}</strong>/${CONFIG.MAX_TEAMS}
+      ${remaining <= 0 ? ' (Tournament full)' : ''}
+    `;
+  }
+
+  function checkMaxRegistrations(count) {
+    if (count >= CONFIG.MAX_TEAMS) {
+      elements.registrationSection.innerHTML = `
+        <div class="max-registered">
+          <p>🚨 Tournament registrations are now closed!</p>
+          <p>Maximum of ${CONFIG.MAX_TEAMS} teams has been reached.</p>
+        </div>
+      `;
+    }
+  }
+
+  // UI helpers
+  function setLoadingState(isLoading) {
+    elements.submitButton.disabled = isLoading;
+    elements.buttonText.textContent = isLoading ? "Processing..." : "Submit Registration";
+    elements.buttonSpinner.style.display = isLoading ? "inline-block" : "none";
+  }
+
+  function showError(message) {
+    elements.submitStatus.textContent = message;
+    elements.submitStatus.style.display = "block";
+    elements.successMessage.style.display = "none";
+  }
+
+  function showSuccess(message) {
+    elements.successMessage.textContent = message;
+    elements.successMessage.style.display = "block";
+    elements.submitStatus.style.display = "none";
+  }
+
+  function clearMessages() {
+    elements.submitStatus.style.display = "none";
+    elements.successMessage.style.display = "none";
+  }
+
+  function getUserFriendlyError(error) {
+    const msg = error.message || String(error);
+    
+    if (msg.includes("Failed to fetch")) {
+      return "Network error - check your connection and try again";
+    }
+    if (msg.includes("timed out")) {
+      return "Request took too long - server might be busy";
+    }
+    if (msg.includes("already registered")) {
       return msg;
     }
-
-    function enhanceError(error) {
-      if (error.name === "AbortError") {
-        return new Error("Request timed out (10s). Check your connection.");
-      }
-      return error;
+    if (msg.includes("Server error")) {
+      return "Server problem - please try again later";
     }
-  </script>
+    
+    return msg.replace("SERVER:", "Error:").replace("Error: Error:", "Error:");
+  }
+
+  // Collapsible sections
+  function setupCollapsibles() {
+    document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
+      h2.addEventListener('click', () => {
+        const content = h2.nextElementSibling;
+        content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        h2.classList.toggle('collapsed');
+      });
+    });
+  }
+</script>
 </body>
 </html>
