@@ -1,66 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FKZA Fortnite Tournament</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FKZA Duo Cash Cup</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="theme-color" content="#1f6feb">
+  <meta property="og:title" content="FKZA Duo Cash Cup">
+  <meta property="og:description" content="Join the FKZA Duo Zero Build Cup - Register, Compete, and Win!">
+  <meta property="og:image" content="https://i.imgur.com/1D6wRaW.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: #f0f6fc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d1117;
+      color: #ffffff;
     }
     header {
-      background-color: #1f6feb;
-      padding: 1.5rem;
+      background: url('https://i.imgur.com/1D6wRaW.jpg') no-repeat center center/cover;
+      padding: 5rem 1rem 2rem 1rem;
       text-align: center;
     }
-    h1 {
+    header h1 {
       margin: 0;
-      font-size: 2.2rem;
+      font-size: 2.5rem;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+    .countdown {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+      color: #f9c846;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
     }
     section {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
+      margin-bottom: 2rem;
     }
     h2 {
       border-bottom: 2px solid #30363d;
       padding-bottom: 0.5rem;
-      margin-top: 2rem;
-    }
-    a {
       color: #58a6ff;
-      text-decoration: none;
     }
-    a.button {
+    .button {
       display: inline-block;
+      padding: 0.75rem 1.5rem;
       background-color: #238636;
       color: white;
-      padding: 0.75rem 1.5rem;
-      margin: 1rem 0;
-      border-radius: 8px;
-      text-align: center;
+      text-decoration: none;
+      border-radius: 6px;
       font-weight: bold;
     }
-    ol, ul {
+    ul {
       line-height: 1.8;
     }
-    #countdown {
-      font-size: 1.5rem;
-      color: #ffa657;
-      margin: 1rem 0;
-    }
     .leaderboard {
-      background: #161b22;
-      padding: 1rem;
+      background-color: #161b22;
       border-radius: 8px;
-      margin-top: 1rem;
-    }
-    .leaderboard ul {
-      list-style: none;
-      padding-left: 0;
+      padding: 1rem;
     }
     .leaderboard li {
       padding: 0.5rem 0;
@@ -68,72 +73,76 @@
     }
     footer {
       text-align: center;
-      padding: 1rem;
+      padding: 2rem;
       background-color: #161b22;
       color: #8b949e;
-      margin-top: 3rem;
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>FKZA Fortnite Tournament</h1>
-    <p>Zero Builds | Duos | Free Entry</p>
+    <h1>FKZA Duo Cash Cup</h1>
+    <div class="countdown" id="countdown">Loading countdown...</div>
   </header>
 
-  <section>
-    <h2>⏳ Countdown to Tournament</h2>
-    <div id="countdown">Loading...</div>
+  <main>
+    <section>
+      <h2>🎮 Event Details</h2>
+      <p><strong>Date:</strong> May 31, 2025<br>
+      <strong>Time:</strong> 7:00 PM SAST<br>
+      <strong>Mode:</strong> Duos – Zero Build</p>
+    </section>
 
-    <h2>🎮 How to Register</h2>
-    <p>To play, you must verify your Epic Games account via Discord and Yunite.</p>
-    <a class="button" href="https://discord.gg/fkza" target="_blank">Join Discord & Verify</a>
-    <ol>
-      <li>Join our Discord server</li>
-      <li>In <strong>#verify</strong>, type <code>/verify</code></li>
-      <li>Then go to <strong>#tournament-registration</strong> and type <code>/register</code></li>
-      <li>Before the match, check <strong>#lobby-code</strong> for your custom key</li>
-    </ol>
+    <section>
+      <h2>📥 How to Register</h2>
+      <p>Join our Discord and verify your Epic Games account using Yunite:</p>
+      <a class="button" href="https://discord.gg/PC5ArHu6" target="_blank">Join Discord</a>
+      <ol>
+        <li>Go to <strong>#verify</strong> and type <code>/verify</code></li>
+        <li>Then go to <strong>#tournament-registration</strong> and type <code>/register</code></li>
+        <li>Get your custom key from <strong>#lobby-code</strong> before match start</li>
+      </ol>
+    </section>
 
-    <h2>📝 Extra Registration (Optional)</h2>
-    <p>Fill out this form to submit extra info or get email updates:</p>
-    <a class="button" href="https://forms.gle/YOUR_GOOGLE_FORM" target="_blank">Open Google Form</a>
+    <section>
+      <h2>🏆 Leaderboard Preview</h2>
+      <div class="leaderboard">
+        <ul>
+          <li>🥇 Team Zoro – 82 pts</li>
+          <li>🥈 Team Drift – 76 pts</li>
+          <li>🥉 Team Omega – 70 pts</li>
+          <li>4️⃣ Team Venom – 66 pts</li>
+          <li>5️⃣ Team Ghost – 61 pts</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>📜 Rules</h2>
-    <ul>
-      <li>Duos – Zero Build only</li>
-      <li>No teaming, cheating, or exploiting bugs</li>
-      <li>All players must be verified before match start</li>
-      <li>Points: 2 per elim, 20 for Victory Royale</li>
-      <li>Toxic behavior = Instant DQ</li>
-    </ul>
-
-    <h2>🏆 Leaderboard</h2>
-    <div class="leaderboard">
+    <section>
+      <h2>📜 Rules</h2>
       <ul>
-        <li>🥇 Team Zoro – 82 pts</li>
-        <li>🥈 Team Drift – 76 pts</li>
-        <li>🥉 Team Omega – 70 pts</li>
-        <li>4️⃣ Team Venom – 66 pts</li>
-        <li>5️⃣ Team Ghost – 61 pts</li>
+        <li>Zero Build Duos only</li>
+        <li>No teaming, cheating, or bug abuse</li>
+        <li>Verified Discord users only</li>
+        <li>2 points per elimination, 20 for Victory Royale</li>
+        <li>Toxicity = disqualification</li>
       </ul>
-      <p><a href="https://docs.google.com/spreadsheets/YOUR_LEADERBOARD_LINK" target="_blank">View Full Leaderboard</a></p>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer>
-    FKZA Customs © 2025 – Powered by Yunite | Hosted Free on GitHub Pages
+    FKZA Customs © 2025 – Powered by Yunite | Hosted on GitHub Pages
   </footer>
 
   <script>
-    const targetDate = new Date("2025-05-31T17:00:00Z");
-
+    const eventDate = new Date("2025-05-31T17:00:00Z");
     function updateCountdown() {
       const now = new Date();
-      const diff = targetDate - now;
+      const diff = eventDate - now;
+      const el = document.getElementById("countdown");
 
       if (diff <= 0) {
-        document.getElementById("countdown").textContent = "Tournament is live!";
+        el.textContent = "The tournament is live!";
         return;
       }
 
@@ -142,12 +151,12 @@
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
 
-      document.getElementById("countdown").textContent =
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
   </script>
+
 </body>
 </html>
