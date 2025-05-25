@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>FKZA Duo Cash Cup</title>
-<meta content="#1f6feb" name="theme-color"/>
-<meta content="FKZA Duo Cash Cup" property="og:title"/>
-<meta content="Join the FKZA Duo Zero Build Cup - Register, Verify and Compete!" property="og:description"/>
-<meta content="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" property="og:image"/>
-<meta content="summary_large_image" name="twitter:card"/>
-<style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>FKZA Duo Cash Cup</title>
+  <meta content="#1f6feb" name="theme-color"/>
+  <meta content="FKZA Duo Cash Cup" property="og:title"/>
+  <meta content="Join the FKZA Duo Zero Build Cup - Register, Verify and Compete!" property="og:description"/>
+  <meta content="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" property="og:image"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <!-- Favicon -->
+  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
+  <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -66,15 +67,6 @@
       border: none;
       font-size: 1rem;
     }
-    .leaderboard {
-      background: #161b22;
-      border-radius: 8px;
-      padding: 1rem;
-    }
-    .leaderboard li {
-      border-bottom: 1px solid #30363d;
-      padding: 0.5rem 0;
-    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -92,7 +84,6 @@
       background: #161b22;
       color: #8b949e;
     }
-  
     .collapsible-toggle {
       cursor: pointer;
       color: #58a6ff;
@@ -106,62 +97,62 @@
     .collapsed + .collapsible-content {
       display: none;
     }
-    </style>
-    
+  </style>
 </head>
 <body>
 <header>
-<img alt="Clan Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
-<h1>FKZA Duo Cash Cup</h1>
-<div id="countdown">Loading...</div>
+  <img alt="Clan Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
+  <h1>FKZA Duo Cash Cup</h1>
+  <div id="countdown">Loading...</div>
 </header>
 <section>
-<h2 class="collapsible-toggle">📅 Tournament </h2>
-<div class="collapsible-content">
-<ul>
-<li><strong>Date &amp; Time:</strong> 31st May 2025, 7PM SAST</li>
-<li><strong>Format:</strong> Duos</li>
-<li><strong>Game Mode:</strong> Reload Zero Builds</li>
-<li><strong>Server:</strong> EU</li>
-</ul>
-</div>
+  <h2 class="collapsible-toggle">📅 Tournament</h2>
+  <div class="collapsible-content">
+    <ul>
+      <li><strong>Date &amp; Time:</strong> 31st May 2025, 7PM SAST</li>
+      <li><strong>Format:</strong> Duos</li>
+      <li><strong>Game Mode:</strong> Reload Zero Builds</li>
+      <li><strong>Server:</strong> EU</li>
+    </ul>
+  </div>
 </section>
 <section>
-<h2 class="collapsible-toggle">📥 How to Register</h2>
-<div class="collapsible-content">
-<p>1. Join our Discord: <a href="https://discord.gg/PC5ArHu6" target="_blank">discord.gg/PC5ArHu6</a></p>
-<p>2. Go to <code>#verify</code> and type <code>/verify</code></p>
-<p>3. Go to <code>#tournament-registration</code> and type <code>/register</code></p>
-</div>
+  <h2 class="collapsible-toggle">📥 How to Register</h2>
+  <div class="collapsible-content">
+    <p>1. Follow FKZA TikTok page: <a href="https://www.tiktok.com/@fort_knights_za?lang=en" target="_blank">tiktok.com/@fort_knights_za</a></p>
+    <p>2. Join our Discord: <a href="https://discord.gg/PC5ArHu6" target="_blank">discord.gg/PC5ArHu6</a></p>
+    <p>3. Go to <code>#verify</code> and type <code>/verify</code></p>
+    <p>4. Go to <code>#tournament-registration</code> and type <code>/register</code></p>
+  </div>
 </section>
 <section>
-<h2 class="collapsible-toggle">📝 Register Your Duo</h2>
-<div class="collapsible-content">
-<form id="duoForm">
-<label>Your Discord Name:</label>
-<input id="player" placeholder="e.g. Faeez#1234" required="" type="text"/>
-<label>Duo Partner's Discord Name:</label>
-<input id="duo" placeholder="e.g. Ninja#5678" required="" type="text"/>
-<button class="button" type="submit">Submit Registration</button>
-</form>
-<p id="submitStatus" style="margin-top: 1rem;"></p>
-</div>
+  <h2 class="collapsible-toggle">📝 Register Your Duo</h2>
+  <div class="collapsible-content">
+    <form id="duoForm">
+      <label>Your Discord Name:</label>
+      <input id="player" placeholder="e.g. Sypher#1234" required="" type="text"/>
+      <label>Duo Partner's Discord Name:</label>
+      <input id="duo" placeholder="e.g. Ninja#5678" required="" type="text"/>
+      <button class="button" type="submit">Submit Registration</button>
+    </form>
+    <p id="submitStatus" style="margin-top: 1rem;"></p>
+  </div>
 </section>
 <section>
-<h2 class="collapsible-toggle">💰 Prizepool</h2>
-<div class="collapsible-content">
-<table>
-<thead>
-<tr><th>Placement</th><th>Prize</th></tr>
-</thead>
-<tbody>
-<tr><td>1st Place</td><td>R800</td></tr>
-<tr><td>2nd Place</td><td>R500</td></tr>
-<tr><td>3rd Place</td><td>R300</td></tr>
-<tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
-</tbody>
-</table>
-</div>
+  <h2 class="collapsible-toggle">💰 Prizepool</h2>
+  <div class="collapsible-content">
+    <table>
+      <thead>
+        <tr><th>Placement</th><th>Prize</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1st Place</td><td>R800</td></tr>
+        <tr><td>2nd Place</td><td>R500</td></tr>
+        <tr><td>3rd Place</td><td>R300</td></tr>
+        <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 <section>
   <h2 class="collapsible-toggle">🚫 Disallowed Behavior</h2>
@@ -176,68 +167,65 @@
   </div>
 </section>
 <footer>
-    FKZA Customs © 2025 – Powered by Yunite | Hosted on GitHub Pages
+  FKZA Customs © 2025 – Powered by Yunite | Hosted on GitHub Pages
 </footer>
 <script>
-    const eventDate = new Date("2025-05-31T17:00:00Z");
-    function updateCountdown() {
-      const now = new Date();
-      const diff = eventDate - now;
-      const el = document.getElementById("countdown");
+  const eventDate = new Date("2025-05-31T17:00:00Z");
+  function updateCountdown() {
+    const now = new Date();
+    const diff = eventDate - now;
+    const el = document.getElementById("countdown");
 
-      if (diff <= 0) {
-        el.textContent = "The tournament is live!";
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    if (diff <= 0) {
+      el.textContent = "The tournament is live!";
+      return;
     }
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
 
-    document.getElementById("duoForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const player = document.getElementById("player").value.trim();
-      const duo = document.getElementById("duo").value.trim();
-      const msg = {
-        content: `📢 **New Duo Registered!**\n🧑 Player: \`${player}\`\n👥 Duo Partner: \`${duo}\``
-      };
-      const res = await fetch("https://discord.com/api/webhooks/1376256010401878066/yM6XTWuXwXqwVigTtz0jUWjTpthI17taCVK8Pq4ZAc3f2_D8syVPWoMJC-3bzPXwOCVE", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(msg)
-      });
-      const status = document.getElementById("submitStatus");
-      if (res.ok) {
-        status.textContent = "✅ Registration submitted!";
-        status.style.color = "lightgreen";
-        document.getElementById("duoForm").reset();
+    el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  document.getElementById("duoForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const player = document.getElementById("player").value.trim();
+    const duo = document.getElementById("duo").value.trim();
+    const msg = {
+      content: `📢 **New Duo Registered!**\n🧑 Player: \`${player}\`\n👥 Duo Partner: \`${duo}\``
+    };
+    const res = await fetch("https://discord.com/api/webhooks/1376256010401878066/yM6XTWuXwXqwVigTtz0jUWjTpthI17taCVK8Pq4ZAc3f2_D8syVPWoMJC-3bzPXwOCVE", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(msg)
+    });
+    const status = document.getElementById("submitStatus");
+    if (res.ok) {
+      status.textContent = "✅ Registration submitted!";
+      status.style.color = "lightgreen";
+      document.getElementById("duoForm").reset();
+    } else {
+      status.textContent = "❌ Failed to submit. Try again.";
+      status.style.color = "red";
+    }
+  });
+
+  document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
+    h2.addEventListener('click', () => {
+      h2.classList.toggle('collapsed');
+      const content = h2.nextElementSibling;
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
       } else {
-        status.textContent = "❌ Failed to submit. Try again.";
-        status.style.color = "red";
+        content.style.display = 'none';
       }
     });
-  </script>
-
-  <script>
-    document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
-      h2.addEventListener('click', () => {
-        h2.classList.toggle('collapsed');
-        const content = h2.nextElementSibling;
-        if (content.style.display === 'none') {
-          content.style.display = 'block';
-        } else {
-          content.style.display = 'none';
-        }
-      });
-    });
-  </script>
+  });
+</script>
 </body>
-
 </html>
