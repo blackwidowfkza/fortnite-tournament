@@ -11,114 +11,213 @@
   <meta content="summary_large_image" name="twitter:card"/>
   <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
   <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --text-primary: #f0f6fc;
+      --text-secondary: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #238636;
+      --accent-yellow: #f9c846;
+      --accent-red: #f85149;
+      --border-color: #30363d;
+    }
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: #f0f6fc;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
     }
     header {
       text-align: center;
-      padding: 2rem 1rem 1rem 1rem;
+      padding: 2rem 1rem 1rem;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
     }
     header img {
-      max-height: 160px;
+      max-height: 140px;
       border-radius: 12px;
       margin-bottom: 0.5rem;
+      border: 2px solid var(--accent-blue);
     }
     header h1 {
-      font-size: 2.8rem;
+      font-size: 2.5rem;
       margin: 0.5rem 0;
+      color: var(--accent-blue);
     }
     #countdown {
-      font-size: 1.5rem;
-      color: #f9c846;
+      font-size: 1.4rem;
+      color: var(--accent-yellow);
       margin-top: 0.5rem;
+      font-weight: bold;
     }
     section {
       max-width: 800px;
       margin: 2rem auto;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
     }
     h2 {
-      border-bottom: 2px solid #30363d;
+      border-bottom: 2px solid var(--border-color);
       padding-bottom: 0.5rem;
-      color: #58a6ff;
+      color: var(--accent-blue);
+      font-size: 1.8rem;
+      margin-top: 2rem;
     }
     ul, ol {
-      line-height: 1.8;
-      padding-left: 1.5rem;
+      padding-left: 1.8rem;
+    }
+    li {
+      margin-bottom: 0.5rem;
     }
     .button {
-      background: #238636;
+      background: var(--accent-green);
       color: white;
       border: none;
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.8rem;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: bold;
-      transition: background 0.2s;
+      transition: all 0.2s;
+      width: 100%;
+      margin-top: 0.5rem;
     }
     .button:hover {
       background: #2ea043;
+      transform: translateY(-1px);
+    }
+    .button:disabled {
+      background: #484f58;
+      cursor: not-allowed;
+      transform: none;
     }
     input {
       width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
+      padding: 0.8rem;
+      margin-bottom: 0.5rem;
       border-radius: 6px;
-      border: 1px solid #30363d;
-      background: #0d1117;
-      color: #f0f6fc;
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-primary);
       font-size: 1rem;
     }
+    input:focus {
+      outline: 2px solid var(--accent-blue);
+    }
     .registered-duos {
-      background: #161b22;
+      background: var(--bg-secondary);
       border-radius: 8px;
-      padding: 1rem;
+      padding: 1.2rem;
       margin-top: 1rem;
+      border: 1px solid var(--border-color);
     }
     .registered-duos li {
-      padding: 0.75rem 0;
-      border-bottom: 1px solid #30363d;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
     }
     .max-registered {
-      color: #f85149;
+      color: var(--accent-red);
       font-weight: bold;
       text-align: center;
       padding: 1.5rem;
-      background: #161b22;
+      background: var(--bg-secondary);
       border-radius: 8px;
+      border: 1px solid var(--accent-red);
     }
     .spots-remaining {
-      color: #f9c846;
+      color: var(--accent-yellow);
       font-weight: bold;
       margin-top: 1rem;
       text-align: center;
+      font-size: 1.1rem;
     }
     #submitStatus {
       margin-top: 1rem;
-      padding: 0.75rem;
+      padding: 0.8rem;
       border-radius: 6px;
       text-align: center;
+      background: rgba(139, 148, 158, 0.1);
     }
     .collapsible-toggle {
       cursor: pointer;
-      color: #58a6ff;
+      color: var(--accent-blue);
       margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .collapsible-toggle::before {
+      content: "▼";
+      font-size: 0.8rem;
+      transition: transform 0.2s;
+    }
+    .collapsible-toggle.collapsed::before {
+      transform: rotate(-90deg);
     }
     .collapsible-content {
       display: block;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
     .collapsed + .collapsible-content {
       display: none;
     }
     small {
-      color: #8b949e;
+      color: var(--text-secondary);
       display: block;
-      margin-top: -0.5rem;
-      margin-bottom: 1rem;
+      margin: -0.5rem 0 1rem;
+      font-size: 0.9rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      margin: 1rem 0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th {
+      background: rgba(88, 166, 255, 0.1);
+      color: var(--accent-blue);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-color);
+    }
+    .team-number {
+      color: var(--accent-yellow);
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+    a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    code {
+      background: rgba(88, 166, 255, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+      color: var(--accent-blue);
     }
   </style>
 </head>
@@ -130,13 +229,14 @@
 </header>
 
 <section>
-  <h2 class="collapsible-toggle">📅 Tournament</h2>
+  <h2 class="collapsible-toggle">📅 Tournament Details</h2>
   <div class="collapsible-content">
     <ul>
       <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
-      <li><strong>Format:</strong> Duos</li>
+      <li><strong>Format:</strong> Duos (20 teams max)</li>
       <li><strong>Game Mode:</strong> Reload Zero Builds</li>
-      <li><strong>Server:</strong> EU</li>
+      <li><strong>Server:</strong> Europe (EU)</li>
+      <li><strong>Duration:</strong> 3 hours (6 matches)</li>
     </ul>
   </div>
 </section>
@@ -149,15 +249,16 @@
       <li><strong>Join our Discord server</strong>: 
         <a href="https://discord.gg/PC5ArHu6" target="_blank">discord.gg/PC5ArHu6</a>
       </li>
-      <li><strong>Verify in Discord</strong>:
+      <li><strong>Complete verification</strong>:
         <ul>
-          <li>Go to the <code>#verify</code> channel</li>
+          <li>Go to <code>#verify</code> channel</li>
           <li>Link your Epic Games account</li>
+          <li>Get the <code>Verified</code> role</li>
         </ul>
       </li>
     </ol>
-    <p style="margin-top:1rem;color:#8b949e;">
-      <small>Both team members must complete Discord verification.</small>
+    <p style="margin-top:1rem;color:var(--text-secondary);">
+      <small>Both team members must complete verification before tournament start.</small>
     </p>
   </div>
 </section>
@@ -168,7 +269,7 @@
     <form id="duoForm">
       <label>Your Discord Username:</label>
       <input id="player" placeholder="e.g. Sypher1234" required type="text"/>
-      <small>Enter your exact current Discord username</small>
+      <small>Your exact current Discord username (case sensitive)</small>
       
       <label>Duo Partner's Discord Username:</label>
       <input id="duo" placeholder="e.g. Ninja5678" required type="text"/>
@@ -180,11 +281,11 @@
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">🏆 Registered Duos</h2>
+  <h2 class="collapsible-toggle">🏆 Registered Teams</h2>
   <div class="collapsible-content">
     <div class="registered-duos">
       <ul id="registeredDuosList">
-        <li>Loading registered duos...</li>
+        <li>Loading registered teams...</li>
       </ul>
       <p id="spotsRemaining" class="spots-remaining">Spots remaining: 20/20</p>
     </div>
@@ -192,9 +293,30 @@
 </section>
 
 <section>
-  <h2 class="collapsible-toggle">🎯 Scoring</h2>
+  <h2 class="collapsible-toggle">💰 Prize Pool</h2>
   <div class="collapsible-content">
-    <h3>Placement Scoring</h3>
+    <table>
+      <thead>
+        <tr><th>Placement</th><th>Prize</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1st Place</td><td>R800 + Champion Role</td></tr>
+        <tr><td>2nd Place</td><td>R500</td></tr>
+        <tr><td>3rd Place</td><td>R300</td></tr>
+        <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
+        <tr><td>Most Eliminations</td><td>Special Discord Role</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem;color:var(--text-secondary);">
+      <small>Prizes will be distributed within 48 hours after verification.</small>
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2 class="collapsible-toggle">🎯 Scoring System</h2>
+  <div class="collapsible-content">
+    <h3>Placement Points</h3>
     <table>
       <thead>
         <tr><th>Placement</th><th>Points</th></tr>
@@ -205,79 +327,83 @@
         <tr><td>3rd</td><td>15</td></tr>
         <tr><td>4th</td><td>13</td></tr>
         <tr><td>5th</td><td>11</td></tr>
-        <tr><td>6th</td><td>9</td></tr>
-        <tr><td>7th</td><td>7</td></tr>
-        <tr><td>8th</td><td>5</td></tr>
-        <tr><td>9th–10th</td><td>3</td></tr>
-        <tr><td>11th–15th</td><td>1</td></tr>
-        <tr><td>16th–20th</td><td>0</td></tr>
+        <tr><td>6th-10th</td><td>9</td></tr>
+        <tr><td>11th-15th</td><td>5</td></tr>
+        <tr><td>16th-20th</td><td>2</td></tr>
       </tbody>
     </table>
-    <p><strong>Eliminations:</strong> 1 point per elimination</p>
+    <h3 style="margin-top:1.5rem;">Elimination Points</h3>
+    <ul>
+      <li>1 point per elimination</li>
+      <li>Team wipes count as 2 bonus points</li>
+    </ul>
+    <p style="margin-top:1rem;color:var(--text-secondary);">
+      <small>Total score = Placement Points + Elimination Points</small>
+    </p>
   </div>
 </section>
-<section>
-  <h2 class="collapsible-toggle">💰 Prizepool</h2>
-  <div class="collapsible-content">
-    <table>
-      <thead>
-        <tr><th>Placement</th><th>Prize</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1st Place</td><td>R800</td></tr>
-        <tr><td>2nd Place</td><td>R500</td></tr>
-        <tr><td>3rd Place</td><td>R300</td></tr>
-        <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+
 <section>
   <h2 class="collapsible-toggle">🚫 Disallowed Behavior</h2>
   <div class="collapsible-content">
     <ul>
-      <li><strong>🚷 Teaming:</strong> Collaborating with other teams to gain an advantage</li>
-      <li><strong>🧱 Building:</strong> Any glitch or exploit to build is banned in Zero Builds mode</li>
-      <li><strong>🧨 Cheating:</strong> Use of third-party tools, macros, aimbots, ESP, or any unauthorized software</li>
-      <li><strong>🗣️ Toxicity:</strong> Racism, hate speech, spamming, or disruptive behavior in Discord or game chat</li>
-      <li><strong>⚠️ Account Sharing:</strong> You must play on your own verified Epic account – no exceptions</li>
+      <li><strong>Teaming:</strong> Collaborating with other teams is strictly prohibited</li>
+      <li><strong>Exploits:</strong> Any glitches or unintended game mechanics</li>
+      <li><strong>Cheating:</strong> Third-party tools, macros, or input automation</li>
+      <li><strong>Account Sharing:</strong> Must play on your own registered account</li>
+      <li><strong>Toxicity:</strong> Racism, hate speech, or harassment will result in ban</li>
     </ul>
+    <p style="margin-top:1rem;color:var(--accent-red);">
+      <strong>Violations will result in immediate disqualification and ban from future events.</strong>
+    </p>
   </div>
 </section>
+
 <footer>
-  FKZA © 2025
+  <p>FKZA Customs © 2025 – Powered by Yunite</p>
+  <p>Hosted on GitHub Pages | Contact: admin@fkza.gg</p>
 </footer>
 
 <script>
-  // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjXKpHLIsys6wLvpwFuM1dVJHIG4ZM2OrwfZVNNlXpmrr7E_Zs7YNcAXZfSFr7rskL/exec";
-  const MAX_TEAMS = 20;
+  // Configuration - REPLACE THESE VALUES
+  const CONFIG = {
+    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwiR0xeC5oFBVoxfJ9dnjmbIgWW_fZzGKVNMyR9xSNQjCBC4FfUzzpW2e7y1vnnyf4m/exec",
+    SECRET_KEY: "FKZA_2025_SECURE_KEY", // Must match Google Script
+    MAX_TEAMS: 20,
+    TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
+  };
 
   // DOM elements
-  const duoForm = document.getElementById("duoForm");
-  const submitButton = document.getElementById("submitButton");
-  const submitStatus = document.getElementById("submitStatus");
-  const registeredDuosList = document.getElementById("registeredDuosList");
-  const spotsRemaining = document.getElementById("spotsRemaining");
-  const registrationSection = document.getElementById("registrationSection");
+  const elements = {
+    duoForm: document.getElementById("duoForm"),
+    submitButton: document.getElementById("submitButton"),
+    submitStatus: document.getElementById("submitStatus"),
+    registeredDuosList: document.getElementById("registeredDuosList"),
+    spotsRemaining: document.getElementById("spotsRemaining"),
+    registrationSection: document.getElementById("registrationSection"),
+    countdown: document.getElementById("countdown")
+  };
 
   // Initialize
   document.addEventListener('DOMContentLoaded', () => {
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-    fetchRegistrations();
+    initCountdown();
     setupCollapsibles();
+    fetchRegistrations();
   });
 
   // Countdown timer
+  function initCountdown() {
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+
   function updateCountdown() {
-    const eventDate = new Date("2025-05-31T17:00:00+02:00"); // SAST timezone
+    const eventDate = new Date(CONFIG.TOURNAMENT_DATE);
     const now = new Date();
     const diff = eventDate - now;
-    const el = document.getElementById("countdown");
 
     if (diff <= 0) {
-      el.textContent = "The tournament is live!";
+      elements.countdown.textContent = "The tournament is live!";
       return;
     }
 
@@ -286,108 +412,129 @@
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
-    el.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    elements.countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 
-  // Fetch current registrations
-  async function fetchRegistrations() {
-    try {
-      const response = await fetch(`${SCRIPT_URL}?action=get`);
-      const { registrations } = await response.json();
-      
-      updateRegisteredDuosList(registrations);
-      updateSpotsRemaining(registrations.length);
-      checkMaxRegistrations(registrations.length);
-    } catch (error) {
-      console.error("Failed to load registrations:", error);
-      registeredDuosList.innerHTML = '<li>Error loading registrations. Please refresh.</li>';
-    }
-  }
-
-  // Handle form submission
-  duoForm.addEventListener("submit", async (e) => {
+  // Form handling
+  elements.duoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     
     const player = document.getElementById("player").value.trim();
     const duo = document.getElementById("duo").value.trim();
 
-    // Validation
-    if (!player || !duo) {
-      showStatus("❌ Please fill in both usernames", "red");
-      return;
-    }
+    if (!validateInput(player, duo)) return;
 
-    submitButton.disabled = true;
-    showStatus("Submitting registration...", "#8b949e");
+    elements.submitButton.disabled = true;
+    showStatus("Submitting registration...", "var(--text-secondary)");
 
     try {
-      const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ player, duo })
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        showStatus("✅ Registration submitted successfully!", "lightgreen");
-        document.getElementById("duoForm").reset();
-        fetchRegistrations(); // Refresh the list
+      const success = await submitRegistration(player, duo);
+      if (success) {
+        showStatus("✅ Registration submitted!", "var(--accent-green)");
+        elements.duoForm.reset();
+        await fetchRegistrations();
       } else {
-        showStatus("❌ Registration failed. Please try again.", "red");
+        showStatus("❌ Registration failed. Please try again.", "var(--accent-red)");
       }
     } catch (error) {
       console.error("Registration error:", error);
-      showStatus("❌ Network error. Please check your connection.", "red");
+      showStatus("❌ Network error. Please try again.", "var(--accent-red)");
     } finally {
-      submitButton.disabled = false;
+      elements.submitButton.disabled = false;
     }
   });
 
-  // Update the registered duos list
+  function validateInput(player, duo) {
+    if (!player || !duo) {
+      showStatus("❌ Please fill in both usernames", "var(--accent-red)");
+      return false;
+    }
+    
+    if (player === duo) {
+      showStatus("❌ You can't team with yourself", "var(--accent-red)");
+      return false;
+    }
+    
+    return true;
+  }
+
+  async function submitRegistration(player, duo) {
+    const response = await fetch(CONFIG.SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        player, 
+        duo, 
+        key: CONFIG.SECRET_KEY 
+      })
+    });
+    
+    const result = await response.json();
+    return result.success;
+  }
+
+  // Registration data
+  async function fetchRegistrations() {
+    try {
+      const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`);
+      const { registrations } = await response.json();
+      
+      updateUI(registrations);
+    } catch (error) {
+      console.error("Failed to load registrations:", error);
+      elements.registeredDuosList.innerHTML = '<li>Error loading teams. Please refresh.</li>';
+    }
+  }
+
+  function updateUI(registrations) {
+    updateRegisteredDuosList(registrations);
+    updateSpotsRemaining(registrations.length);
+    checkMaxRegistrations(registrations.length);
+  }
+
   function updateRegisteredDuosList(registrations) {
-    if (registrations.length === 0) {
-      registeredDuosList.innerHTML = '<li>No duos registered yet</li>';
+    if (!registrations || registrations.length === 0) {
+      elements.registeredDuosList.innerHTML = '<li>No teams registered yet</li>';
       return;
     }
     
-    registeredDuosList.innerHTML = registrations
-      .slice(0, MAX_TEAMS)
-      .map(team => `<li>Team ${team.id}: ${team.player} & ${team.duo}</li>`)
-      .join('');
+    elements.registeredDuosList.innerHTML = registrations
+      .slice(0, CONFIG.MAX_TEAMS)
+      .map(team => `
+        <li>
+          <span class="team-number">Team ${team.id}:</span>
+          <span>${team.player} & ${team.duo}</span>
+        </li>
+      `).join('');
   }
 
-  // Update spots remaining counter
   function updateSpotsRemaining(count) {
-    const remaining = MAX_TEAMS - count;
-    spotsRemaining.innerHTML = `
-      Spots remaining: <strong>${remaining > 0 ? remaining : 0}</strong>/${MAX_TEAMS}
+    const remaining = CONFIG.MAX_TEAMS - count;
+    elements.spotsRemaining.innerHTML = `
+      Spots remaining: <strong>${remaining > 0 ? remaining : 0}</strong>/${CONFIG.MAX_TEAMS}
       ${remaining <= 0 ? ' (Tournament full)' : ''}
     `;
   }
 
-  // Check if max registrations reached
   function checkMaxRegistrations(count) {
-    if (count >= MAX_TEAMS) {
-      registrationSection.innerHTML = `
+    if (count >= CONFIG.MAX_TEAMS) {
+      elements.registrationSection.innerHTML = `
         <div class="max-registered">
           <p>🚨 Tournament registrations are now closed!</p>
-          <p>Maximum of ${MAX_TEAMS} duos has been reached.</p>
+          <p>Maximum of ${CONFIG.MAX_TEAMS} teams has been reached.</p>
         </div>
       `;
     }
   }
 
-  // Show status messages
+  // UI helpers
   function showStatus(message, color) {
-    submitStatus.textContent = message;
-    submitStatus.style.color = color;
-    submitStatus.style.backgroundColor = color === "lightgreen" ? "rgba(35, 134, 54, 0.1)" : 
-                                        color === "red" ? "rgba(248, 81, 73, 0.1)" : 
-                                        "rgba(139, 148, 158, 0.1)";
+    elements.submitStatus.textContent = message;
+    elements.submitStatus.style.color = color;
+    elements.submitStatus.style.border = `1px solid ${color}`;
   }
 
-  // Setup collapsible sections
+  // Collapsible sections
   function setupCollapsibles() {
     document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
       h2.addEventListener('click', () => {
