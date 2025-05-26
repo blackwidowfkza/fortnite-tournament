@@ -20,6 +20,7 @@
       --accent-green: #238636;
       --accent-yellow: #f9c846;
       --accent-red: #f85149;
+      --accent-discord: #7289da;
       --border-color: #30363d;
       --border-radius: 8px;
       --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -283,6 +284,60 @@
       display: none;
     }
     
+    /* Registration Steps Styles */
+    .registration-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.8rem;
+      background: rgba(88, 166, 255, 0.05);
+      border-radius: var(--border-radius);
+      border-left: 3px solid var(--accent-blue);
+    }
+    
+    .step-number {
+      background: var(--accent-blue);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step-content code {
+      background: rgba(88, 166, 255, 0.2);
+      color: var(--accent-blue);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    
+    .discord-link {
+      color: var(--accent-discord);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .discord-link:hover {
+      color: #8ea1e1;
+      text-decoration: underline;
+    }
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -328,6 +383,11 @@
       .button {
         font-size: 1rem;
       }
+      
+      .step {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
     }
   </style>
 </head>
@@ -349,6 +409,32 @@
         <li><strong>Server:</strong> Europe (EU)</li>
         <li><strong>Duration:</strong> 3 hours (6 matches)</li>
       </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>📥 How to Register</span></h2>
+    <div class="section-content collapsible-content">
+      <div class="registration-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            Join our Discord: <a href="https://discord.gg/PC5ArHu6" target="_blank" class="discord-link">discord.gg/PC5ArHu6</a>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            Go to <code>#verify</code> and type <code>/verify</code>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            Go to <code>#tournament-registration</code> and type <code>/register</code>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
