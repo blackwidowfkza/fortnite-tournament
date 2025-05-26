@@ -396,38 +396,30 @@
     });
   }
 
-  async function submitRegistration(player, duo) {
-    try {
-      // Create a proxy URL to handle CORS issues
-      const proxyUrl = `https://cors-anywhere.herokuapp.com/${CONFIG.SCRIPT_URL}`;
-      
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
+async function submitRegistration(player, duo) {
+  try {
+    const response = await fetch(CONFIG.SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ player, duo })
+    });
 
-      const response = await fetch(proxyUrl, {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest"
-        },
-        body: JSON.stringify({ player, duo }),
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `Server error: ${response.status}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error.name === 'AbortError') {
-        throw new Error("Request timed out. Please try again.");
-      }
-      throw error;
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Server error: ${response.status}`);
     }
+
+    return await response.json();
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error("Request timed out. Please try again.");
+    }
+    throw error;
   }
+}
+
 
   // Team data fetching
 async function fetchRegistrations() {
