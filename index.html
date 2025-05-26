@@ -413,48 +413,55 @@
   </section>
 
   <section>
-    <h2 class="collapsible-toggle"><span>📥 How to Register</span></h2>
-    <div class="section-content collapsible-content">
-      <div class="registration-steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            Join our Discord: <a href="https://discord.gg/PC5ArHu6" target="_blank" class="discord-link">discord.gg/PC5ArHu6</a>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            Go to <code>#verify</code> and type <code>/verify</code>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            Go to <code>#tournament-registration</code> and type <code>/register</code>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
     <h2 class="collapsible-toggle"><span>📝 Register Your Duo</span></h2>
     <div class="section-content collapsible-content" id="registrationSection">
       <form id="duoForm">
-        <label>Your Username:</label>
+        <label>Your Epic Games Username:</label>
         <input id="player" placeholder="e.g. Player123" required type="text"/>
         
-        <label>Duo Partner's Username:</label>
+        <label>Your Duo Partner's Epic Games Username:</label>
         <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
         
         <button class="button" type="submit" id="submitButton">
-          <span id="buttonText">Submit Registration</span>
+          <span id="buttonText">Register Your Team</span>
           <span id="buttonSpinner" class="spinner"></span>
         </button>
       </form>
       <div id="submitStatus"></div>
       <div id="successMessage" class="success-message"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>📥 Complete Your Registration</span></h2>
+    <div class="section-content collapsible-content">
+      <div class="registration-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <strong>Register your team above</strong> - Fill in both players' Epic Games usernames
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            Join our Discord server: <a href="https://discord.gg/PC5ArHu6" target="_blank" class="discord-link">discord.gg/PC5ArHu6</a>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            Go to the <code>#verify</code> channel and link your Epic account by typing <code>/verify</code>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            Both players must complete verification to confirm your spot in the tournament
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Note:</strong> Your registration is only complete after both players verify in Discord.</p>
     </div>
   </section>
 
@@ -468,10 +475,11 @@
               <th>Team ID</th>
               <th>Player 1</th>
               <th>Player 2</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody id="registeredDuosList">
-            <tr><td colspan="3">Loading registered teams...</td></tr>
+            <tr><td colspan="4">Loading registered teams...</td></tr>
           </tbody>
         </table>
       </div>
@@ -525,6 +533,7 @@
         <li>No exploits or glitches</li>
         <li>Must use your own account</li>
         <li>Decisions by admins are final</li>
+        <li>Both players must verify in Discord to complete registration</li>
       </ul>
     </div>
   </section>
@@ -605,7 +614,7 @@
         const response = await submitRegistration(player, duo);
         
         if (response.success) {
-          showSuccess(`✅ Success! You are registered as Team ${response.teamId}`);
+          showSuccess(`✅ Success! Your team is registered as Team ${response.teamId}. Now complete verification in Discord.`);
           elements.duoForm.reset();
           await fetchRegistrations();
         } else {
@@ -672,7 +681,7 @@
     } catch (error) {
       console.error("Failed to fetch registered teams:", error);
       elements.registeredDuosList.innerHTML = `
-        <tr><td colspan="3" style="color:var(--accent-red)">
+        <tr><td colspan="4" style="color:var(--accent-red)">
           Error loading teams: ${getUserFriendlyError(error)}
         </td></tr>
       `;
@@ -687,7 +696,7 @@
 
   function updateRegisteredDuosList(registrations) {
     if (!registrations || registrations.length === 0) {
-      elements.registeredDuosList.innerHTML = '<tr><td colspan="3">No teams registered yet</td></tr>';
+      elements.registeredDuosList.innerHTML = '<tr><td colspan="4">No teams registered yet</td></tr>';
       return;
     }
     
@@ -698,6 +707,7 @@
           <td>${team.id}</td>
           <td>${team.player}</td>
           <td>${team.duo}</td>
+          <td>${team.verified ? '✅ Verified' : '⚠️ Pending'}</td>
         </tr>
       `).join('');
   }
@@ -724,7 +734,7 @@
   // UI helpers
   function setLoadingState(isLoading) {
     elements.submitButton.disabled = isLoading;
-    elements.buttonText.textContent = isLoading ? "Processing..." : "Submit Registration";
+    elements.buttonText.textContent = isLoading ? "Processing..." : "Register Your Team";
     elements.buttonSpinner.style.display = isLoading ? "inline-block" : "none";
   }
 
@@ -747,7 +757,7 @@
 
   function validateInput(player, duo) {
     if (!player || !duo) {
-      showError("❌ Please fill in both usernames");
+      showError("❌ Please fill in both Epic Games usernames");
       return false;
     }
     
