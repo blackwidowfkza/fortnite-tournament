@@ -406,16 +406,23 @@ async function submitRegistration(player, duo) {
       body: JSON.stringify({ player, duo })
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Server error: ${response.status}`);
-    }
+    const result = await response.json();
 
-    return await response.json();
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      throw new Error("Request timed out. Please try again.");
+    if (result.success) {
+      // ✅ Notify Discord securely via proxy
+      await fetch("https://fkza-proxy.onrender.com/notify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ player, duo })
+      });
+
+      return result;
+    } else {
+      throw new Error(result.message || "Registration failed");
     }
+  } catch (error) {
     throw error;
   }
 }
