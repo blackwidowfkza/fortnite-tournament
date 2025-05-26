@@ -21,145 +21,249 @@
       --accent-yellow: #f9c846;
       --accent-red: #f85149;
       --border-color: #30363d;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      --transition: all 0.3s ease;
     }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
       margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
+    
     header {
       text-align: center;
       padding: 2rem 1rem 1rem;
       background: var(--bg-secondary);
       border-bottom: 1px solid var(--border-color);
     }
+    
     header img {
       max-height: 140px;
-      border-radius: 12px;
+      border-radius: var(--border-radius);
       margin-bottom: 0.5rem;
       border: 2px solid var(--accent-blue);
+      box-shadow: var(--box-shadow);
     }
+    
     header h1 {
-      font-size: 2.5rem;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
       margin: 0.5rem 0;
       color: var(--accent-blue);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
+    
     #countdown {
-      font-size: 1.4rem;
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
       color: var(--accent-yellow);
       margin-top: 0.5rem;
       font-weight: bold;
+      letter-spacing: 0.5px;
     }
-    section {
-      max-width: 800px;
-      margin: 2rem auto;
+    
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 0 1.5rem;
     }
-    h2 {
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 0.5rem;
-      color: var(--accent-blue);
-      font-size: 1.8rem;
-      margin-top: 2rem;
+    
+    section {
+      margin: 2rem 0;
+      background: var(--bg-secondary);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
     }
+    
+    section:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+    
+    h2 {
+      margin: 0;
+      padding: 1rem 1.5rem;
+      background: rgba(88, 166, 255, 0.1);
+      color: var(--accent-blue);
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    h2:hover {
+      background: rgba(88, 166, 255, 0.2);
+    }
+    
+    h2::before {
+      content: "▶";
+      font-size: 0.7em;
+      transition: transform 0.2s;
+    }
+    
+    h2.collapsed::before {
+      transform: rotate(90deg);
+    }
+    
+    .section-content {
+      padding: 1.5rem;
+    }
+    
     .button {
       background: var(--accent-green);
       color: white;
       border: none;
       padding: 0.8rem 1.8rem;
-      border-radius: 6px;
+      border-radius: var(--border-radius);
       cursor: pointer;
       font-size: 1.1rem;
       font-weight: bold;
-      transition: all 0.2s;
+      transition: var(--transition);
       width: 100%;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
+    
     .button:hover {
       background: #2ea043;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+    
+    .button:active {
+      transform: translateY(0);
+    }
+    
     .button:disabled {
       background: #484f58;
       cursor: not-allowed;
       transform: none;
     }
+    
     input {
       width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 0.5rem;
-      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: var(--border-radius);
       border: 1px solid var(--border-color);
       background: var(--bg-primary);
       color: var(--text-primary);
       font-size: 1rem;
+      transition: var(--transition);
     }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--accent-blue);
+    }
+    
     .registered-teams {
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      padding: 1.2rem;
-      margin-top: 1rem;
-      border: 1px solid var(--border-color);
+      width: 100%;
+      overflow-x: auto;
     }
-    .registered-teams li {
-      padding: 0.8rem 0;
-      border-bottom: 1px solid var(--border-color);
-    }
+    
     .max-registered {
       color: var(--accent-red);
       font-weight: bold;
       text-align: center;
       padding: 1.5rem;
-      background: var(--bg-secondary);
-      border-radius: 8px;
+      background: rgba(248, 81, 73, 0.1);
+      border-radius: var(--border-radius);
       border: 1px solid var(--accent-red);
+      margin-top: 1rem;
     }
+    
     .spots-remaining {
       color: var(--accent-yellow);
       font-weight: bold;
       margin-top: 1rem;
       text-align: center;
       font-size: 1.1rem;
+      padding: 0.5rem;
+      background: rgba(249, 200, 70, 0.1);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--accent-yellow);
     }
+    
     #submitStatus {
       margin-top: 1rem;
       padding: 0.8rem;
-      border-radius: 6px;
+      border-radius: var(--border-radius);
       text-align: center;
-      background-color: rgba(248, 81, 73, 0.2);
+      background-color: rgba(248, 81, 73, 0.1);
       border: 1px solid var(--accent-red);
       color: var(--accent-red);
       display: none;
     }
+    
     .success-message {
-      background-color: rgba(40, 167, 69, 0.2);
+      background-color: rgba(40, 167, 69, 0.1);
       border: 1px solid var(--accent-green);
       color: var(--accent-green);
       padding: 1rem;
-      border-radius: 6px;
+      border-radius: var(--border-radius);
       margin-top: 1rem;
       display: none;
     }
+    
     table {
       width: 100%;
       border-collapse: collapse;
       background: var(--bg-secondary);
       color: var(--text-primary);
       margin: 1rem 0;
-      border-radius: 6px;
+      border-radius: var(--border-radius);
       overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+    
+    th {
+      background: rgba(88, 166, 255, 0.1);
+      color: var(--accent-blue);
+      font-weight: 600;
+      text-align: left;
+    }
+    
     th, td {
       padding: 0.8rem 1rem;
-      text-align: left;
       border-bottom: 1px solid var(--border-color);
     }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr:hover {
+      background: rgba(88, 166, 255, 0.05);
+    }
+    
     footer {
       text-align: center;
       padding: 2rem;
@@ -168,28 +272,7 @@
       margin-top: 3rem;
       border-top: 1px solid var(--border-color);
     }
-    .collapsible-toggle {
-      cursor: pointer;
-      color: var(--accent-blue);
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .collapsible-toggle::before {
-      content: "▶";
-      font-size: 0.8em;
-      transition: transform 0.2s;
-    }
-    .collapsible-toggle.collapsed::before {
-      transform: rotate(90deg);
-    }
-    .collapsible-content {
-      display: block;
-    }
-    .collapsed + .collapsible-content {
-      display: none;
-    }
+    
     .spinner {
       width: 20px;
       height: 20px;
@@ -199,8 +282,52 @@
       animation: spin 1s ease-in-out infinite;
       display: none;
     }
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      main {
+        padding: 0 1rem;
+      }
+      
+      section {
+        margin: 1.5rem 0;
+      }
+      
+      .section-content {
+        padding: 1rem;
+      }
+      
+      th, td {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+      
+      header {
+        padding: 1.5rem 1rem;
+      }
+      
+      header img {
+        max-height: 100px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h2 {
+        padding: 0.8rem 1rem;
+        font-size: 1.2rem;
+      }
+      
+      input, .button {
+        padding: 0.7rem;
+      }
+      
+      .button {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -211,100 +338,111 @@
   <div id="countdown">Loading...</div>
 </header>
 
-<section>
-  <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
-  <div class="collapsible-content">
-    <ul>
-      <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
-      <li><strong>Format:</strong> Duos (20 teams max)</li>
-      <li><strong>Game Mode:</strong> Reload Zero Builds</li>
-      <li><strong>Server:</strong> Europe (EU)</li>
-      <li><strong>Duration:</strong> 3 hours (6 matches)</li>
-    </ul>
-  </div>
-</section>
-
-<section>
-  <h2 class="collapsible-toggle"><span>📝 Register Your Duo</span></h2>
-  <div class="collapsible-content" id="registrationSection">
-    <form id="duoForm">
-      <label>Your Username:</label>
-      <input id="player" placeholder="e.g. Player123" required type="text"/>
-      
-      <label>Duo Partner's Username:</label>
-      <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
-      
-      <button class="button" type="submit" id="submitButton">
-        <span id="buttonText">Submit Registration</span>
-        <span id="buttonSpinner" class="spinner"></span>
-      </button>
-    </form>
-    <div id="submitStatus"></div>
-    <div id="successMessage" class="success-message"></div>
-  </div>
-</section>
-
-<section>
-  <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
-  <div class="collapsible-content">
-    <div class="registered-teams">
-      <ul id="registeredDuosList">
-        <li>Loading registered teams...</li>
+<main>
+  <section>
+    <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
+    <div class="section-content collapsible-content">
+      <ul>
+        <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
+        <li><strong>Format:</strong> Duos (20 teams max)</li>
+        <li><strong>Game Mode:</strong> Reload Zero Builds</li>
+        <li><strong>Server:</strong> Europe (EU)</li>
+        <li><strong>Duration:</strong> 3 hours (6 matches)</li>
       </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>📝 Register Your Duo</span></h2>
+    <div class="section-content collapsible-content" id="registrationSection">
+      <form id="duoForm">
+        <label>Your Username:</label>
+        <input id="player" placeholder="e.g. Player123" required type="text"/>
+        
+        <label>Duo Partner's Username:</label>
+        <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
+        
+        <button class="button" type="submit" id="submitButton">
+          <span id="buttonText">Submit Registration</span>
+          <span id="buttonSpinner" class="spinner"></span>
+        </button>
+      </form>
+      <div id="submitStatus"></div>
+      <div id="successMessage" class="success-message"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
+    <div class="section-content collapsible-content">
+      <div class="registered-teams">
+        <table>
+          <thead>
+            <tr>
+              <th>Team ID</th>
+              <th>Player 1</th>
+              <th>Player 2</th>
+            </tr>
+          </thead>
+          <tbody id="registeredDuosList">
+            <tr><td colspan="3">Loading registered teams...</td></tr>
+          </tbody>
+        </table>
+      </div>
       <p id="spotsRemaining" class="spots-remaining">Spots remaining: 20/20</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<section>
-  <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
-  <div class="collapsible-content">
-    <table>
-      <thead>
-        <tr><th>Placement</th><th>Prize</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1st Place</td><td>R800</td></tr>
-        <tr><td>2nd Place</td><td>R500</td></tr>
-        <tr><td>3rd Place</td><td>R300</td></tr>
-        <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+  <section>
+    <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
+    <div class="section-content collapsible-content">
+      <table>
+        <thead>
+          <tr><th>Placement</th><th>Prize</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1st Place</td><td>R800</td></tr>
+          <tr><td>2nd Place</td><td>R500</td></tr>
+          <tr><td>3rd Place</td><td>R300</td></tr>
+          <tr><td>4th Place</td><td>2000 V-Bucks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
-<section>
-  <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
-  <div class="collapsible-content">
-    <table>
-      <thead>
-        <tr><th>Placement</th><th>Points</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1st</td><td>20</td></tr>
-        <tr><td>2nd</td><td>17</td></tr>
-        <tr><td>3rd</td><td>15</td></tr>
-        <tr><td>4th</td><td>13</td></tr>
-        <tr><td>5th-10th</td><td>9</td></tr>
-        <tr><td>11th-15th</td><td>5</td></tr>
-        <tr><td>16th-20th</td><td>2</td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:1rem;"><strong>+1 point per elimination</strong></p>
-  </div>
-</section>
+  <section>
+    <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
+    <div class="section-content collapsible-content">
+      <table>
+        <thead>
+          <tr><th>Placement</th><th>Points</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1st</td><td>20</td></tr>
+          <tr><td>2nd</td><td>17</td></tr>
+          <tr><td>3rd</td><td>15</td></tr>
+          <tr><td>4th</td><td>13</td></tr>
+          <tr><td>5th-10th</td><td>9</td></tr>
+          <tr><td>11th-15th</td><td>5</td></tr>
+          <tr><td>16th-20th</td><td>2</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1rem;"><strong>+1 point per elimination</strong></p>
+    </div>
+  </section>
 
-<section>
-  <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
-  <div class="collapsible-content">
-    <ul>
-      <li>No teaming with other duos</li>
-      <li>No exploits or glitches</li>
-      <li>Must use your own account</li>
-      <li>Decisions by admins are final</li>
-    </ul>
-  </div>
-</section>
+  <section>
+    <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
+    <div class="section-content collapsible-content">
+      <ul>
+        <li>No teaming with other duos</li>
+        <li>No exploits or glitches</li>
+        <li>Must use your own account</li>
+        <li>Decisions by admins are final</li>
+      </ul>
+    </div>
+  </section>
+</main>
 
 <footer>
   <p>FKZA Customs © 2025</p>
@@ -396,21 +534,9 @@
     });
   }
 
-async function submitRegistration(player, duo) {
-  try {
-    const response = await fetch(CONFIG.SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ player, duo })
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      // ✅ Notify Discord securely via proxy
-      await fetch("https://fkza-proxy.onrender.com/notify", {
+  async function submitRegistration(player, duo) {
+    try {
+      const response = await fetch(CONFIG.SCRIPT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -418,44 +544,54 @@ async function submitRegistration(player, duo) {
         body: JSON.stringify({ player, duo })
       });
 
-      return result;
-    } else {
-      throw new Error(result.message || "Registration failed");
-    }
-  } catch (error) {
-    throw error;
-  }
-}
+      const result = await response.json();
 
+      if (result.success) {
+        // ✅ Notify Discord securely via proxy
+        await fetch("https://fkza-proxy.onrender.com/notify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ player, duo })
+        });
+
+        return result;
+      } else {
+        throw new Error(result.message || "Registration failed");
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
   // Team data fetching
-async function fetchRegistrations() {
-  try {
-    const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
+  async function fetchRegistrations() {
+    try {
+      const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
       }
-    });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}`);
+      const { registrations, error } = await response.json();
+      if (error) throw new Error(error);
+
+      updateUI(registrations || []);
+    } catch (error) {
+      console.error("Failed to fetch registered teams:", error);
+      elements.registeredDuosList.innerHTML = `
+        <tr><td colspan="3" style="color:var(--accent-red)">
+          Error loading teams: ${getUserFriendlyError(error)}
+        </td></tr>
+      `;
     }
-
-    const { registrations, error } = await response.json();
-    if (error) throw new Error(error);
-
-    updateUI(registrations || []);
-  } catch (error) {
-    console.error("Failed to fetch registered teams:", error);
-    elements.registeredDuosList.innerHTML = `
-      <li style="color:var(--accent-red)">
-        Error loading teams: ${getUserFriendlyError(error)}
-      </li>
-    `;
   }
-}
-
 
   function updateUI(registrations) {
     updateRegisteredDuosList(registrations);
@@ -465,17 +601,18 @@ async function fetchRegistrations() {
 
   function updateRegisteredDuosList(registrations) {
     if (!registrations || registrations.length === 0) {
-      elements.registeredDuosList.innerHTML = '<li>No teams registered yet</li>';
+      elements.registeredDuosList.innerHTML = '<tr><td colspan="3">No teams registered yet</td></tr>';
       return;
     }
     
     elements.registeredDuosList.innerHTML = registrations
       .slice(0, CONFIG.MAX_TEAMS)
       .map(team => `
-        <li>
-          <strong>Team ${team.id}:</strong>
-          ${team.player} & ${team.duo}
-        </li>
+        <tr>
+          <td>${team.id}</td>
+          <td>${team.player}</td>
+          <td>${team.duo}</td>
+        </tr>
       `).join('');
   }
 
@@ -556,12 +693,23 @@ async function fetchRegistrations() {
   // Collapsible sections
   function setupCollapsibles() {
     document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
+      // Set initial state to collapsed on mobile
+      if (window.innerWidth <= 768) {
+        h2.classList.add('collapsed');
+        h2.nextElementSibling.style.display = 'none';
+      }
+      
       h2.addEventListener('click', () => {
         const content = h2.nextElementSibling;
         content.style.display = content.style.display === 'none' ? 'block' : 'none';
         h2.classList.toggle('collapsed');
       });
     });
+    
+    // Make details section expanded by default
+    const detailsSection = document.querySelector('h2:first-of-type');
+    detailsSection.classList.remove('collapsed');
+    detailsSection.nextElementSibling.style.display = 'block';
   }
 </script>
 </body>
