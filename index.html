@@ -1,476 +1,931 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>FKZA Duo Cash Cup</title>
- 37  <meta name="theme-color" content="#1f6feb" />
-  <meta property="og:title" content="FKZA Duo Cash Cup" />
-  <meta property="og:description" content="Join the FKZA Duo Cash Cup - Register and Compete!" />
-  <meta property="og:image" content="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+  <meta content="#1f6feb" name="theme-color"/>
+  <meta content="FKZA Duo Cash Cup" property="og:title"/>
+  <meta content="Join the FKZA Duo Cash Cup - Register and Compete!" property="og:description"/>
+  <meta content="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" property="og:image"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Exo:wght@600;700&family=Barlow:wght@400;500&family=Barlow+Condensed:wght@600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap');
-
     :root {
-      --neon-blue: #00f0ff;
-      --neon-pink: #ff00ff;
-      --neon-green: #00ff00;
-      --bg-dark: #0a0e17;
-      --bg-card: #1a1e2b;
-      --text-primary: #e0e6ff;
-      --text-secondary: #a0a6c0;
-      --shadow-glow: 0 0 15px rgba(0, 240, 255, 0.3);
+      --bg-primary: #0a0e14;
+      --bg-secondary: #161c24;
+      --text-primary: #ffffff;
+      --text-secondary: #8b949e;
+      --accent-blue: #00f3ff;
+      --accent-cyan: #00ffea;
+      --accent-green: #00ff88;
+      --accent-yellow: #ffd700;
+      --accent-red: #ff4655;
+      --accent-discord: #7289da;
+      --border-color: #263340;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --neon-glow: 0 0 15px currentColor;
     }
-
+    
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, var(--bg-dark), #141825);
+      margin: 0;
+      font-family: 'Barlow', 'Segoe UI', system-ui, sans-serif;
+      background: radial-gradient(circle at center, #0a0e14 0%, #07090d 100%);
       color: var(--text-primary);
+      line-height: 1.6;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       overflow-x: hidden;
     }
-
-    .neon-glow {
-      box-shadow: var(--shadow-glow);
-      transition: all 0.3s ease;
+    
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      background: linear-gradient(160deg, #0d1a26 0%, #0a0e14 100%);
+      border-bottom: 3px solid var(--accent-blue);
+      position: relative;
+      overflow: hidden;
     }
-
-    .neon-glow:hover {
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
-      transform: translateY(-2px);
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent 45%, 
+        rgba(0, 243, 255, 0.1) 50%, 
+        transparent 55%);
+      animation: gridAnim 8s linear infinite;
     }
-
-    .animate-pulse-slow {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    
+    header img {
+      max-height: 160px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 3px solid var(--accent-cyan);
+      box-shadow: var(--neon-glow), var(--box-shadow);
+      position: relative;
+      transition: transform 0.3s ease;
     }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
+    
+    header img:hover {
+      transform: rotate(5deg) scale(1.05);
     }
-
-    .orbitron {
-      font-family: 'Orbitron', sans-serif;
+    
+    header h1 {
+      font-family: 'Exo', sans-serif;
+      font-size: clamp(2rem, 6vw, 3rem);
+      margin: 1rem 0;
+      color: transparent;
+      background: linear-gradient(45deg, var(--accent-cyan), var(--accent-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
+      letter-spacing: 1px;
     }
-
+    
+    #countdown {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: var(--accent-yellow);
+      margin-top: 1rem;
+      font-weight: 600;
+      text-shadow: var(--neon-glow);
+      letter-spacing: 2px;
+    }
+    
+    #headerSpotsRemaining {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--accent-yellow);
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    
+    section {
+      margin: 2rem 0;
+      background: linear-gradient(145deg, var(--bg-secondary) 0%, #1a222e 100%);
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(0, 243, 255, 0.15);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+    
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 25%,
+        rgba(0, 243, 255, 0.05) 50%,
+        transparent 75%
+      );
+      animation: shine 3s infinite;
+    }
+    
+    h2 {
+      margin: 0;
+      padding: 1.5rem;
+      background: linear-gradient(90deg, rgba(0, 243, 255, 0.15) 0%, transparent 100%);
+      color: var(--accent-cyan);
+      font-family: 'Exo', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    h2::before {
+      content: "▸";
+      font-size: 1.2em;
+      color: var(--accent-cyan);
+      filter: drop-shadow(var(--neon-glow));
+      transition: transform 0.2s;
+    }
+    
+    h2.collapsed::before {
+      transform: rotate(90deg);
+    }
+    
+    .section-content {
+      padding: 1.5rem;
+    }
+    
+    .button {
+      background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-blue) 100%);
+      color: black;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: var(--transition);
+      width: 100%;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(0, 243, 255, 0.3);
+    }
+    
+    .button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent 45%, 
+        rgba(255,255,255,0.2) 50%, 
+        transparent 55%);
+      animation: buttonGlow 3s linear infinite;
+    }
+    
+    .button:hover {
+      background: linear-gradient(135deg, #00ffaa 0%, #00e1ff 100%);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 243, 255, 0.3);
+    }
+    
+    .button:active {
+      transform: translateY(0);
+    }
+    
+    .button:disabled {
+      background: #484f58;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.2);
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--accent-cyan);
+    }
+    
+    .registered-teams {
+      width: 100%;
+      overflow-x: auto;
+    }
+    
+    .max-registered {
+      color: var(--accent-red);
+      font-weight: bold;
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 70, 85, 0.1);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--accent-red);
+      margin-top: 1rem;
+    }
+    
+    .spots-remaining {
+      color: var(--accent-yellow);
+      font-weight: bold;
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 1.1rem;
+      padding: 0.5rem;
+      background: rgba(255, 215, 0, 0.1);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--accent-yellow);
+    }
+    
+    #submitStatus {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      background-color: rgba(255, 70, 85, 0.1);
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      display: none;
+    }
+    
+    .success-message {
+      background-color: rgba(0, 255, 136, 0.1);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin-top: 1rem;
+      display: none;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: linear-gradient(145deg, #121a24 0%, #0d141e 100%);
+      color: var(--text-primary);
+      margin: 1rem 0;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 243, 255, 0.1);
+    }
+    
+    th {
+      background: linear-gradient(90deg, rgba(0, 243, 255, 0.15) 0%, transparent 100%);
+      color: var(--accent-cyan);
+      font-weight: 600;
+      text-align: left;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+    
+    th, td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr:hover {
+      background: rgba(0, 243, 255, 0.03) !important;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      margin-top: 3rem;
+      border-top: 1px solid var(--border-color);
+    }
+    
     .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      display: none;
+    }
+    
+    .registration-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.8rem;
+      background: rgba(0, 243, 255, 0.05);
+      border-radius: var(--border-radius);
+      border-left: 3px solid var(--accent-blue);
+    }
+    
+    .step-number {
+      background: var(--accent-blue);
+      color: white;
       width: 24px;
       height: 24px;
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-top-color: var(--neon-blue);
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
     }
-
+    
+    .step-content {
+      flex: 1;
+    }
+    
+    .step-content code {
+      background: rgba(0, 243, 255, 0.2);
+      color: var(--accent-blue);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    
+    .discord-link {
+      color: var(--accent-discord);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    
+    .discord-link:hover {
+      color: #8ea1e1;
+      text-decoration: underline;
+    }
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
+    }
+    
+    @keyframes gridAnim {
+      from { transform: rotate(0deg) translate(0,0); }
+      to { transform: rotate(360deg) translate(50px, 50px); }
+    }
+    
+    @keyframes shine {
+      from { left: -100%; }
+      to { left: 100%; }
+    }
+    
+    @keyframes buttonGlow {
+      from { transform: translateX(-100%) rotate(45deg); }
+      to { transform: translateX(100%) rotate(45deg); }
+    }
+    
+    @media (max-width: 768px) {
+      main {
+        padding: 0 1rem;
+      }
+      
+      section {
+        margin: 1.5rem 0;
+      }
+      
+      .section-content {
+        padding: 1rem;
+      }
+      
+      th, td {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+      
+      header {
+        padding: 1.5rem 1rem;
+      }
+      
+      header img {
+        max-height: 100px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h2 {
+        padding: 0.8rem 1rem;
+        font-size: 1.2rem;
+      }
+      
+      input, .button {
+        padding: 0.7rem;
+      }
+      
+      .button {
+        font-size: 1rem;
+      }
+      
+      .step {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="root"></div>
+<header>
+  <img alt="FKZA Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
+  <h1>FKZA Duo Cash Cup</h1>
+  <div id="countdown">Loading...</div>
+  <div id="headerSpotsRemaining"></div>
+</header>
 
-  <script type="text/babel">
-    const CONFIG = {
-      SCRIPT_URL: "https://fkza-proxy.onrender.com/register",
-      MAX_TEAMS: 20,
-      TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00"
-    };
+<main>
+  <section>
+    <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
+    <div class="section-content collapsible-content">
+      <ul>
+        <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
+        <li><strong>Format:</strong> Duos (20 teams max)</li>
+        <li><strong>Game Mode:</strong> Reload Zero Builds</li>
+        <li><strong>Server:</strong> Europe (EU)</li>
+        <li><strong>Duration:</strong> 3 hours (6 matches)</li>
+      </ul>
+    </div>
+  </section>
 
-    const App = () => {
-      const [registrations, setRegistrations] = React.useState([]);
-      const [countdown, setCountdown] = React.useState('Loading...');
-      const [isLoading, setIsLoading] = React.useState(false);
-      const [error, setError] = React.useState('');
-      const [success, setSuccess] = React.useState('');
-      const [collapsedSections, setCollapsedSections] = React.useState({
-        details: window.innerWidth <= 768,
-        registration: window.innerWidth <= 768,
-        register: window.innerWidth <= 768,
-        teams: window.innerWidth <= 768,
-        prize: window.innerWidth <= 768,
-        scoring: window.innerWidth <= 768,
-        rules: window.innerWidth <= 768,
-        support: window.innerWidth <= 768,
+    <section>
+    <h2 class="collapsible-toggle"><span>📥 Complete Your Registration</span></h2>
+    <div class="section-content collapsible-content">
+      <div class="registration-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <strong>Register your team in the below section</strong> - Fill in both players' Discord usernames
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            Join our Discord server: <a href="https://discord.gg/PC5ArHu6" target="_blank" class="discord-link">discord.gg/PC5ArHu6</a>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            Go to the <code>#verify</code> channel and link your Epic account
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            Both players must complete verification to confirm your spot in the tournament
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Note:</strong> Your registration is only complete after both players verify in Discord.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>📝 Register Your Duo</span></h2>
+    <div class="section-content collapsible-content" id="registrationSection">
+      <form id="duoForm">
+        <label>Your Discord Username:</label>
+        <input id="player" placeholder="e.g. Player123" required type="text"/>
+        
+        <label>Your Duo Partner's Discord Username:</label>
+        <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
+        
+        <button class="button" type="submit" id="submitButton">
+          <span id="buttonText">Register Your Team</span>
+          <span id="buttonSpinner" class="spinner"></span>
+        </button>
+      </form>
+      <div id="submitStatus"></div>
+      <div id="successMessage" class="success-message"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
+    <div class="section-content collapsible-content">
+      <div class="registered-teams">
+        <table>
+          <thead>
+            <tr>
+              <th>Team ID</th>
+              <th>Player 1</th>
+              <th>Player 2</th>
+            </tr>
+          </thead>
+          <tbody id="registeredDuosList">
+            <tr><td colspan="4">Loading registered teams...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="spotsRemaining" class="spots-remaining">Spots remaining: 20/20</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
+    <div class="section-content collapsible-content">
+      <table>
+        <thead>
+          <tr><th>Placement</th><th>Prize</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1st Place</td><td>R700</td></tr>
+          <tr><td>2nd Place</td><td>R500</td></tr>
+          <tr><td>3rd Place</td><td>R300</td></tr>
+          <tr><td>4th Place</td><td>R200</td></tr>
+          <tr><td>5th Place</td><td>2000 V-Bucks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
+    <div class="section-content collapsible-content">
+      <table>
+        <thead>
+          <tr><th>Placement</th><th>Points</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1st</td><td>20</td></tr>
+          <tr><td>2nd</td><td>17</td></tr>
+          <tr><td>3rd</td><td>15</td></tr>
+          <tr><td>4th</td><td>13</td></tr>
+          <tr><td>5th-10th</td><td>9</td></tr>
+          <tr><td>11th-15th</td><td>5</td></tr>
+          <tr><td>16th-20th</td><td>2</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1rem;"><strong>+1 point per elimination</strong></p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
+    <div class="section-content collapsible-content">
+      <ul>
+        <li>No teaming with other duos</li>
+        <li>No exploits or glitches</li>
+        <li>Must use your own account</li>
+        <li>Decisions by admins are final</li>
+        <li>Both players must verify in Discord to complete registration</li>
+        <li><strong>Failure to follow Yunite instructions or tournament rules will result in disqualification</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="collapsible-toggle"><span>📢 Admin Support & Yunite Points</span></h2>
+    <div class="section-content collapsible-content">
+      <p><strong>Points are tracked using the <a href="https://yunite.xyz" target="_blank" class="discord-link">Yunite bot</a>.</strong></p>
+      <ul>
+        <li>Both players must add Yunite as a friend on Fortnite.</li>
+        <li>Yunite will join your lobby automatically.</li>
+        <li><strong>Make Yunite the party leader</strong> once it joins.</li>
+        <li>After assigning leadership, Yunite will leave and record your match.</li>
+      </ul>
+      <p>If you need help, contact an admin on Discord:</p>
+      <ul>
+        <li><strong>Shameless_FKZA</strong></li>
+        <li><strong>Austin021_FKZA</strong></li>
+        <li><strong>FKZA_BlackWidow</strong></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>FKZA Customs © 2025</p>
+</footer>
+
+<script>
+  // Configuration
+  const CONFIG = {
+    SCRIPT_URL: "https://fkza-proxy.onrender.com/register",
+    MAX_TEAMS: 20,
+    TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
+  };
+
+  // DOM elements
+  const elements = {
+    duoForm: document.getElementById("duoForm"),
+    submitButton: document.getElementById("submitButton"),
+    buttonText: document.getElementById("buttonText"),
+    buttonSpinner: document.getElementById("buttonSpinner"),
+    submitStatus: document.getElementById("submitStatus"),
+    successMessage: document.getElementById("successMessage"),
+    registeredDuosList: document.getElementById("registeredDuosList"),
+    spotsRemaining: document.getElementById("spotsRemaining"),
+    registrationSection: document.getElementById("registrationSection"),
+    countdown: document.getElementById("countdown"),
+    headerSpotsRemaining: document.getElementById("headerSpotsRemaining")
+  };
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    initCountdown();
+    setupCollapsibles();
+    fetchRegistrations();
+    setupForm();
+  });
+
+  // Countdown timer
+  function initCountdown() {
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+
+  function updateCountdown() {
+    const eventDate = new Date(CONFIG.TOURNAMENT_DATE);
+    const now = new Date();
+    const diff = eventDate - now;
+
+    if (diff <= 0) {
+      elements.countdown.textContent = "The tournament is live!";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    elements.countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  // Form handling
+  function setupForm() {
+    elements.duoForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const player = document.getElementById("player").value.trim();
+      const duo = document.getElementById("duo").value.trim();
+
+      if (!validateInput(player, duo)) return;
+
+      setLoadingState(true);
+      clearMessages();
+
+      try {
+        const response = await submitRegistration(player, duo);
+        
+        if (response.success) {
+          showSuccess(`✅ Success! Your team is registered as Team ${response.teamId}. Now complete verification in Discord.`);
+          elements.duoForm.reset();
+          await fetchRegistrations();
+        } else {
+          throw new Error(response.message || "Registration failed");
+        }
+      } catch (error) {
+        showError(getUserFriendlyError(error));
+        console.error("Registration error:", error);
+      } finally {
+        setLoadingState(false);
+      }
+    });
+  }
+
+  async function submitRegistration(player, duo) {
+    try {
+      const response = await fetch(CONFIG.SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ player, duo })
       });
 
-      React.useEffect(() => {
-        initCountdown();
-        fetchRegistrations();
-      }, []);
+      const result = await response.json();
 
-      const initCountdown = () => {
-        const updateCountdown = () => {
-          const eventDate = new Date(CONFIG.TOURNAMENT_DATE);
-          const now = new Date();
-          const diff = eventDate - now;
+      if (result.success) {
+        // ✅ Notify Discord securely via proxy
+        await fetch("https://fkza-proxy.onrender.com/notify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ player, duo })
+        });
 
-          if (diff <= 0) {
-            setCountdown('The tournament is live!');
-            return;
-          }
+        return result;
+      } else {
+        throw new Error(result.message || "Registration failed");
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-          const minutes = Math.floor((diff / 1000 / 60) % 60);
-          const seconds = Math.floor((diff / 1000) % 60);
-          setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-        };
-
-        updateCountdown();
-        const interval = setInterval(updateCountdown, 1000);
-        return () => clearInterval(interval);
-      };
-
-      const fetchRegistrations = async () => {
-        try {
-          const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-          });
-          if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-          const { registrations, error } = await response.json();
-          if (error) throw new Error(error);
-          setRegistrations(registrations || []);
-        } catch (err) {
-          setError(getUserFriendlyError(err));
+  // Team data fetching
+  async function fetchRegistrations() {
+    try {
+      const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
         }
-      };
+      });
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        const player = e.target.player.value.trim();
-        const duo = e.target.duo.value.trim();
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
 
-        if (!validateInput(player, duo)) return;
+      const { registrations, error } = await response.json();
+      if (error) throw new Error(error);
 
-        setIsLoading(true);
-        setError('');
-        setSuccess('');
+      updateUI(registrations || []);
+    } catch (error) {
+      console.error("Failed to fetch registered teams:", error);
+      elements.registeredDuosList.innerHTML = `
+        <tr><td colspan="4" style="color:var(--accent-red)">
+          Error loading teams: ${getUserFriendlyError(error)}
+        </td></tr>
+      `;
+    }
+  }
 
-        try {
-          const response = await fetch(CONFIG.SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ player, duo }),
-          });
-          const result = await response.json();
+  function updateUI(registrations) {
+    updateRegisteredDuosList(registrations);
+    updateSpotsRemaining(registrations.length);
+    checkMaxRegistrations(registrations.length);
+    
+    // Update header spots remaining
+    const remaining = CONFIG.MAX_TEAMS - registrations.length;
+    elements.headerSpotsRemaining.textContent = 
+      `${remaining > 0 ? remaining : 0} of ${CONFIG.MAX_TEAMS} spots left`;
+  }
 
-          if (result.success) {
-            await fetch('https://fkza-proxy.onrender.com/notify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ player, duo }),
-            });
-            setSuccess(`✅ Success! Your team is registered as Team ${result.teamId}. Now complete verification in Discord.`);
-            e.target.reset();
-            fetchRegistrations();
-          } else {
-            throw new Error(result.message || 'Registration failed');
-          }
-        } catch (err) {
-          setError(getUserFriendlyError(err));
-        } finally {
-          setIsLoading(false);
-        }
-      };
+  function updateRegisteredDuosList(registrations) {
+    if (!registrations || registrations.length === 0) {
+      elements.registeredDuosList.innerHTML = '<tr><td colspan="4">No teams registered yet</td></tr>';
+      return;
+    }
+    
+    elements.registeredDuosList.innerHTML = registrations
+      .slice(0, CONFIG.MAX_TEAMS)
+      .map(team => `
+        <tr>
+          <td>${team.id}</td>
+          <td>${team.player}</td>
+          <td>${team.duo}</td>
+        </tr>
+      `).join('');
+  }
 
-      const validateInput = (player, duo) => {
-        if (!信息请前往 https://x.ai/api 了解详情。 player || !duo) {
-          setError('❌ Please fill in both Discord usernames');
-          return false;
-        }
-        if (player === duo) {
-          setError("❌ You can't team with yourself");
-          return false;
-        }
-        if (player.length < 3 || duo.length < 3) {
-          setError('❌ Usernames must be at least 3 characters');
-          return false;
-        }
-        return true;
-      };
+  function updateSpotsRemaining(count) {
+    const remaining = CONFIG.MAX_TEAMS - count;
+    elements.spotsRemaining.innerHTML = `
+      Spots remaining: <strong>${remaining > 0 ? remaining : 0}</strong>/${CONFIG.MAX_TEAMS}
+      ${remaining <= 0 ? ' (Tournament full)' : ''}
+    `;
+  }
 
-      const getUserFriendlyError = (error) => {
-        const msg = error.message || String(error);
-        if (msg.includes('Failed to fetch')) {
-          return 'Network blocked. Try:\n1. Disabling ad-blockers\n2. Using Chrome with CORS extension\n3. Incognito mode';
-        }
-        if (msg.includes('timed out')) {
-          return 'Server is busy. Please try again later.';
-        }
-        return msg;
-      };
-
-      const toggleSection = (section) => {
-        setCollapsedSections((prev) => ({
-          ...prev,
-          [section]: !prev[section],
-        }));
-      };
-
-      const remainingSpots = CONFIG.MAX_TEAMS - registrations.length;
-
-      return (
-        <div className="min-h-screen flex flex-col">
-          <header className="text-center py-8 bg-[var(--bg-card)] border-b border-[var(--neon-blue)]/20">
-            <img
-              src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"
-              alt="FKZA Logo"
-              className="mx-auto h-32 rounded-lg border-2 border-[var(--neon-blue)] neon-glow"
-            />
-            <h1 className="text-4xl md:text-5xl orbitron font-bold mt-4 text-[var(--neon-blue)] animate-pulse-slow">
-              FKZA Duo Cash Cup
-            </h1>
-            <div className="text-xl md:text-2xl text-[var(--neon-pink)] orbitron mt-2">{countdown}</div>
-            <div className="text-lg text-[var(--neon-green)] font-semibold mt-2">
-              {remainingSpots > 0 ? remainingSpots : 0} of {CONFIG.MAX_TEAMS} spots left
-            </div>
-          </header>
-
-          <main className="flex-1 max-w-6xl mx-auto p-4 md:p-8">
-            <Section
-              title="📅 Tournament Details"
-              isCollapsed={collapsedSections.details}
-              toggle={() => toggleSection('details')}
-            >
-              <ul className="space-y-2 text-[var(--text-secondary)]">
-                <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
-                <li><strong>Format:</strong> Duos (20 teams max)</li>
-                <li><strong>Game Mode:</strong> Reload Zero Builds</li>
-                <li><strong>Server:</strong> Europe (EU)</li>
-                <li><strong>Duration:</strong> 3 hours (6 matches)</li>
-              </ul>
-            </Section>
-
-            <Section
-              title="📥 Complete Your Registration"
-              isCollapsed={collapsedSections.registration}
-              toggle={() => toggleSection('registration')}
-            >
-              <div className="space-y-4">
-                {[
-                  { number: 1, text: 'Register your team in the below section - Fill in both players\' Discord usernames' },
-                  { number: 2, text: <span>Join our Discord server: <a href="https://discord.gg/PC5ArHu6" target="_blank" className="text-[var(--neon-blue)] hover:underline">discord.gg/PC5ArHu6</a></span> },
-                  { number: 3, text: <span>Go to the <code className="bg-[var(--bg-card)] text-[var(--neon-blue)] px-1 rounded"> #verify</code> channel and link your Epic account</span> },
-                  { number: 4, text: 'Both players must complete verification to confirm your spot in the tournament' },
-                ].map((step) => (
-                  <div key={step.number} className="flex items-start gap-4 p-4 bg-[var(--bg-card)] rounded-lg border-l-4 border-[var(--neon-blue)]">
-                    <div className="bg-[var(--neon-blue)] text-[var(--bg-dark)] w-6 h-6 rounded-full flex items-center justify-center font-bold">{step.number}</div>
-                    <div>{step.text}</div>
-                  </div>
-                ))}
-                <p className="text-[var(--neon-green)]"><strong>Note:</strong> Your registration is only complete after both players verify in Discord.</p>
-              </div>
-            </Section>
-
-            {remainingSpots > 0 ? (
-              <Section
-                title="📝 Register Your Duo"
-                isCollapsed={collapsedSections.register}
-                toggle={() => toggleSection('register')}
-              >
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-[var(--neon-blue)] font-medium">Your Discord Username:</label>
-                    <input
-                      id="player"
-                      type="text"
-                      placeholder="e.g. Player123"
-                      required
-                      className="w-full p-3 mt-1 bg-[var(--bg-card)] text-[var(--text-primary)] rounded-lg border border-[var(--neon-blue)]/30 focus:outline-none focus:ring-2 focus:ring-[var(--neon-blue)]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[var(--neon-blue)] font-medium">Your Duo Partner's Discord Username:</label>
-                    <input
-                      id="duo"
-                      type="text"
-                      placeholder="e.g. DuoPartner456"
-                      required
-                      className="w-full p-3 mt-1 bg-[var(--bg-card)] text-[var(--text-primary)] rounded-lg border border-[var(--neon-blue)]/30 focus:outline-none focus:ring-2 focus:ring-[var(--neon-blue)]"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full p-3 bg-[var(--neon-green)] text-[var(--bg-dark)] font-bold rounded-lg neon-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <span>{isLoading ? 'Processing...' : 'Register Your Team'}</span>
-                    {isLoading && <span className="spinner"></span>}
-                  </button>
-                </form>
-                {error && <div className="mt-4 p-3 bg-red-500/20 text-red-400 rounded-lg">{error}</div>}
-                {success && <div className="mt-4 p-3 bg-green-500/20 text-[var(--neon-green)] rounded-lg">{success}</div>}
-              </Section>
-            ) : (
-              <div className="p-4 bg-red-500/20 text-red-400 rounded-lg text-center neon-glow">
-                <p>🚨 Tournament registrations are now closed!</p>
-                <p>Maximum of {CONFIG.MAX_TEAMS} teams has been reached.</p>
-              </div>
-            )}
-
-            <Section
-              title="🏆 Registered Teams"
-              isCollapsed={collapsedSections.teams}
-              toggle={() => toggleSection('teams')}
-            >
-              <div className="overflow-x-auto">
-                <table className="w-full bg-[var(--bg-card)] rounded-lg">
-                  <thead>
-                    <tr className="bg-[var(--neon-blue)]/10">
-                      <th className="p-3 text-left text-[var(--neon-blue)]">Team ID</th>
-                      <th className="p-3 text-left text-[var(--neon-blue)]">Player 1</th>
-                      <th className="p-3 text-left text-[var(--neon-blue)]">Player 2</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {registrations.length === 0 ? (
-                      <tr><td colSpan="3" className="p-3 text-center">No teams registered yet</td></tr>
-                    ) : (
-                      registrations.slice(0, CONFIG.MAX_TEAMS).map((team) => (
-                        <tr key={team.id} className="hover:bg-[var(--neon-blue)]/5">
-                          <td className="p-3">{team.id}</td>
-                          <td className="p-3">{team.player}</td>
-                          <td className="p-3">{team.duo}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-              <p className="mt-4 text-[var(--neon-green)] text-center">
-                Spots remaining: <strong>{remainingSpots > 0 ? remainingSpots : 0}</strong>/{CONFIG.MAX_TEAMS}
-                {remainingSpots <= 0 ? ' (Tournament full)' : ''}
-              </p>
-            </Section>
-
-            <Section
-              title="💰 Prize Pool"
-              isCollapsed={collapsedSections.prize}
-              toggle={() => toggleSection('prize')}
-            >
-              <table className="w-full bg-[var(--bg-card)] rounded-lg">
-                <thead>
-                  <tr className="bg-[var(--neon-blue)]/10">
-                    <th className="p-3 text-left text-[var(--neon-blue)]">Placement</th>
-                    <th className="p-3 text-left text-[var(--neon-blue)]">Prize</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { place: '1st Place', prize: 'R700' },
-                    { place: '2nd Place', prize: 'R500' },
-                    { place: '3rd Place', prize: 'R300' },
-                    { place: '4th Place', prize: 'R200' },
-                    { place: '5th Place', prize: '2000 V-Bucks' },
-                  ].map((row) => (
-                    <tr key={row.place} className="hover:bg-[var(--neon-blue)]/5">
-                      <td className="p-3">{row.place}</td>
-                      <td className="p-3">{row.prize}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </Section>
-
-            <Section
-              title="🎯 Scoring System"
-              isCollapsed={collapsedSections.scoring}
-              toggle={() => toggleSection('scoring')}
-            >
-              <table className="w-full bg-[var(--bg-card)] rounded-lg">
-                <thead>
-                  <tr className="bg-[var(--neon-blue)]/10">
-                    <th className="p-3 text-left text-[var(--neon-blue)]">Placement</th>
-                    <th className="p-3 text-left text-[var(--neon-blue)]">Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { place: '1st', points: 20 },
-                    { place: '2nd', points: 17 },
-                    { place: '3rd', points: 15 },
-                    { place: '4th', points: 13 },
-                    { place: '5th-10th', points: 9 },
-                    { place: '11th-15th', points: 5 },
-                    { place: '16th-20th', points: 2 },
-                  ].map((row) => (
-                    <tr key={row.place} className="hover:bg-[var(--neon-blue)]/5">
-                      <td className="p-3">{row.place}</td>
-                      <td className="p-3">{row.points}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p className="mt-4"><strong>+1 point per elimination</strong></p>
-            </Section>
-
-            <Section
-              title="🚫 Rules"
-              isCollapsed={collapsedSections.rules}
-              toggle={() => toggleSection('rules')}
-            >
-              <ul className="space-y-2 text-[var(--text-secondary)]">
-                <li>No teaming with other duos</li>
-                <li>No exploits or glitches</li>
-                <li>Must use your own account</li>
-                <li>Decisions by admins are final</li>
-                <li>Both players must verify in Discord to complete registration</li>
-                <li><strong>Failure to follow Yunite instructions or tournament rules will result in disqualification</strong></li>
-              </ul>
-            </Section>
-
-            <Section
-              title="📢 Admin Support & Yunite Points"
-              isCollapsed={collapsedSections.support}
-              toggle={() => toggleSection('support')}
-            >
-              <p><strong>Points are tracked using the <a href="https://yunite.xyz" target="_blank" className="text-[var(--neon-blue)] hover:underline">Yunite bot</a>.</strong></p>
-              <ul className="space-y-2 text-[var(--text-secondary)]">
-                <li>Both players must add Yunite as a friend on Fortnite.</li>
-                <li>Yunite will join your lobby automatically.</li>
-                <li><strong>Make Yunite the party leader</strong> once it joins.</li>
-                <li>After assigning leadership, Yunite will leave and record your match.</li>
-              </ul>
-              <p className="mt-4">If you need help, contact an admin on Discord:</p>
-              <ul className="space-y-2 text-[var(--text-secondary)]">
-                <li><strong>Shameless_FKZA</strong></li>
-                <li><strong>Austin021_FKZA</strong></li>
-                <li><strong>FKZA_BlackWidow</strong></li>
-              </ul>
-            </Section>
-          </main>
-
-          <footer className="text-center py-6 bg-[var(--bg-card)] border-t border-[var(--neon-blue)]/20 text-[var(--text-secondary)]">
-            <p>FKZA Customs © 2025</p>
-          </footer>
+  function checkMaxRegistrations(count) {
+    if (count >= CONFIG.MAX_TEAMS) {
+      elements.registrationSection.innerHTML = `
+        <div class="max-registered">
+          <p>🚨 Tournament registrations are now closed!</p>
+          <p>Maximum of ${CONFIG.MAX_TEAMS} teams has been reached.</p>
         </div>
-      );
-    };
+      `;
+    }
+  }
 
-    const Section = ({ title, isCollapsed, toggle, children }) => (
-      <section className="mb-6 bg-[var(--bg-card)] rounded-xl border border-[var(--neon-blue)]/20 neon-glow">
-        <h2
-          className="p-4 bg-[var(--neon-blue)]/10 text-[var(--neon-blue)] orbitron font-semibold text-xl md:text-2xl flex items-center gap-2 cursor-pointer hover:bg-[var(--neon-blue)]/20"
-          onClick={toggle}
-        >
-          <span className={`transition-transform ${isCollapsed ? '' : 'rotate-90'}`}>▶</span>
-          <span>{title}</span>
-        </h2>
-        <div className={`p-4 ${isCollapsed ? 'hidden' : 'block'}`}>
-          {children}
-        </div>
-      </section>
-    );
+  // UI helpers
+  function setLoadingState(isLoading) {
+    elements.submitButton.disabled = isLoading;
+    elements.buttonText.textContent = isLoading ? "Processing..." : "Register Your Team";
+    elements.buttonSpinner.style.display = isLoading ? "inline-block" : "none";
+  }
 
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+  function showError(message) {
+    elements.submitStatus.textContent = message;
+    elements.submitStatus.style.display = "block";
+    elements.successMessage.style.display = "none";
+  }
+
+  function showSuccess(message) {
+    elements.successMessage.textContent = message;
+    elements.successMessage.style.display = "block";
+    elements.submitStatus.style.display = "none";
+  }
+
+  function clearMessages() {
+    elements.submitStatus.style.display = "none";
+    elements.successMessage.style.display = "none";
+  }
+
+  function validateInput(player, duo) {
+    if (!player || !duo) {
+      showError("❌ Please fill in both Epic Games usernames");
+      return false;
+    }
+    
+    if (player === duo) {
+      showError("❌ You can't team with yourself");
+      return false;
+    }
+    
+    if (player.length < 3 || duo.length < 3) {
+      showError("❌ Usernames must be at least 3 characters");
+      return false;
+    }
+    
+    return true;
+  }
+
+  function getUserFriendlyError(error) {
+    const msg = error.message || String(error);
+    
+    if (msg.includes("Failed to fetch")) {
+      return "Network blocked. Try:\n1. Disabling ad-blockers\n2. Using Chrome with CORS extension\n3. Incognito mode";
+    }
+    if (msg.includes("timed out")) {
+      return "Server is busy. Please try again later.";
+    }
+    return msg;
+  }
+
+  // Collapsible sections
+  function setupCollapsibles() {
+    document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
+      // Set initial state to collapsed on mobile
+      if (window.innerWidth <= 768) {
+        h2.classList.add('collapsed');
+        h2.nextElementSibling.style.display = 'none';
+      }
+      
+      h2.addEventListener('click', () => {
+        const content = h2.nextElementSibling;
+        content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        h2.classList.toggle('collapsed');
+      });
+    });
+    
+    // Make details section expanded by default
+    const detailsSection = document.querySelector('h2:first-of-type');
+    detailsSection.classList.remove('collapsed');
+    detailsSection.nextElementSibling.style.display = 'block';
+  }
+</script>
 </body>
 </html>
