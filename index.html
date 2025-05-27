@@ -72,6 +72,13 @@
       letter-spacing: 0.5px;
     }
     
+    #headerSpotsRemaining {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--accent-yellow);
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    
     main {
       flex: 1;
       width: 100%;
@@ -396,6 +403,7 @@
   <img alt="FKZA Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
   <h1>FKZA Duo Cash Cup</h1>
   <div id="countdown">Loading...</div>
+  <div id="headerSpotsRemaining"></div>
 </header>
 
 <main>
@@ -582,7 +590,8 @@
     registeredDuosList: document.getElementById("registeredDuosList"),
     spotsRemaining: document.getElementById("spotsRemaining"),
     registrationSection: document.getElementById("registrationSection"),
-    countdown: document.getElementById("countdown")
+    countdown: document.getElementById("countdown"),
+    headerSpotsRemaining: document.getElementById("headerSpotsRemaining")
   };
 
   // Initialize
@@ -712,6 +721,11 @@
     updateRegisteredDuosList(registrations);
     updateSpotsRemaining(registrations.length);
     checkMaxRegistrations(registrations.length);
+    
+    // Update header spots remaining
+    const remaining = CONFIG.MAX_TEAMS - registrations.length;
+    elements.headerSpotsRemaining.textContent = 
+      `${remaining > 0 ? remaining : 0} of ${CONFIG.MAX_TEAMS} spots left`;
   }
 
   function updateRegisteredDuosList(registrations) {
