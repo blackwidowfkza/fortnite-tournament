@@ -198,13 +198,14 @@
     .grid-2-col {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+      gap: 2rem;
       margin-bottom: 2rem;
     }
     
     @media (max-width: 768px) {
       .grid-2-col {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
     }
     
@@ -602,6 +603,15 @@
       50% { opacity: 0.5; }
     }
     
+    /* Prize pool grid */
+    .prize-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 0 auto;
+      max-width: 500px;
+    }
+    
     /* Responsive adjustments */
     @media (max-width: 768px) {
       main {
@@ -640,6 +650,10 @@
       .countdown-value {
         min-width: 60px;
         padding: 0.5rem;
+      }
+      
+      .prize-grid {
+        grid-template-columns: 1fr;
       }
     }
     
@@ -725,26 +739,18 @@
     <section>
       <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
       <div class="section-content collapsible-content">
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+        <div class="prize-grid">
           <div class="prize-card">
             <div class="prize-place">1st Place</div>
-            <div class="prize-amount">R700</div>
+            <div class="prize-amount">R1000</div>
           </div>
           <div class="prize-card">
             <div class="prize-place">2nd Place</div>
-            <div class="prize-amount">R500</div>
+            <div class="prize-amount">R600</div>
           </div>
           <div class="prize-card">
             <div class="prize-place">3rd Place</div>
-            <div class="prize-amount">R300</div>
-          </div>
-          <div class="prize-card">
-            <div class="prize-place">4th Place</div>
-            <div class="prize-amount">R200</div>
-          </div>
-          <div class="prize-card">
-            <div class="prize-place">5th Place</div>
-            <div class="prize-vbucks">2000 V-Bucks</div>
+            <div class="prize-amount">R400</div>
           </div>
         </div>
       </div>
@@ -916,61 +922,3 @@
 <footer>
   <p>© 2025 FKZA Customs | All Rights Reserved</p>
 </footer>
-
-<script>
-  // Configuration
-  const CONFIG = {
-    SCRIPT_URL: "https://fkza-proxy.onrender.com/register",
-    MAX_TEAMS: 20,
-    TOURNAMENT_DATE: "2025-05-31T17:00:00+02:00" // SAST timezone
-  };
-
-  // DOM elements
-  const elements = {
-    duoForm: document.getElementById("duoForm"),
-    submitButton: document.getElementById("submitButton"),
-    buttonText: document.getElementById("buttonText"),
-    buttonSpinner: document.getElementById("buttonSpinner"),
-    submitStatus: document.getElementById("submitStatus"),
-    successMessage: document.getElementById("successMessage"),
-    registeredDuosList: document.getElementById("registeredDuosList"),
-    spotsRemaining: document.getElementById("spotsRemaining"),
-    registrationSection: document.getElementById("registrationSection"),
-    headerSpotsRemaining: document.getElementById("headerSpotsRemaining"),
-    countdownDays: document.getElementById("countdown-days"),
-    countdownHours: document.getElementById("countdown-hours"),
-    countdownMinutes: document.getElementById("countdown-minutes"),
-    countdownSeconds: document.getElementById("countdown-seconds")
-  };
-
-  // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
-    setupCollapsibles();
-    fetchRegistrations();
-    setupForm();
-    startCountdown();
-  });
-
-  // Countdown timer
-  function startCountdown() {
-    const countdownDate = new Date(CONFIG.TOURNAMENT_DATE).getTime();
-    
-    const countdown = setInterval(function() {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-      
-      if (distance < 0) {
-        clearInterval(countdown);
-        elements.countdownDays.textContent = "00";
-        elements.countdownHours.textContent = "00";
-        elements.countdownMinutes.textContent = "00";
-        elements.countdownSeconds.textContent = "00";
-        return;
-      }
-      
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      
-      elements.countdownDays.textContent = days.toString().padStart(2,
