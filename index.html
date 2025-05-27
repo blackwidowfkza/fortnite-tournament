@@ -4,93 +4,200 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>FKZA Duo Cash Cup</title>
-  <meta content="#1f6feb" name="theme-color"/>
+  <meta content="#6d28d9" name="theme-color"/>
   <meta content="FKZA Duo Cash Cup" property="og:title"/>
   <meta content="Join the FKZA Duo Cash Cup - Register and Compete!" property="og:description"/>
   <meta content="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" property="og:image"/>
   <meta content="summary_large_image" name="twitter:card"/>
   <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0d1117;
-      --bg-secondary: #161b22;
-      --text-primary: #f0f6fc;
-      --text-secondary: #8b949e;
-      --accent-blue: #58a6ff;
-      --accent-green: #238636;
-      --accent-yellow: #f9c846;
-      --accent-red: #f85149;
-      --accent-discord: #7289da;
-      --border-color: #30363d;
-      --border-radius: 8px;
-      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      --transition: all 0.3s ease;
+      --bg-primary: #0f0f13;
+      --bg-secondary: #1a1a24;
+      --bg-card: #252535;
+      --text-primary: #f8f8ff;
+      --text-secondary: #b8b8d0;
+      --accent-purple: #6d28d9;
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --accent-yellow: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-pink: #ec4899;
+      --accent-discord: #5865f2;
+      --border-color: #3a3a4a;
+      --border-radius: 12px;
+      --border-radius-lg: 16px;
+      --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --gradient-purple: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
+      --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      --glow: 0 0 15px rgba(109, 40, 217, 0.5);
     }
     
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
     
     body {
       margin: 0;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Rajdhani', 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(109, 40, 217, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+    }
+    
+    h1, h2, h3 {
+      font-family: 'Oxanium', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
     
     header {
       text-align: center;
-      padding: 2rem 1rem 1rem;
-      background: var(--bg-secondary);
+      padding: 2rem 1rem 1.5rem;
+      background: rgba(15, 15, 19, 0.8);
       border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-purple);
+    }
+    
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    
+    .logo-container::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 50%;
+      background: var(--gradient-purple);
+      z-index: -1;
+      opacity: 0.5;
+      filter: blur(10px);
     }
     
     header img {
-      max-height: 140px;
-      border-radius: var(--border-radius);
+      max-height: 120px;
+      border-radius: 50%;
       margin-bottom: 0.5rem;
-      border: 2px solid var(--accent-blue);
-      box-shadow: var(--box-shadow);
+      border: 3px solid var(--accent-purple);
+      box-shadow: var(--glow);
+      transition: var(--transition);
+    }
+    
+    header img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(109, 40, 217, 0.7);
     }
     
     header h1 {
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-size: clamp(2rem, 6vw, 3rem);
       margin: 0.5rem 0;
-      color: var(--accent-blue);
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to right, #8b5cf6, #3b82f6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
     }
     
-    #countdown {
-      font-size: clamp(1.1rem, 3vw, 1.4rem);
-      color: var(--accent-yellow);
-      margin-top: 0.5rem;
-      font-weight: bold;
-      letter-spacing: 0.5px;
+    .header-subtext {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .countdown-value {
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--accent-purple);
+      font-family: 'Oxanium', sans-serif;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      min-width: 70px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .countdown-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     #headerSpotsRemaining {
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      color: var(--accent-yellow);
-      font-weight: bold;
-      margin-top: 0.5rem;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      font-weight: 600;
+      margin-top: 1.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(109, 40, 217, 0.2);
+      border-radius: 20px;
+      display: inline-block;
+      color: var(--accent-purple);
+      border: 1px solid var(--accent-purple);
     }
     
     main {
       flex: 1;
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto;
+      margin: 2rem auto;
       padding: 0 1.5rem;
     }
     
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
     section {
-      margin: 2rem 0;
-      background: var(--bg-secondary);
-      border-radius: var(--border-radius);
+      background: var(--bg-card);
+      border-radius: var(--border-radius-lg);
       border: 1px solid var(--border-color);
       overflow: hidden;
       box-shadow: var(--box-shadow);
@@ -98,30 +205,29 @@
     }
     
     section:hover {
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
     }
     
     h2 {
       margin: 0;
-      padding: 1rem 1.5rem;
-      background: rgba(88, 166, 255, 0.1);
+      padding: 1.2rem 1.5rem;
+      background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
       color: var(--accent-blue);
-      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
       display: flex;
       align-items: center;
       gap: 0.75rem;
       cursor: pointer;
       transition: var(--transition);
-    }
-    
-    h2:hover {
-      background: rgba(88, 166, 255, 0.2);
+      border-bottom: 1px solid var(--border-color);
     }
     
     h2::before {
       content: "▶";
       font-size: 0.7em;
       transition: transform 0.2s;
+      color: var(--accent-purple);
     }
     
     h2.collapsed::before {
@@ -133,14 +239,14 @@
     }
     
     .button {
-      background: var(--accent-green);
+      background: var(--gradient-purple);
       color: white;
       border: none;
-      padding: 0.8rem 1.8rem;
+      padding: 1rem 2rem;
       border-radius: var(--border-radius);
       cursor: pointer;
       font-size: 1.1rem;
-      font-weight: bold;
+      font-weight: 600;
       transition: var(--transition);
       width: 100%;
       margin-top: 1rem;
@@ -148,13 +254,36 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 15px rgba(109, 40, 217, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Oxanium', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0.1) 100%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
     }
     
     .button:hover {
-      background: #2ea043;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.6);
+    }
+    
+    .button:hover::after {
+      transform: translateX(100%);
     }
     
     .button:active {
@@ -162,39 +291,49 @@
     }
     
     .button:disabled {
-      background: #484f58;
+      background: var(--bg-secondary);
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
+      color: var(--text-secondary);
     }
     
     input {
       width: 100%;
-      padding: 0.8rem 1rem;
+      padding: 1rem;
       margin-bottom: 1rem;
       border-radius: var(--border-radius);
       border: 1px solid var(--border-color);
-      background: var(--bg-primary);
+      background: var(--bg-secondary);
       color: var(--text-primary);
       font-size: 1rem;
       transition: var(--transition);
+      font-family: 'Rajdhani', sans-serif;
     }
     
     input:focus {
       outline: none;
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.3);
+    }
+    
+    input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.7;
     }
     
     label {
       display: block;
       margin-bottom: 0.5rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--accent-blue);
+      font-size: 1rem;
     }
     
     .registered-teams {
       width: 100%;
       overflow-x: auto;
+      border-radius: var(--border-radius);
     }
     
     .max-registered {
@@ -202,7 +341,7 @@
       font-weight: bold;
       text-align: center;
       padding: 1.5rem;
-      background: rgba(248, 81, 73, 0.1);
+      background: rgba(239, 68, 68, 0.1);
       border-radius: var(--border-radius);
       border: 1px solid var(--accent-red);
       margin-top: 1rem;
@@ -214,31 +353,33 @@
       margin-top: 1rem;
       text-align: center;
       font-size: 1.1rem;
-      padding: 0.5rem;
-      background: rgba(249, 200, 70, 0.1);
+      padding: 0.8rem;
+      background: rgba(245, 158, 11, 0.1);
       border-radius: var(--border-radius);
       border: 1px solid var(--accent-yellow);
     }
     
     #submitStatus {
       margin-top: 1rem;
-      padding: 0.8rem;
+      padding: 1rem;
       border-radius: var(--border-radius);
       text-align: center;
-      background-color: rgba(248, 81, 73, 0.1);
+      background-color: rgba(239, 68, 68, 0.1);
       border: 1px solid var(--accent-red);
       color: var(--accent-red);
       display: none;
+      font-weight: 600;
     }
     
     .success-message {
-      background-color: rgba(40, 167, 69, 0.1);
+      background-color: rgba(16, 185, 129, 0.1);
       border: 1px solid var(--accent-green);
       color: var(--accent-green);
       padding: 1rem;
       border-radius: var(--border-radius);
       margin-top: 1rem;
       display: none;
+      font-weight: 600;
     }
     
     table {
@@ -249,18 +390,22 @@
       margin: 1rem 0;
       border-radius: var(--border-radius);
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
     }
     
     th {
-      background: rgba(88, 166, 255, 0.1);
+      background: linear-gradient(90deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
       color: var(--accent-blue);
-      font-weight: 600;
+      font-weight: 700;
       text-align: left;
+      font-family: 'Oxanium', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.9rem;
     }
     
     th, td {
-      padding: 0.8rem 1rem;
+      padding: 1rem;
       border-bottom: 1px solid var(--border-color);
     }
     
@@ -269,7 +414,7 @@
     }
     
     tr:hover {
-      background: rgba(88, 166, 255, 0.05);
+      background: rgba(59, 130, 246, 0.05);
     }
     
     footer {
@@ -279,6 +424,7 @@
       color: var(--text-secondary);
       margin-top: 3rem;
       border-top: 1px solid var(--border-color);
+      font-size: 0.9rem;
     }
     
     .spinner {
@@ -302,42 +448,57 @@
       display: flex;
       align-items: flex-start;
       gap: 1rem;
-      padding: 0.8rem;
-      background: rgba(88, 166, 255, 0.05);
+      padding: 1rem;
+      background: rgba(59, 130, 246, 0.05);
       border-radius: var(--border-radius);
       border-left: 3px solid var(--accent-blue);
+      transition: var(--transition);
+    }
+    
+    .step:hover {
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateX(5px);
     }
     
     .step-number {
-      background: var(--accent-blue);
+      background: var(--gradient-blue);
       color: white;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
       flex-shrink: 0;
+      font-family: 'Oxanium', sans-serif;
     }
     
     .step-content {
       flex: 1;
     }
     
+    .step-content strong {
+      color: var(--accent-blue);
+    }
+    
     .step-content code {
-      background: rgba(88, 166, 255, 0.2);
+      background: rgba(59, 130, 246, 0.2);
       color: var(--accent-blue);
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
       font-family: monospace;
+      font-size: 0.9rem;
     }
     
     .discord-link {
       color: var(--accent-discord);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
     }
     
     .discord-link:hover {
@@ -345,8 +506,87 @@
       text-decoration: underline;
     }
     
+    .prize-card {
+      background: var(--bg-secondary);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    
+    .prize-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow);
+    }
+    
+    .prize-place {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent-yellow);
+      margin-bottom: 0.5rem;
+      font-family: 'Oxanium', sans-serif;
+    }
+    
+    .prize-amount {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 0.5rem;
+    }
+    
+    .prize-vbucks {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #00a2ff;
+      margin-bottom: 0.5rem;
+    }
+    
+    .rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px dashed var(--border-color);
+    }
+    
+    .rule-item::before {
+      content: "✖";
+      color: var(--accent-red);
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .admin-card {
+      background: var(--bg-secondary);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+    }
+    
+    .admin-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border-color: var(--accent-blue);
+    }
+    
+    .admin-name {
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-top: 0.5rem;
+      font-family: 'Oxanium', sans-serif;
+    }
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
     
     /* Responsive adjustments */
@@ -355,8 +595,12 @@
         padding: 0 1rem;
       }
       
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
       section {
-        margin: 1.5rem 0;
+        margin: 1rem 0;
       }
       
       .section-content {
@@ -364,7 +608,7 @@
       }
       
       th, td {
-        padding: 0.6rem;
+        padding: 0.8rem;
         font-size: 0.9rem;
       }
       
@@ -375,16 +619,25 @@
       header img {
         max-height: 100px;
       }
+      
+      .countdown-container {
+        gap: 1rem;
+      }
+      
+      .countdown-value {
+        min-width: 60px;
+        padding: 0.5rem;
+      }
     }
     
     @media (max-width: 480px) {
       h2 {
-        padding: 0.8rem 1rem;
+        padding: 1rem;
         font-size: 1.2rem;
       }
       
       input, .button {
-        padding: 0.7rem;
+        padding: 0.9rem;
       }
       
       .button {
@@ -395,39 +648,104 @@
         flex-direction: column;
         gap: 0.5rem;
       }
+      
+      .countdown-container {
+        gap: 0.5rem;
+      }
+      
+      .countdown-value {
+        min-width: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .countdown-label {
+        font-size: 0.7rem;
+      }
     }
   </style>
 </head>
 <body>
 <header>
-  <img alt="FKZA Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
-  <h1>FKZA Duo Cash Cup</h1>
-  <div id="countdown">Loading...</div>
-  <div id="headerSpotsRemaining"></div>
+  <div class="logo-container">
+    <img alt="FKZA Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
+  </div>
+  <h1>FKZA DUO CASH CUP</h1>
+  <div class="header-subtext">Fortnite Tournament • Zero Build • €200 Prize Pool</div>
+  
+  <div class="countdown-container">
+    <div class="countdown-item">
+      <div id="countdown-days" class="countdown-value">00</div>
+      <div class="countdown-label">Days</div>
+    </div>
+    <div class="countdown-item">
+      <div id="countdown-hours" class="countdown-value">00</div>
+      <div class="countdown-label">Hours</div>
+    </div>
+    <div class="countdown-item">
+      <div id="countdown-minutes" class="countdown-value">00</div>
+      <div class="countdown-label">Minutes</div>
+    </div>
+    <div class="countdown-item">
+      <div id="countdown-seconds" class="countdown-value">00</div>
+      <div class="countdown-label">Seconds</div>
+    </div>
+  </div>
+  
+  <div id="headerSpotsRemaining">Loading spots...</div>
 </header>
 
 <main>
-  <section>
-    <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
-    <div class="section-content collapsible-content">
-      <ul>
-        <li><strong>Date & Time:</strong> 31st May 2025, 7PM SAST</li>
-        <li><strong>Format:</strong> Duos (20 teams max)</li>
-        <li><strong>Game Mode:</strong> Reload Zero Builds</li>
-        <li><strong>Server:</strong> Europe (EU)</li>
-        <li><strong>Duration:</strong> 3 hours (6 matches)</li>
-      </ul>
-    </div>
-  </section>
+  <div class="grid">
+    <section>
+      <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
+      <div class="section-content collapsible-content">
+        <ul style="list-style-type: none;">
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--accent-blue);">📅 Date & Time:</strong> 31st May 2025, 7PM SAST</li>
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--accent-blue);">👥 Format:</strong> Duos (20 teams max)</li>
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--accent-blue);">🎮 Game Mode:</strong> Reload Zero Builds</li>
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--accent-blue);">🌍 Server:</strong> Europe (EU)</li>
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--accent-blue);">⏱️ Duration:</strong> 3 hours (6 matches)</li>
+        </ul>
+      </div>
+    </section>
 
     <section>
+      <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
+      <div class="section-content collapsible-content">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+          <div class="prize-card">
+            <div class="prize-place">1st Place</div>
+            <div class="prize-amount">R700</div>
+          </div>
+          <div class="prize-card">
+            <div class="prize-place">2nd Place</div>
+            <div class="prize-amount">R500</div>
+          </div>
+          <div class="prize-card">
+            <div class="prize-place">3rd Place</div>
+            <div class="prize-amount">R300</div>
+          </div>
+          <div class="prize-card">
+            <div class="prize-place">4th Place</div>
+            <div class="prize-amount">R200</div>
+          </div>
+          <div class="prize-card" style="grid-column: span 2;">
+            <div class="prize-place">5th Place</div>
+            <div class="prize-vbucks">2000 V-Bucks</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section>
     <h2 class="collapsible-toggle"><span>📥 Complete Your Registration</span></h2>
     <div class="section-content collapsible-content">
       <div class="registration-steps">
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
-            <strong>Register your team in the below section</strong> - Fill in both players' Discord usernames
+            <strong>Register your team below</strong> - Fill in both players' Discord usernames
           </div>
         </div>
         <div class="step">
@@ -445,11 +763,13 @@
         <div class="step">
           <div class="step-number">4</div>
           <div class="step-content">
-            Both players must complete verification to confirm your spot in the tournament
+            Both players must complete verification to confirm your spot
           </div>
         </div>
       </div>
-      <p style="margin-top: 1rem; color: var(--accent-yellow);"><strong>Note:</strong> Your registration is only complete after both players verify in Discord.</p>
+      <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(109, 40, 217, 0.1); border-radius: var(--border-radius); border-left: 3px solid var(--accent-purple);">
+        <strong style="color: var(--accent-yellow);">⚠️ Note:</strong> Your registration is only complete after both players verify in Discord.
+      </p>
     </div>
   </section>
 
@@ -458,13 +778,13 @@
     <div class="section-content collapsible-content" id="registrationSection">
       <form id="duoForm">
         <label>Your Discord Username:</label>
-        <input id="player" placeholder="e.g. Player123" required type="text"/>
+        <input id="player" placeholder="e.g. Player123#0000" required type="text"/>
         
         <label>Your Duo Partner's Discord Username:</label>
-        <input id="duo" placeholder="e.g. DuoPartner456" required type="text"/>
+        <input id="duo" placeholder="e.g. DuoPartner456#0000" required type="text"/>
         
         <button class="button" type="submit" id="submitButton">
-          <span id="buttonText">Register Your Team</span>
+          <span id="buttonText">REGISTER TEAM</span>
           <span id="buttonSpinner" class="spinner"></span>
         </button>
       </form>
@@ -494,81 +814,94 @@
     </div>
   </section>
 
-  <section>
-    <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
-    <div class="section-content collapsible-content">
-      <table>
-        <thead>
-          <tr><th>Placement</th><th>Prize</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1st Place</td><td>R700</td></tr>
-          <tr><td>2nd Place</td><td>R500</td></tr>
-          <tr><td>3rd Place</td><td>R300</td></tr>
-          <tr><td>4th Place</td><td>R200</td></tr>
-          <tr><td>5th Place</td><td>2000 V-Bucks</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <div class="grid">
+    <section>
+      <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
+      <div class="section-content collapsible-content">
+        <table>
+          <thead>
+            <tr><th>Placement</th><th>Points</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1st</td><td>20</td></tr>
+            <tr><td>2nd</td><td>17</td></tr>
+            <tr><td>3rd</td><td>15</td></tr>
+            <tr><td>4th</td><td>13</td></tr>
+            <tr><td>5th-10th</td><td>9</td></tr>
+            <tr><td>11th-15th</td><td>5</td></tr>
+            <tr><td>16th-20th</td><td>2</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:1.5rem; text-align: center; font-weight: 600; color: var(--accent-blue);">
+          +1 point per elimination
+        </p>
+      </div>
+    </section>
 
-  <section>
-    <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
-    <div class="section-content collapsible-content">
-      <table>
-        <thead>
-          <tr><th>Placement</th><th>Points</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1st</td><td>20</td></tr>
-          <tr><td>2nd</td><td>17</td></tr>
-          <tr><td>3rd</td><td>15</td></tr>
-          <tr><td>4th</td><td>13</td></tr>
-          <tr><td>5th-10th</td><td>9</td></tr>
-          <tr><td>11th-15th</td><td>5</td></tr>
-          <tr><td>16th-20th</td><td>2</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:1rem;"><strong>+1 point per elimination</strong></p>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
-    <div class="section-content collapsible-content">
-      <ul>
-        <li>No teaming with other duos</li>
-        <li>No exploits or glitches</li>
-        <li>Must use your own account</li>
-        <li>Decisions by admins are final</li>
-        <li>Both players must verify in Discord to complete registration</li>
-        <li><strong>Failure to follow Yunite instructions or tournament rules will result in disqualification</strong></li>
-      </ul>
-    </div>
-  </section>
+    <section>
+      <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
+      <div class="section-content collapsible-content">
+        <div class="rule-item">No teaming with other duos</div>
+        <div class="rule-item">No exploits or glitches</div>
+        <div class="rule-item">Must use your own account</div>
+        <div class="rule-item">Decisions by admins are final</div>
+        <div class="rule-item">Both players must verify in Discord</div>
+        <div class="rule-item" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0;">
+          <strong>Failure to follow Yunite instructions will result in disqualification</strong>
+        </div>
+      </div>
+    </section>
+  </div>
 
   <section>
     <h2 class="collapsible-toggle"><span>📢 Admin Support & Yunite Points</span></h2>
     <div class="section-content collapsible-content">
-      <p><strong>Points are tracked using the <a href="https://yunite.xyz" target="_blank" class="discord-link">Yunite bot</a>.</strong></p>
-      <ul>
-        <li>Both players must add Yunite as a friend on Fortnite.</li>
-        <li>Yunite will join your lobby automatically.</li>
-        <li><strong>Make Yunite the party leader</strong> once it joins.</li>
-        <li>After assigning leadership, Yunite will leave and record your match.</li>
-      </ul>
-      <p>If you need help, contact an admin on Discord:</p>
-      <ul>
-        <li><strong>Shameless_FKZA</strong></li>
-        <li><strong>Austin021_FKZA</strong></li>
-        <li><strong>FKZA_BlackWidow</strong></li>
-      </ul>
+      <p style="margin-bottom: 1.5rem;"><strong style="color: var(--accent-blue);">Points are tracked using the <a href="https://yunite.xyz" target="_blank" class="discord-link">Yunite bot</a>:</strong></p>
+      <div class="registration-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            Both players must add Yunite as a friend on Fortnite
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            Yunite will join your lobby automatically
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <strong>Make Yunite the party leader</strong> once it joins
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            After assigning leadership, Yunite will leave and record your match
+          </div>
+        </div>
+      </div>
+      
+      <p style="margin: 1.5rem 0 1rem; font-weight: 600; color: var(--accent-blue);">Need help? Contact an admin on Discord:</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+        <div class="admin-card">
+          <div class="admin-name">Shameless_FKZA</div>
+        </div>
+        <div class="admin-card">
+          <div class="admin-name">Austin021_FKZA</div>
+        </div>
+        <div class="admin-card">
+          <div class="admin-name">FKZA_BlackWidow</div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <p>FKZA Customs © 2025</p>
+  <p>© 2025 FKZA Customs | All Rights Reserved</p>
 </footer>
 
 <script>
@@ -590,8 +923,11 @@
     registeredDuosList: document.getElementById("registeredDuosList"),
     spotsRemaining: document.getElementById("spotsRemaining"),
     registrationSection: document.getElementById("registrationSection"),
-    countdown: document.getElementById("countdown"),
-    headerSpotsRemaining: document.getElementById("headerSpotsRemaining")
+    headerSpotsRemaining: document.getElementById("headerSpotsRemaining"),
+    countdownDays: document.getElementById("countdown-days"),
+    countdownHours: document.getElementById("countdown-hours"),
+    countdownMinutes: document.getElementById("countdown-minutes"),
+    countdownSeconds: document.getElementById("countdown-seconds")
   };
 
   // Initialize
@@ -614,7 +950,10 @@
     const diff = eventDate - now;
 
     if (diff <= 0) {
-      elements.countdown.textContent = "The tournament is live!";
+      elements.countdownDays.textContent = "00";
+      elements.countdownHours.textContent = "00";
+      elements.countdownMinutes.textContent = "00";
+      elements.countdownSeconds.textContent = "00";
       return;
     }
 
@@ -623,7 +962,10 @@
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
-    elements.countdown.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    elements.countdownDays.textContent = days.toString().padStart(2, '0');
+    elements.countdownHours.textContent = hours.toString().padStart(2, '0');
+    elements.countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+    elements.countdownSeconds.textContent = seconds.toString().padStart(2, '0');
   }
 
   // Form handling
@@ -632,214 +974,4 @@
       e.preventDefault();
       
       const player = document.getElementById("player").value.trim();
-      const duo = document.getElementById("duo").value.trim();
-
-      if (!validateInput(player, duo)) return;
-
-      setLoadingState(true);
-      clearMessages();
-
-      try {
-        const response = await submitRegistration(player, duo);
-        
-        if (response.success) {
-          showSuccess(`✅ Success! Your team is registered as Team ${response.teamId}. Now complete verification in Discord.`);
-          elements.duoForm.reset();
-          await fetchRegistrations();
-        } else {
-          throw new Error(response.message || "Registration failed");
-        }
-      } catch (error) {
-        showError(getUserFriendlyError(error));
-        console.error("Registration error:", error);
-      } finally {
-        setLoadingState(false);
-      }
-    });
-  }
-
-  async function submitRegistration(player, duo) {
-    try {
-      const response = await fetch(CONFIG.SCRIPT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ player, duo })
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        // ✅ Notify Discord securely via proxy
-        await fetch("https://fkza-proxy.onrender.com/notify", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ player, duo })
-        });
-
-        return result;
-      } else {
-        throw new Error(result.message || "Registration failed");
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  // Team data fetching
-  async function fetchRegistrations() {
-    try {
-      const response = await fetch(`${CONFIG.SCRIPT_URL}?action=get`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-
-      const { registrations, error } = await response.json();
-      if (error) throw new Error(error);
-
-      updateUI(registrations || []);
-    } catch (error) {
-      console.error("Failed to fetch registered teams:", error);
-      elements.registeredDuosList.innerHTML = `
-        <tr><td colspan="4" style="color:var(--accent-red)">
-          Error loading teams: ${getUserFriendlyError(error)}
-        </td></tr>
-      `;
-    }
-  }
-
-  function updateUI(registrations) {
-    updateRegisteredDuosList(registrations);
-    updateSpotsRemaining(registrations.length);
-    checkMaxRegistrations(registrations.length);
-    
-    // Update header spots remaining
-    const remaining = CONFIG.MAX_TEAMS - registrations.length;
-    elements.headerSpotsRemaining.textContent = 
-      `${remaining > 0 ? remaining : 0} of ${CONFIG.MAX_TEAMS} spots left`;
-  }
-
-  function updateRegisteredDuosList(registrations) {
-    if (!registrations || registrations.length === 0) {
-      elements.registeredDuosList.innerHTML = '<tr><td colspan="4">No teams registered yet</td></tr>';
-      return;
-    }
-    
-    elements.registeredDuosList.innerHTML = registrations
-      .slice(0, CONFIG.MAX_TEAMS)
-      .map(team => `
-        <tr>
-          <td>${team.id}</td>
-          <td>${team.player}</td>
-          <td>${team.duo}</td>
-        </tr>
-      `).join('');
-  }
-
-  function updateSpotsRemaining(count) {
-    const remaining = CONFIG.MAX_TEAMS - count;
-    elements.spotsRemaining.innerHTML = `
-      Spots remaining: <strong>${remaining > 0 ? remaining : 0}</strong>/${CONFIG.MAX_TEAMS}
-      ${remaining <= 0 ? ' (Tournament full)' : ''}
-    `;
-  }
-
-  function checkMaxRegistrations(count) {
-    if (count >= CONFIG.MAX_TEAMS) {
-      elements.registrationSection.innerHTML = `
-        <div class="max-registered">
-          <p>🚨 Tournament registrations are now closed!</p>
-          <p>Maximum of ${CONFIG.MAX_TEAMS} teams has been reached.</p>
-        </div>
-      `;
-    }
-  }
-
-  // UI helpers
-  function setLoadingState(isLoading) {
-    elements.submitButton.disabled = isLoading;
-    elements.buttonText.textContent = isLoading ? "Processing..." : "Register Your Team";
-    elements.buttonSpinner.style.display = isLoading ? "inline-block" : "none";
-  }
-
-  function showError(message) {
-    elements.submitStatus.textContent = message;
-    elements.submitStatus.style.display = "block";
-    elements.successMessage.style.display = "none";
-  }
-
-  function showSuccess(message) {
-    elements.successMessage.textContent = message;
-    elements.successMessage.style.display = "block";
-    elements.submitStatus.style.display = "none";
-  }
-
-  function clearMessages() {
-    elements.submitStatus.style.display = "none";
-    elements.successMessage.style.display = "none";
-  }
-
-  function validateInput(player, duo) {
-    if (!player || !duo) {
-      showError("❌ Please fill in both Epic Games usernames");
-      return false;
-    }
-    
-    if (player === duo) {
-      showError("❌ You can't team with yourself");
-      return false;
-    }
-    
-    if (player.length < 3 || duo.length < 3) {
-      showError("❌ Usernames must be at least 3 characters");
-      return false;
-    }
-    
-    return true;
-  }
-
-  function getUserFriendlyError(error) {
-    const msg = error.message || String(error);
-    
-    if (msg.includes("Failed to fetch")) {
-      return "Network blocked. Try:\n1. Disabling ad-blockers\n2. Using Chrome with CORS extension\n3. Incognito mode";
-    }
-    if (msg.includes("timed out")) {
-      return "Server is busy. Please try again later.";
-    }
-    return msg;
-  }
-
-  // Collapsible sections
-  function setupCollapsibles() {
-    document.querySelectorAll('.collapsible-toggle').forEach(h2 => {
-      // Set initial state to collapsed on mobile
-      if (window.innerWidth <= 768) {
-        h2.classList.add('collapsed');
-        h2.nextElementSibling.style.display = 'none';
-      }
-      
-      h2.addEventListener('click', () => {
-        const content = h2.nextElementSibling;
-        content.style.display = content.style.display === 'none' ? 'block' : 'none';
-        h2.classList.toggle('collapsed');
-      });
-    });
-    
-    // Make details section expanded by default
-    const detailsSection = document.querySelector('h2:first-of-type');
-    detailsSection.classList.remove('collapsed');
-    detailsSection.nextElementSibling.style.display = 'block';
-  }
-</script>
-</body>
-</html>
+     
