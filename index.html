@@ -71,6 +71,7 @@
       backdrop-filter: blur(8px);
       position: relative;
       overflow: hidden;
+      margin-bottom: 2rem;
     }
     
     header::before {
@@ -184,21 +185,21 @@
       flex: 1;
       width: 100%;
       max-width: 1200px;
-      margin: 2rem auto;
+      margin: 0 auto 3rem;
       padding: 0 1.5rem;
     }
     
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
+      gap: 2rem;
       margin-bottom: 2rem;
     }
     
     .grid-2-col {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+      gap: 2rem;
       margin-bottom: 2rem;
     }
     
@@ -215,6 +216,7 @@
       overflow: hidden;
       box-shadow: var(--box-shadow);
       transition: var(--transition);
+      margin-bottom: 2rem;
     }
     
     section:hover {
@@ -237,14 +239,14 @@
     }
     
     h2::before {
-      content: "▶";
+      content: "▼";
       font-size: 0.7em;
       transition: transform 0.2s;
       color: var(--accent-purple);
     }
     
     h2.collapsed::before {
-      transform: rotate(90deg);
+      transform: rotate(-90deg);
     }
     
     .section-content {
@@ -551,8 +553,14 @@
     .prize-vbucks {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #00a2ff; /* Specific V-Bucks color */
+      color: #00a2ff;
       margin-bottom: 0.5rem;
+    }
+    
+    .prize-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
     }
     
     .rule-item {
@@ -565,7 +573,7 @@
     }
     
     .rule-item::before {
-      content: "✖"; /* Using an X mark for rules, can be changed */
+      content: "✖";
       color: var(--accent-red);
       font-weight: bold;
       flex-shrink: 0;
@@ -597,7 +605,7 @@
       to { transform: rotate(360deg); }
     }
     
-    @keyframes pulse { /* Added generic pulse animation for potential use */
+    @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
     }
@@ -613,7 +621,7 @@
       }
       
       section {
-        margin: 1rem 0; /* Reduced margin for mobile */
+        margin: 1rem 0;
       }
       
       .section-content {
@@ -638,8 +646,12 @@
       }
       
       .countdown-value {
-        min-width: 60px; /* Adjusted for smaller screens */
-        padding: 0.5rem; /* Adjusted padding */
+        min-width: 60px;
+        padding: 0.5rem;
+      }
+      
+      .prize-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       }
     }
     
@@ -663,7 +675,7 @@
       }
       
       .countdown-container {
-        gap: 0.5rem; /* Further reduce gap for very small screens */
+        gap: 0.5rem;
       }
       
       .countdown-value {
@@ -711,7 +723,7 @@
   <div class="grid">
     <section>
       <h2 class="collapsible-toggle"><span>📅 Tournament Details</span></h2>
-      <div class="section-content collapsible-content">
+      <div class="section-content collapsible-content" style="display: block;">
         <ul style="list-style-type: none; padding-left:0;">
           <li style="margin-bottom: 0.8rem; display: flex; align-items: center;"><strong style="color: var(--accent-blue); min-width: 120px;">📅 Date & Time:</strong> 31st May 2025, 7PM SAST</li>
           <li style="margin-bottom: 0.8rem; display: flex; align-items: center;"><strong style="color: var(--accent-blue); min-width: 120px;">👥 Format:</strong> Duos (20 teams max)</li>
@@ -724,8 +736,8 @@
 
     <section>
       <h2 class="collapsible-toggle"><span>💰 Prize Pool</span></h2>
-      <div class="section-content collapsible-content">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
+      <div class="section-content collapsible-content" style="display: block;">
+        <div class="prize-grid">
           <div class="prize-card">
             <div class="prize-place">1st Place</div>
             <div class="prize-amount">R700</div>
@@ -742,7 +754,7 @@
             <div class="prize-place">4th Place</div>
             <div class="prize-amount">R200</div>
           </div>
-          <div class="prize-card" style="grid-column: span / -1; @media (min-width: 400px) { grid-column: span 1; }">
+          <div class="prize-card">
             <div class="prize-place">5th Place</div>
             <div class="prize-vbucks">2000 V-Bucks</div>
           </div>
@@ -753,7 +765,7 @@
 
   <section>
     <h2 class="collapsible-toggle"><span>📥 Complete Your Registration</span></h2>
-    <div class="section-content collapsible-content">
+    <div class="section-content collapsible-content" style="display: block;">
       <div class="registration-steps">
         <div class="step">
           <div class="step-number">1</div>
@@ -788,7 +800,7 @@
 
   <section>
     <h2 class="collapsible-toggle"><span>📝 Register Your Duo</span></h2>
-    <div class="section-content collapsible-content" id="registrationSection">
+    <div class="section-content collapsible-content" id="registrationSection" style="display: block;">
       <form id="duoForm">
         <label for="player">Your Discord Username:</label>
         <input id="player" placeholder="e.g. Player123#0000" required type="text"/>
@@ -808,7 +820,7 @@
 
   <section>
     <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
-    <div class="section-content collapsible-content">
+    <div class="section-content collapsible-content" style="display: block;">
       <div class="registered-teams">
         <table>
           <thead>
@@ -830,7 +842,7 @@
   <div class="grid-2-col">
     <section>
       <h2 class="collapsible-toggle"><span>🎯 Scoring System</span></h2>
-      <div class="section-content collapsible-content">
+      <div class="section-content collapsible-content" style="display: block;">
         <table>
           <thead>
             <tr><th>Placement</th><th>Points</th></tr>
@@ -853,7 +865,7 @@
 
     <section>
       <h2 class="collapsible-toggle"><span>🚫 Rules</span></h2>
-      <div class="section-content collapsible-content" style="padding-left: 1rem; padding-right: 1rem;">
+      <div class="section-content collapsible-content" style="display: block; padding-left: 1rem; padding-right: 1rem;">
         <div class="rule-item">No teaming with other duos</div>
         <div class="rule-item">No exploits or glitches</div>
         <div class="rule-item">Must use your own account</div>
@@ -868,7 +880,7 @@
 
   <section>
     <h2 class="collapsible-toggle"><span>📢 Admin Support & Yunite Points</span></h2>
-    <div class="section-content collapsible-content">
+    <div class="section-content collapsible-content" style="display: block;">
       <p style="margin-bottom: 1.5rem;"><strong style="color: var(--accent-blue);">Points are tracked using the <a href="https://yunite.xyz" target="_blank" class="discord-link">Yunite bot</a>:</strong></p>
       <div class="registration-steps">
         <div class="step">
@@ -1224,19 +1236,14 @@
         return;
       }
       
-      // Default all sections to collapsed
-      header.classList.add('collapsed');
-      content.style.display = 'none';
-      
+      // Set up click handler for toggling
       header.addEventListener('click', () => {
-        const isCollapsed = header.classList.contains('collapsed');
+        const isCollapsed = content.style.display === 'none';
         
         if (isCollapsed) {
           content.style.display = 'block';
-          header.classList.remove('collapsed');
         } else {
           content.style.display = 'none';
-          header.classList.add('collapsed');
         }
       });
     });
