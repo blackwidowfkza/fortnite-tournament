@@ -164,6 +164,7 @@
       display: inline-block;
       color: var(--accent-purple);
       border: 1px solid var(--accent-purple);
+      transition: var(--transition);
     }
     
     main {
@@ -344,7 +345,16 @@
       background: rgba(239, 68, 68, 0.1);
       border-radius: var(--border-radius);
       border: 1px solid var(--accent-red);
-      margin-top: 1rem;
+      margin: 0;
+    }
+    
+    .max-registered p {
+      margin: 0.5rem 0;
+    }
+    
+    .max-registered p:first-child {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
     }
     
     .spots-remaining {
@@ -1023,9 +1033,10 @@
 
   // Registration form handling
   function setupRegistrationForm() {
-    if (!domElements.duoForm) return;
+    const form = document.getElementById("duoForm");
+    if (!form) return;
     
-    domElements.duoForm.addEventListener("submit", async (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       
       const playerInput = document.getElementById("player");
@@ -1046,7 +1057,7 @@
         
         if (response.success) {
           showSuccessMessage(`✅ Success! Team ${response.teamId} (${player} & ${duo}) registered. Complete Discord verification.`);
-          domElements.duoForm.reset();
+          form.reset();
           await fetchRegisteredTeams();
         } else {
           throw new Error(response.message || "Registration failed. Please try again.");
@@ -1146,7 +1157,7 @@
   }
 
   function updateSpotsRemainingDisplay(registeredCount) {
-    if (!domElements.spotsRemaining) return;
+    if (!domElements.spotsRemaining || !domElements.headerSpotsRemaining) return;
     
     const remainingSpots = tournamentConfig.maxTeams - registeredCount;
     const spotsColor = remainingSpots > 5 ? 'var(--accent-green)' : 
@@ -1157,21 +1168,49 @@
       ${remainingSpots <= 0 ? ' (Tournament Full!)' : ''}
     `;
     
-    if (domElements.headerSpotsRemaining) {
-      domElements.headerSpotsRemaining.textContent = 
-        `${Math.max(0, remainingSpots)} of ${tournamentConfig.maxTeams} spots left`;
-    }
+    domElements.headerSpotsRemaining.textContent = 
+      remainingSpots <= 0 ? 'REGISTRATIONS CLOSED' : 
+      `${Math.max(0, remainingSpots)} of ${tournamentConfig.maxTeams} spots left`;
+    
+    // Update header color based on availability
+    domElements.headerSpotsRemaining.style.color = spotsColor;
+    domElements.headerSpotsRemaining.style.borderColor = spotsColor;
+    domElements.headerSpotsRemaining.style.backgroundColor = 
+      remainingSpots <= 0 ? 'rgba(239, 68, 68, 0.2)' : 'rgba(109, 40, 217, 0.2)';
   }
 
   function checkRegistrationAvailability(registeredCount) {
-    if (registeredCount >= tournamentConfig.maxTeams && domElements.registrationSection) {
-      domElements.registrationSection.innerHTML = `
+    const registrationSection = document.getElementById("registrationSection");
+    if (!registrationSection) return;
+
+    if (registeredCount >= tournamentConfig.maxTeams) {
+      registrationSection.innerHTML = `
         <div class="max-registered">
           <p>🚨 Registrations are now CLOSED!</p>
           <p>Maximum of ${tournamentConfig.maxTeams} teams has been reached.</p>
+          <p>Join our <a href="${tournamentConfig.discordServerUrl}" target="_blank" style="color: var(--accent-blue);">Discord</a> for future tournaments!</p>
         </div>
       `;
-      domElements.duoForm = null;
+    } else {
+      // Ensure the form is visible if spots open up (unlikely but possible)
+      registrationSection.innerHTML = `
+        <form id="duoForm">
+          <label for="player">Your Discord Username:</label>
+          <input id="player" placeholder="e.g. Player123#0000" required type="text"/>
+          
+          <label for="duo">Your Duo Partner's Discord Username:</label>
+          <input id="duo" placeholder="e.g. DuoPartner456#0000" required type="text"/>
+          
+          <button class="button" type="submit" id="submitButton">
+            <span id="buttonText">REGISTER TEAM</span>
+            <span id="buttonSpinner" class="spinner"></span>
+          </button>
+        </form>
+        <div id="submitStatus"></div>
+        <div id="successMessage" class="success-message"></div>
+      `;
+      // Re-attach the form event listener
+      setupRegistrationForm();
     }
   }
 
