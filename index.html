@@ -507,12 +507,21 @@
     }
     
     .prize-card {
-      background: var(--bg-secondary);
-      border-radius: var(--border-radius);
-      padding: 1.5rem;
-      text-align: center;
-      border: 1px solid var(--border-color);
-      transition: var(--transition);
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid var(--border-color);
+        transition: var(--transition);
+        font-size: 0.9rem;
+        box-shadow: none;
+    }
+
+    .prize-card .prize-place,
+    .prize-card .prize-amount,
+    .prize-card .prize-vbucks {
+    margin: 0.25rem 0;
+    font-size: 1rem;
     }
     
     .prize-card:hover {
