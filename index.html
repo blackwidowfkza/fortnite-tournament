@@ -1125,34 +1125,53 @@
   }
 
   // Team data management
-  async function fetchRegisteredTeams() {
-    try {
-      // fetch both lists in parallel
-      const [teamRes, verRes] = await Promise.all([
-        fetch(`${tournamentConfig.scriptUrl}?action=get`),
-        fetch('https://fkza-auto-verifier-bot.onrender.com/verified-users')
-      ]);
+async function fetchRegisteredTeams() {
+  try {
+    // 1. Fire off both requests
+    const [teamRes, verRes] = await Promise.all([
+      fetch(`${tournamentConfig.scriptUrl}?action=get`),
+      fetch('https://fkza-auto-verifier-bot.onrender.com/verified-users')
+    ]);
 
-      if (!teamRes.ok) throw new Error(`Teams HTTP ${teamRes.status}`);
-      if (!verRes.ok)  throw new Error(`Verified HTTP ${verRes.status}`);
+    // 2. Log HTTP statuses
+    console.log('Teams endpoint status:', teamRes.status);
+    console.log('Verified-users endpoint status:', verRes.status);
 
-      const { registrations } = await teamRes.json();
-      const verifiedUsers    = await verRes.json(); // expects array of usernames
+    if (!teamRes.ok) throw new Error(`Teams HTTP ${teamRes.status}`);
+    if (!verRes.ok)  throw new Error(`Verified HTTP ${verRes.status}`);
 
-      updateRegisteredTeamsTable(registrations || [], verifiedUsers);
-      updateSpotsRemainingDisplay(registrations.length);
-      checkRegistrationAvailability(registrations.length);
+    // 3. Parse JSON and log payloads
+    const teamJson = await teamRes.json();
+    const verJson  = await verRes.json();
+    console.log('Teams payload:', teamJson);
+    console.log('Verified payload:', verJson);
 
-    } catch (err) {
-      console.error(err);
-      document.getElementById('registeredDuosList').innerHTML = `
-        <tr>
-          <td colspan="4" style="color: var(--accent-red); text-align: center;">
-            Error loading teams or verification data
-          </td>
-        </tr>`;
-    }
+    // 4. Adapt to the shape you actually get back:
+    //    – if teamJson comes back as { registrations: [...] }, keep that
+    //    – if verJson is an object (e.g. { users: [...] }), pick the array
+    const registrations = Array.isArray(teamJson) 
+      ? teamJson 
+      : (teamJson.registrations || []);
+    const verifiedUsers = Array.isArray(verJson) 
+      ? verJson 
+      : (verJson.users || []);
+
+    // 5. Now call your rendering logic
+    updateRegisteredTeamsTable(registrations, verifiedUsers);
+    updateSpotsRemainingDisplay(registrations.length);
+    checkRegistrationAvailability(registrations.length);
+
+  } catch (err) {
+    console.error('Fetch error:', err);
+    document.getElementById('registeredDuosList').innerHTML = `
+      <tr>
+        <td colspan="4" style="color: var(--accent-red); text-align:center;">
+          Error loading teams or verification data
+        </td>
+      </tr>`;
   }
+}
+
 
   function updateTeamListUI(registrations) {
     updateRegisteredTeamsTable(registrations);
