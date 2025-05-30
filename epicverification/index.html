@@ -22,7 +22,7 @@
       --accent-green: #10b981;
       --accent-red: #ef4444;
       --border-color: #3a3a4a;
-      --border-radius: 8px;
+      --border-radius: 12px;
       --transition: all 0.25s ease;
     }
     * {
@@ -72,76 +72,102 @@
       padding: 0 1rem;
     }
 
-    .card {
+    .teams-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 600px) {
+      .teams-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 900px) {
+      .teams-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .team-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      overflow: hidden;
       transition: var(--transition);
+      overflow: hidden;
     }
-    .card:hover {
+    .team-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
-    .card-header {
+    .team-header {
+      background: var(--bg-secondary);
       padding: 0.75rem 1rem;
       border-bottom: 1px solid var(--border-color);
-      background: var(--bg-secondary);
     }
-    .card-header h2 {
+    .team-header h2 {
       font-family: 'Oxanium', sans-serif;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: var(--accent-blue);
     }
-
-    .table-wrapper {
-      overflow-x: auto;
+    .team-body {
+      padding: 1rem;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .field-group {
+      margin-bottom: 0.75rem;
+    }
+    label {
+      display: block;
       font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-secondary);
     }
-    th, td {
-      padding: 0.5rem 0.75rem;
-      border: 1px solid var(--border-color);
-      text-align: left;
+    .input-wrapper {
+      position: relative;
+      width: 100%;
     }
-    thead th {
-      background: var(--bg-secondary);
-      color: var(--accent-purple);
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-    }
-    tr:nth-child(even) {
-      background: var(--bg-secondary);
-    }
-    tr:hover {
-      background: rgba(59,130,246,0.05);
-    }
-
     input.epic-input {
       width: 100%;
-      padding: 0.4rem 0.5rem;
+      padding: 0.5rem 2.5rem 0.5rem 0.75rem;
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       color: var(--text-primary);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       transition: var(--transition);
     }
     input.epic-input:focus {
       outline: none;
       border-color: var(--accent-purple);
-      box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.3);
+      box-shadow: 0 0 0 2px rgba(109,40,217,0.3);
     }
     input.epic-input[readonly] {
       background: #2e2e3a;
       color: var(--text-secondary);
       cursor: default;
       opacity: 0.7;
+    }
+    .save-btn {
+      position: absolute;
+      right: 0.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--accent-green);
+      border: none;
+      color: var(--text-primary);
+      padding: 0.3rem 0.6rem;
+      font-size: 0.85rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .save-btn:disabled {
+      background: var(--border-color);
+      cursor: not-allowed;
+      color: var(--text-secondary);
+    }
+    .save-btn:not(:disabled):hover {
+      background: var(--accent-blue);
     }
 
     #message {
@@ -151,61 +177,26 @@
       min-height: 1.2rem;
       color: var(--accent-green);
     }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
-      table, th, td {
-        font-size: 0.8rem;
-      }
-      .card-header {
-        padding: 0.5rem 0.75rem;
-      }
-      input.epic-input {
-        padding: 0.3rem 0.4rem;
-      }
-    }
   </style>
 </head>
 <body>
   <header>
-    <div><img src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" alt="FKZA Logo"></div>
+    <img src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" alt="FKZA Logo">
     <h1>Epic Verification</h1>
   </header>
 
   <main>
-    <div class="card">
-      <div class="card-header">
-        <h2>Assign Your Epic Tags</h2>
+    <div class="teams-grid" id="teamsContainer">
+      <!-- Team cards will be injected here -->
+      <div style="grid-column: 1 / -1; text-align:center; color: var(--text-secondary);">
+        Loading…
       </div>
-      <div class="table-wrapper">
-        <table id="teamsTable">
-          <thead>
-            <tr>
-              <th style="width: 10%;">ID</th>
-              <th style="width: 20%;">Player</th>
-              <th style="width: 20%;">Duo</th>
-              <th style="width: 25%;">Player Epic</th>
-              <th style="width: 25%;">Duo Epic</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="5" style="text-align:center; color: var(--text-secondary);">
-                Loading…
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div id="message"></div>
     </div>
+    <div id="message"></div>
   </main>
 
   <script>
-    // ─────────────────────────────────────────────────────────────────
-    // Replace this with your live Apps Script Web App URL:
+    // Replace with your actual Apps Script Web App URL:
     // e.g. "https://script.google.com/macros/s/AKfycbx12345abcdef67890_YourDeploymentId/exec"
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCkj2z0aXeB7EfPD-uxLstknxQqmxV_S9b-4WiUDJO3zFjT1NdFYrqWG2k_DJ08L4Zcw/exec";
 
@@ -222,139 +213,161 @@
 
     async function fetchAllTeams() {
       try {
-        const resp = await fetch(SCRIPT_URL + "?action=list");
-        if (!resp.ok) throw new Error("Network error");
-        const data = await resp.json();
-        if (data.error) throw new Error(data.error);
-        return data.data; // array of { teamId, player, duo, epic1, epic2 }
+        const res = await fetch(SCRIPT_URL + "?action=list");
+        if (!res.ok) throw new Error("Network error");
+        const json = await res.json();
+        if (json.error) throw new Error(json.error);
+        return json.data;
       } catch (err) {
         throw new Error("Fetch failed: " + err.message);
       }
     }
 
-    function createRow(r) {
-      const tr = document.createElement("tr");
-      // Team ID
-      const tdId = document.createElement("td");
-      tdId.textContent = r.teamId;
-      tr.appendChild(tdId);
+    function createTeamCard(team) {
+      const { teamId, player, duo, epic1, epic2 } = team;
+      const card = document.createElement("div");
+      card.classList.add("team-card");
 
-      // Player (Discord)
-      const tdPlayer = document.createElement("td");
-      tdPlayer.textContent = r.player;
-      tr.appendChild(tdPlayer);
+      // Header
+      const header = document.createElement("div");
+      header.classList.add("team-header");
+      const h2 = document.createElement("h2");
+      h2.textContent = `Team ${teamId}`;
+      header.appendChild(h2);
+      card.appendChild(header);
 
-      // Duo (Discord)
-      const tdDuo = document.createElement("td");
-      tdDuo.textContent = r.duo;
-      tr.appendChild(tdDuo);
+      // Body
+      const body = document.createElement("div");
+      body.classList.add("team-body");
 
-      // Player Epic
-      const tdEpic1 = document.createElement("td");
-      const inp1 = document.createElement("input");
-      inp1.classList.add("epic-input");
-      inp1.type = "text";
-      inp1.placeholder = "Enter Epic";
-      inp1.value = r.epic1 || "";
-      if (r.epic1) inp1.readOnly = true;
-      tdEpic1.appendChild(inp1);
-      tr.appendChild(tdEpic1);
+      // Player field
+      const playerGroup = document.createElement("div");
+      playerGroup.classList.add("field-group");
+      const label1 = document.createElement("label");
+      label1.textContent = `Player: ${player}`;
+      playerGroup.appendChild(label1);
+      const wrapper1 = document.createElement("div");
+      wrapper1.classList.add("input-wrapper");
+      const input1 = document.createElement("input");
+      input1.classList.add("epic-input");
+      input1.type = "text";
+      input1.placeholder = "Enter Epic";
+      input1.value = epic1 || "";
+      if (epic1) input1.readOnly = true;
+      wrapper1.appendChild(input1);
+      const btn1 = document.createElement("button");
+      btn1.classList.add("save-btn");
+      btn1.textContent = "✔";
+      btn1.disabled = !!epic1;
+      wrapper1.appendChild(btn1);
+      playerGroup.appendChild(wrapper1);
+      body.appendChild(playerGroup);
 
-      // Duo Epic
-      const tdEpic2 = document.createElement("td");
-      const inp2 = document.createElement("input");
-      inp2.classList.add("epic-input");
-      inp2.type = "text";
-      inp2.placeholder = "Enter Epic";
-      inp2.value = r.epic2 || "";
-      if (r.epic2) inp2.readOnly = true;
-      tdEpic2.appendChild(inp2);
-      tr.appendChild(tdEpic2);
+      // Duo field
+      const duoGroup = document.createElement("div");
+      duoGroup.classList.add("field-group");
+      const label2 = document.createElement("label");
+      label2.textContent = `Duo: ${duo}`;
+      duoGroup.appendChild(label2);
+      const wrapper2 = document.createElement("div");
+      wrapper2.classList.add("input-wrapper");
+      const input2 = document.createElement("input");
+      input2.classList.add("epic-input");
+      input2.type = "text";
+      input2.placeholder = "Enter Epic";
+      input2.value = epic2 || "";
+      if (epic2) input2.readOnly = true;
+      wrapper2.appendChild(input2);
+      const btn2 = document.createElement("button");
+      btn2.classList.add("save-btn");
+      btn2.textContent = "✔";
+      btn2.disabled = !!epic2;
+      wrapper2.appendChild(btn2);
+      duoGroup.appendChild(wrapper2);
+      body.appendChild(duoGroup);
 
-      // Auto‐save on blur for Player Epic
-      inp1.addEventListener("blur", async () => {
-        const val = inp1.value.trim();
-        if (!val || inp1.readOnly) return;
-        inp1.readOnly = true;
-        inp1.style.opacity = 0.7;
-        showMessage(`Saving for ${r.player}…`);
+      // Save on button click
+      btn1.addEventListener("click", async () => {
+        const val = input1.value.trim();
+        if (!val) return;
+        input1.readOnly = true;
+        input1.style.opacity = 0.7;
+        btn1.disabled = true;
+        showMessage(`Saving for ${player}…`);
         try {
-          const res = await fetch(SCRIPT_URL, {
+          const r = await fetch(SCRIPT_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ discord: r.player, epic: val })
+            body: JSON.stringify({ discord: player, epic: val })
           });
-          const json = await res.json();
+          const json = await r.json();
           if (!json.success) throw new Error(json.message || "Error");
-          inp1.readOnly = true;
-          showMessage(`Saved for ${r.player}`);
+          showMessage(`Saved for ${player}`);
         } catch (err) {
-          inp1.readOnly = false;
-          inp1.style.opacity = 1;
+          input1.readOnly = false;
+          input1.style.opacity = 1;
+          btn1.disabled = false;
           showMessage(err.message, true);
         }
       });
 
-      // Auto‐save on blur for Duo Epic
-      inp2.addEventListener("blur", async () => {
-        const val = inp2.value.trim();
-        if (!val || inp2.readOnly) return;
-        inp2.readOnly = true;
-        inp2.style.opacity = 0.7;
-        showMessage(`Saving for ${r.duo}…`);
+      btn2.addEventListener("click", async () => {
+        const val = input2.value.trim();
+        if (!val) return;
+        input2.readOnly = true;
+        input2.style.opacity = 0.7;
+        btn2.disabled = true;
+        showMessage(`Saving for ${duo}…`);
         try {
-          const res = await fetch(SCRIPT_URL, {
+          const r = await fetch(SCRIPT_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ discord: r.duo, epic: val })
+            body: JSON.stringify({ discord: duo, epic: val })
           });
-          const json = await res.json();
+          const json = await r.json();
           if (!json.success) throw new Error(json.message || "Error");
-          inp2.readOnly = true;
-          showMessage(`Saved for ${r.duo}`);
+          showMessage(`Saved for ${duo}`);
         } catch (err) {
-          inp2.readOnly = false;
-          inp2.style.opacity = 1;
+          input2.readOnly = false;
+          input2.style.opacity = 1;
+          btn2.disabled = false;
           showMessage(err.message, true);
         }
       });
 
-      return tr;
+      card.appendChild(body);
+      return card;
     }
 
-    async function populateTable() {
-      const tbody = document.querySelector("#teamsTable tbody");
-      tbody.innerHTML = ""; // clear “Loading…”
+    async function populateTeams() {
+      const container = document.getElementById("teamsContainer");
+      container.innerHTML = ""; // Clear "Loading…"
 
       try {
-        const list = await fetchAllTeams();
-        if (!Array.isArray(list) || list.length === 0) {
-          const tr = document.createElement("tr");
-          const td = document.createElement("td");
-          td.colSpan = 5;
-          td.style.textAlign = "center";
-          td.style.color = "var(--text-secondary)";
-          td.textContent = "No registrations found.";
-          tr.appendChild(td);
-          tbody.appendChild(tr);
+        const teams = await fetchAllTeams();
+        if (!teams.length) {
+          const msg = document.createElement("div");
+          msg.style.gridColumn = "1 / -1";
+          msg.style.textAlign = "center";
+          msg.style.color = "var(--text-secondary)";
+          msg.textContent = "No registrations found.";
+          container.appendChild(msg);
           return;
         }
-        list.forEach(r => {
-          tbody.appendChild(createRow(r));
+        teams.forEach(team => {
+          container.appendChild(createTeamCard(team));
         });
       } catch (err) {
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.colSpan = 5;
-        td.style.textAlign = "center";
-        td.style.color = "var(--accent-red)";
-        td.textContent = "Error loading data: " + err.message;
-        tr.appendChild(td);
-        tbody.appendChild(tr);
+        const msg = document.createElement("div");
+        msg.style.gridColumn = "1 / -1";
+        msg.style.textAlign = "center";
+        msg.style.color = "var(--accent-red)";
+        msg.textContent = "Error loading data: " + err.message;
+        container.appendChild(msg);
       }
     }
 
-    window.addEventListener("DOMContentLoaded", populateTable);
+    document.addEventListener("DOMContentLoaded", populateTeams);
   </script>
 </body>
 </html>
