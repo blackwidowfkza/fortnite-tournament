@@ -162,9 +162,7 @@
       transition: var(--transition);
     }
     .save-btn:disabled {
-      background: var(--border-color);
-      cursor: not-allowed;
-      color: var(--text-secondary);
+      display: none;
     }
     .save-btn:not(:disabled):hover {
       background: var(--accent-blue);
@@ -187,7 +185,6 @@
 
   <main>
     <div class="teams-grid" id="teamsContainer">
-      <!-- Team cards will be injected here -->
       <div style="grid-column: 1 / -1; text-align:center; color: var(--text-secondary);">
         Loading…
       </div>
@@ -196,9 +193,9 @@
   </main>
 
   <script>
-    // Replace with your actual Apps Script Web App URL:
-    // e.g. "https://script.google.com/macros/s/AKfycbx12345abcdef67890_YourDeploymentId/exec"
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCkj2z0aXeB7EfPD-uxLstknxQqmxV_S9b-4WiUDJO3zFjT1NdFYrqWG2k_DJ08L4Zcw/exec";
+    // ─────────────────────────────────────────────────────────────────
+    // Replace with your actual Apps Script Web App URL (with /exec):
+    const SCRIPT_URL = "YOUR_DEPLOYED_SCRIPT_URL";
 
     function showMessage(text, isError = false) {
       const msgEl = document.getElementById("message");
@@ -213,13 +210,16 @@
 
     async function fetchAllTeams() {
       try {
-        const res = await fetch(SCRIPT_URL + "?action=list");
-        if (!res.ok) throw new Error("Network error");
+        const res = await fetch(SCRIPT_URL + "?action=list", { mode: "cors" });
+        console.log("GET list response:", res);
+        if (!res.ok) throw new Error(`Network error: ${res.status}`);
         const json = await res.json();
+        console.log("List JSON:", json);
         if (json.error) throw new Error(json.error);
         return json.data;
       } catch (err) {
-        throw new Error("Fetch failed: " + err.message);
+        console.error("fetchAllTeams error:", err);
+        throw new Error("Failed to load teams: " + err.message);
       }
     }
 
@@ -251,9 +251,12 @@
       const input1 = document.createElement("input");
       input1.classList.add("epic-input");
       input1.type = "text";
-      input1.placeholder = "Enter Epic";
+      input1.placeholder = "Enter Epic Name";
       input1.value = epic1 || "";
-      if (epic1) input1.readOnly = true;
+      if (epic1) {
+        input1.readOnly = true;
+        input1.style.opacity = 0.7;
+      }
       wrapper1.appendChild(input1);
       const btn1 = document.createElement("button");
       btn1.classList.add("save-btn");
@@ -274,9 +277,12 @@
       const input2 = document.createElement("input");
       input2.classList.add("epic-input");
       input2.type = "text";
-      input2.placeholder = "Enter Epic";
+      input2.placeholder = "Enter Epic Name";
       input2.value = epic2 || "";
-      if (epic2) input2.readOnly = true;
+      if (epic2) {
+        input2.readOnly = true;
+        input2.style.opacity = 0.7;
+      }
       wrapper2.appendChild(input2);
       const btn2 = document.createElement("button");
       btn2.classList.add("save-btn");
@@ -286,7 +292,7 @@
       duoGroup.appendChild(wrapper2);
       body.appendChild(duoGroup);
 
-      // Save on button click
+      // Player save
       btn1.addEventListener("click", async () => {
         const val = input1.value.trim();
         if (!val) return;
@@ -295,15 +301,22 @@
         btn1.disabled = true;
         showMessage(`Saving for ${player}…`);
         try {
-          const r = await fetch(SCRIPT_URL, {
+          const res = await fetch(SCRIPT_URL, {
             method: "POST",
+            mode: "cors",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ discord: player, epic: val })
           });
-          const json = await r.json();
+          console.log(`POST for ${player}:`, res);
+          const json = await res.json();
+          console.log("POST response:", json);
           if (!json.success) throw new Error(json.message || "Error");
+          // hide the tick & lock input
+          btn1.disabled = true;
+          btn1.style.display = "none";
           showMessage(`Saved for ${player}`);
         } catch (err) {
+          console.error("Error saving player epic:", err);
           input1.readOnly = false;
           input1.style.opacity = 1;
           btn1.disabled = false;
@@ -311,6 +324,7 @@
         }
       });
 
+      // Duo save
       btn2.addEventListener("click", async () => {
         const val = input2.value.trim();
         if (!val) return;
@@ -319,15 +333,21 @@
         btn2.disabled = true;
         showMessage(`Saving for ${duo}…`);
         try {
-          const r = await fetch(SCRIPT_URL, {
+          const res = await fetch(SCRIPT_URL, {
             method: "POST",
+            mode: "cors",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ discord: duo, epic: val })
           });
-          const json = await r.json();
+          console.log(`POST for ${duo}:`, res);
+          const json = await res.json();
+          console.log("POST response:", json);
           if (!json.success) throw new Error(json.message || "Error");
+          btn2.disabled = true;
+          btn2.style.display = "none";
           showMessage(`Saved for ${duo}`);
         } catch (err) {
+          console.error("Error saving duo epic:", err);
           input2.readOnly = false;
           input2.style.opacity = 1;
           btn2.disabled = false;
@@ -341,7 +361,7 @@
 
     async function populateTeams() {
       const container = document.getElementById("teamsContainer");
-      container.innerHTML = ""; // Clear "Loading…"
+      container.innerHTML = ""; // clear “Loading…”
 
       try {
         const teams = await fetchAllTeams();
