@@ -20,255 +20,174 @@
       --accent-purple: #6d28d9;
       --accent-blue: #3b82f6;
       --accent-green: #10b981;
-      --accent-yellow: #f59e0b;
       --accent-red: #ef4444;
-      --accent-pink: #ec4899;
-      --accent-discord: #5865f2;
       --border-color: #3a3a4a;
-      --border-radius: 12px;
-      --border-radius-lg: 16px;
-      --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --gradient-purple: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
-      --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-      --glow: 0 0 15px rgba(109, 40, 217, 0.5);
+      --border-radius: 8px;
+      --transition: all 0.25s ease;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
-      margin: 0;
-      font-family: 'Rajdhani', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Rajdhani', sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
-      line-height: 1.6;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background-image: 
-        radial-gradient(circle at 25% 25%, rgba(109, 40, 217, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+      min-height: 100vh;
     }
-
     header {
       text-align: center;
-      padding: 2rem 1rem 1.5rem;
-      background: rgba(15, 15, 19, 0.8);
+      padding: 1rem 0.5rem;
+      background: rgba(15,15,19,0.9);
       border-bottom: 1px solid var(--border-color);
-      backdrop-filter: blur(8px);
-      position: relative;
-      overflow: hidden;
     }
-
-    .logo-container {
-      display: inline-block;
-      margin-bottom: 0.5rem;
-    }
-
     header img {
-      max-height: 100px;
+      height: 60px;
       border-radius: 50%;
-      border: 3px solid var(--accent-purple);
-      box-shadow: var(--glow);
+      border: 2px solid var(--accent-purple);
+      box-shadow: 0 0 12px rgba(109,40,217,0.5);
       transition: var(--transition);
     }
-
     header img:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(109, 40, 217, 0.7);
+      box-shadow: 0 0 20px rgba(109,40,217,0.7);
     }
-
     header h1 {
-      font-family: 'Oxanium', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      font-size: clamp(2rem, 6vw, 3rem);
+      font-family: 'Oxanium', sans-serif;
+      font-size: 1.8rem;
       margin-top: 0.5rem;
-      background: linear-gradient(to right, #8b5cf6, #3b82f6);
+      background: linear-gradient(90deg, #8b5cf6, #3b82f6);
       -webkit-background-clip: text;
-      background-clip: text;
       color: transparent;
-      text-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
-      margin-bottom: 1rem;
     }
 
     main {
       flex: 1;
       width: 100%;
-      max-width: 1200px;
-      margin: 0 auto 3rem;
-      padding: 0 1.5rem;
+      max-width: 1000px;
+      margin: 1rem auto;
+      padding: 0 1rem;
     }
 
     .card {
       background: var(--bg-card);
-      border-radius: var(--border-radius-lg);
       border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       overflow: hidden;
-      box-shadow: var(--box-shadow);
       transition: var(--transition);
-      margin-bottom: 2rem;
-      padding: 1.5rem;
     }
-
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
-
-    h2 {
-      margin-bottom: 1rem;
-      font-family: 'Oxanium', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      font-weight: 700;
+    .card-header {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+    }
+    .card-header h2 {
+      font-family: 'Oxanium', sans-serif;
+      font-size: 1.3rem;
       color: var(--accent-blue);
-      font-size: clamp(1.5rem, 4vw, 2rem);
     }
 
+    .table-wrapper {
+      overflow-x: auto;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-      margin-top: 1rem;
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    th {
-      background: linear-gradient(90deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
-      color: var(--accent-blue);
-      font-weight: 700;
-      text-align: left;
-      font-family: 'Oxanium', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
       font-size: 0.9rem;
-      padding: 0.75rem;
     }
-
-    td {
-      padding: 0.75rem;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 0.95rem;
+    th, td {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-color);
+      text-align: left;
     }
-
-    tr:last-child td {
-      border-bottom: none;
+    thead th {
+      background: var(--bg-secondary);
+      color: var(--accent-purple);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
     }
-
+    tr:nth-child(even) {
+      background: var(--bg-secondary);
+    }
     tr:hover {
-      background: rgba(59, 130, 246, 0.05);
+      background: rgba(59,130,246,0.05);
     }
 
     input.epic-input {
       width: 100%;
-      padding: 0.6rem;
-      border-radius: var(--border-radius);
-      border: 1px solid var(--border-color);
+      padding: 0.4rem 0.5rem;
       background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
       color: var(--text-primary);
-      font-size: 0.95rem;
-      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
       transition: var(--transition);
     }
-
     input.epic-input:focus {
       outline: none;
       border-color: var(--accent-purple);
-      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.3);
+      box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.3);
     }
-
     input.epic-input[readonly] {
-      opacity: 0.6;
-      cursor: default;
-    }
-
-    .save-btn {
-      background: var(--gradient-purple);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: var(--transition);
-      box-shadow: 0 4px 15px rgba(109, 40, 217, 0.4);
-      margin-left: 0.5rem;
-      font-family: 'Oxanium', sans-serif;
-    }
-
-    .save-btn:disabled {
-      background: var(--bg-secondary);
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
+      background: #2e2e3a;
       color: var(--text-secondary);
-    }
-
-    .save-btn:not(:disabled):hover {
-      background: var(--gradient-blue);
+      cursor: default;
+      opacity: 0.7;
     }
 
     #message {
       text-align: center;
-      margin-top: 1rem;
-      font-size: 1rem;
-      min-height: 1.2em;
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      min-height: 1.2rem;
       color: var(--accent-green);
     }
 
-    @media (max-width: 768px) {
-      th, td {
-        padding: 0.6rem;
-        font-size: 0.85rem;
-      }
-
-      h2 {
+    @media (max-width: 600px) {
+      header h1 {
         font-size: 1.5rem;
       }
-    }
-
-    @media (max-width: 480px) {
-      header img {
-        max-height: 80px;
+      table, th, td {
+        font-size: 0.8rem;
       }
-
-      h2 {
-        font-size: 1.3rem;
+      .card-header {
+        padding: 0.5rem 0.75rem;
       }
-
-      input.epic-input, .save-btn {
-        font-size: 0.85rem;
+      input.epic-input {
+        padding: 0.3rem 0.4rem;
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo-container">
-      <img alt="FKZA Logo" src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png"/>
-    </div>
+    <div><img src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" alt="FKZA Logo"></div>
     <h1>Epic Verification</h1>
   </header>
 
   <main>
     <div class="card">
-      <h2>Assign Your Epic Tag</h2>
-      <div class="table-container">
+      <div class="card-header">
+        <h2>Assign Your Epic Tags</h2>
+      </div>
+      <div class="table-wrapper">
         <table id="teamsTable">
           <thead>
             <tr>
-              <th>Team ID</th>
-              <th>Player</th>
-              <th>Duo</th>
-              <th>Player Epic</th>
-              <th>Duo Epic</th>
+              <th style="width: 10%;">ID</th>
+              <th style="width: 20%;">Player</th>
+              <th style="width: 20%;">Duo</th>
+              <th style="width: 25%;">Player Epic</th>
+              <th style="width: 25%;">Duo Epic</th>
             </tr>
           </thead>
           <tbody>
@@ -285,7 +204,9 @@
   </main>
 
   <script>
-    // Replace with your actual Apps Script Web App URL:
+    // ─────────────────────────────────────────────────────────────────
+    // Replace this with your live Apps Script Web App URL:
+    // e.g. "https://script.google.com/macros/s/AKfycbx12345abcdef67890_YourDeploymentId/exec"
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCkj2z0aXeB7EfPD-uxLstknxQqmxV_S9b-4WiUDJO3zFjT1NdFYrqWG2k_DJ08L4Zcw/exec";
 
     function showMessage(text, isError = false) {
@@ -296,133 +217,118 @@
         if (msgEl.textContent === text) {
           msgEl.textContent = "";
         }
-      }, 4000);
+      }, 3000);
     }
 
     async function fetchAllTeams() {
       try {
-        const response = await fetch(SCRIPT_URL + "?action=list");
-        if (!response.ok) throw new Error("Network response was not OK");
-        const json = await response.json();
-        if (json.error) throw new Error(json.error);
-        return json.data; // Array of { teamId, player, duo, epic1, epic2 }
-      } catch (error) {
-        throw new Error("Failed to fetch team data: " + error.message);
+        const resp = await fetch(SCRIPT_URL + "?action=list");
+        if (!resp.ok) throw new Error("Network error");
+        const data = await resp.json();
+        if (data.error) throw new Error(data.error);
+        return data.data; // array of { teamId, player, duo, epic1, epic2 }
+      } catch (err) {
+        throw new Error("Fetch failed: " + err.message);
       }
     }
 
-    function createTableRow(rowData) {
-      const { teamId, player, duo, epic1, epic2 } = rowData;
+    function createRow(r) {
       const tr = document.createElement("tr");
-
       // Team ID
       const tdId = document.createElement("td");
-      tdId.textContent = teamId;
+      tdId.textContent = r.teamId;
       tr.appendChild(tdId);
 
       // Player (Discord)
       const tdPlayer = document.createElement("td");
-      tdPlayer.textContent = player;
+      tdPlayer.textContent = r.player;
       tr.appendChild(tdPlayer);
 
       // Duo (Discord)
       const tdDuo = document.createElement("td");
-      tdDuo.textContent = duo;
+      tdDuo.textContent = r.duo;
       tr.appendChild(tdDuo);
 
-      // Player Epic column
+      // Player Epic
       const tdEpic1 = document.createElement("td");
-      const input1 = document.createElement("input");
-      input1.classList.add("epic-input");
-      input1.type = "text";
-      input1.placeholder = "Enter Epic Tag";
-      input1.value = epic1 || "";
-      if (epic1 && epic1.trim().length > 0) {
-        input1.readOnly = true;
-      }
-      tdEpic1.appendChild(input1);
-
-      const btn1 = document.createElement("button");
-      btn1.classList.add("save-btn");
-      btn1.textContent = "Save";
-      btn1.disabled = !!(epic1 && epic1.trim().length > 0);
-      btn1.addEventListener("click", async () => {
-        const val = input1.value.trim();
-        if (!val) return;
-        btn1.disabled = true;
-        btn1.textContent = "Saving…";
-        try {
-          const res = await fetch(SCRIPT_URL, {
-            method: "POST",
-            mode: "cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ discord: player, epic: val })
-          });
-          const result = await res.json();
-          if (!result.success) throw new Error(result.message || "Unknown error");
-          input1.readOnly = true;
-          btn1.textContent = "Saved";
-          showMessage(`Saved Epic for ${player}`);
-        } catch (err) {
-          btn1.disabled = false;
-          btn1.textContent = "Save";
-          showMessage(err.message, true);
-        }
-      });
-      tdEpic1.appendChild(btn1);
+      const inp1 = document.createElement("input");
+      inp1.classList.add("epic-input");
+      inp1.type = "text";
+      inp1.placeholder = "Enter Epic";
+      inp1.value = r.epic1 || "";
+      if (r.epic1) inp1.readOnly = true;
+      tdEpic1.appendChild(inp1);
       tr.appendChild(tdEpic1);
 
-      // Duo Epic column
+      // Duo Epic
       const tdEpic2 = document.createElement("td");
-      const input2 = document.createElement("input");
-      input2.classList.add("epic-input");
-      input2.type = "text";
-      input2.placeholder = "Enter Epic Tag";
-      input2.value = epic2 || "";
-      if (epic2 && epic2.trim().length > 0) {
-        input2.readOnly = true;
-      }
-      tdEpic2.appendChild(input2);
+      const inp2 = document.createElement("input");
+      inp2.classList.add("epic-input");
+      inp2.type = "text";
+      inp2.placeholder = "Enter Epic";
+      inp2.value = r.epic2 || "";
+      if (r.epic2) inp2.readOnly = true;
+      tdEpic2.appendChild(inp2);
+      tr.appendChild(tdEpic2);
 
-      const btn2 = document.createElement("button");
-      btn2.classList.add("save-btn");
-      btn2.textContent = "Save";
-      btn2.disabled = !!(epic2 && epic2.trim().length > 0);
-      btn2.addEventListener("click", async () => {
-        const val = input2.value.trim();
-        if (!val) return;
-        btn2.disabled = true;
-        btn2.textContent = "Saving…";
+      // Auto‐save on blur for Player Epic
+      inp1.addEventListener("blur", async () => {
+        const val = inp1.value.trim();
+        if (!val || inp1.readOnly) return;
+        inp1.readOnly = true;
+        inp1.style.opacity = 0.7;
+        showMessage(`Saving for ${r.player}…`);
         try {
           const res = await fetch(SCRIPT_URL, {
             method: "POST",
-            mode: "cors",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ discord: duo, epic: val })
+            body: JSON.stringify({ discord: r.player, epic: val })
           });
-          const result = await res.json();
-          if (!result.success) throw new Error(result.message || "Unknown error");
-          input2.readOnly = true;
-          btn2.textContent = "Saved";
-          showMessage(`Saved Epic for ${duo}`);
+          const json = await res.json();
+          if (!json.success) throw new Error(json.message || "Error");
+          inp1.readOnly = true;
+          showMessage(`Saved for ${r.player}`);
         } catch (err) {
-          btn2.disabled = false;
-          btn2.textContent = "Save";
+          inp1.readOnly = false;
+          inp1.style.opacity = 1;
           showMessage(err.message, true);
         }
       });
-      tdEpic2.appendChild(btn2);
-      tr.appendChild(tdEpic2);
+
+      // Auto‐save on blur for Duo Epic
+      inp2.addEventListener("blur", async () => {
+        const val = inp2.value.trim();
+        if (!val || inp2.readOnly) return;
+        inp2.readOnly = true;
+        inp2.style.opacity = 0.7;
+        showMessage(`Saving for ${r.duo}…`);
+        try {
+          const res = await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ discord: r.duo, epic: val })
+          });
+          const json = await res.json();
+          if (!json.success) throw new Error(json.message || "Error");
+          inp2.readOnly = true;
+          showMessage(`Saved for ${r.duo}`);
+        } catch (err) {
+          inp2.readOnly = false;
+          inp2.style.opacity = 1;
+          showMessage(err.message, true);
+        }
+      });
 
       return tr;
     }
 
     async function populateTable() {
       const tbody = document.querySelector("#teamsTable tbody");
-      tbody.innerHTML = ""; // clear “Loading…” row
+      tbody.innerHTML = ""; // clear “Loading…”
+
       try {
-        const allTeams = await fetchAllTeams();
-        if (!Array.isArray(allTeams) || allTeams.length === 0) {
+        const list = await fetchAllTeams();
+        if (!Array.isArray(list) || list.length === 0) {
           const tr = document.createElement("tr");
           const td = document.createElement("td");
           td.colSpan = 5;
@@ -433,8 +339,8 @@
           tbody.appendChild(tr);
           return;
         }
-        allTeams.forEach(teamData => {
-          tbody.appendChild(createTableRow(teamData));
+        list.forEach(r => {
+          tbody.appendChild(createRow(r));
         });
       } catch (err) {
         const tr = document.createElement("tr");
