@@ -43,10 +43,6 @@
       --gradient-purple: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
       --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
       --glow: 0 0 15px rgba(109, 40, 217, 0.5);
-      --verified-green: rgba(16, 185, 129, 0.2);
-      --not-verified-red: rgba(239, 68, 68, 0.2);
-      --verified-border: 1px solid var(--accent-green);
-      --not-verified-border: 1px solid var(--accent-red);
     }
     
     * {
@@ -437,29 +433,6 @@
     
     tr:hover {
       background: rgba(59, 130, 246, 0.05);
-    }
-    
-    .verified {
-      background-color: var(--verified-green);
-      border-left: var(--verified-border);
-    }
-    
-    .not-verified {
-      background-color: var(--not-verified-red);
-      border-left: var(--not-verified-border);
-    }
-    
-    .verification-status {
-      text-align: center;
-      font-weight: 600;
-    }
-    
-    .verified-icon {
-      color: var(--accent-green);
-    }
-    
-    .not-verified-icon {
-      color: var(--accent-red);
     }
     
     footer {
@@ -895,11 +868,10 @@
               <th>Team ID</th>
               <th>Player 1</th>
               <th>Player 2</th>
-              <th>Verification Status</th>
             </tr>
           </thead>
           <tbody id="registeredDuosList">
-            <tr><td colspan="4">Loading registered teams...</td></tr>
+            <tr><td colspan="3">Loading registered teams...</td></tr>
           </tbody>
         </table>
       </div>
@@ -1002,7 +974,6 @@
   // Tournament configuration
   const tournamentConfig = {
     scriptUrl: "https://fkza-proxy.onrender.com/register",
-    verificationUrl: "https://fkza-auto-verifier-bot.onrender.com/verified-users",
     maxTeams: 20,
     tournamentDate: "2025-05-31T17:00:00+02:00", // SAST timezone
     discordServerUrl: "https://discord.gg/PC5ArHu6"
@@ -1147,73 +1118,56 @@
     }
   }
 
-  // Fetch both lists, then render
-async function fetchRegisteredTeams() {
-  try {
-    const [regRes, verRes] = await Promise.all([
-      fetch(`${tournamentConfig.scriptUrl}?action=get`),
-      fetch('https://fkza-auto-verifier-bot.onrender.com/verified-users')
-    ]);
-    if (!regRes.ok) throw new Error(`Teams HTTP ${regRes.status}`);
-    if (!verRes.ok)  throw new Error(`Verified HTTP ${verRes.status}`);
+  // Team data management
+  async function fetchRegisteredTeams() {
+    try {
+      const response = await fetch(`${tournamentConfig.scriptUrl}?action=get`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      });
 
-    const { registrations } = await regRes.json();
-    const verifiedUsers     = await verRes.json();  // IDs, usernames, display names
+      if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+      
+      const data = await response.json();
+      if (data.error) throw new Error(data.error);
 
-    // build a lowercase Set for fast, case-insensitive lookups
-    const verifiedSet = new Set(verifiedUsers.map(x => x.toLowerCase()));
-
-    updateRegisteredTeamsTable(registrations, verifiedSet);
-    updateSpotsRemainingDisplay(registrations.length);
-    checkRegistrationAvailability(registrations.length);
-  } catch (err) {
-    console.error("Fetch error:", err);
-    document.getElementById('registeredDuosList').innerHTML = `
-      <tr>
-        <td colspan="4" style="color:var(--accent-red); text-align:center;">
-          Error loading teams or verification data
-        </td>
-      </tr>`;
+      updateTeamListUI(data.registrations || []);
+    } catch (error) {
+      console.error("Failed to fetch registered teams:", error);
+      if (domElements.registeredDuosList) {
+        domElements.registeredDuosList.innerHTML = `
+          <tr><td colspan="3" style="color:var(--accent-red); text-align:center;">
+            Error loading teams: ${getUserFriendlyError(error)}
+          </td></tr>
+        `;
+      }
+    }
   }
-}
 
-  function updateTeamListUI(registrations, verifiedUsers) {
-    updateRegisteredTeamsTable(registrations, verifiedUsers);
+  function updateTeamListUI(registrations) {
+    updateRegisteredTeamsTable(registrations);
     updateSpotsRemainingDisplay(registrations.length);
     checkRegistrationAvailability(registrations.length);
   }
 
-  // Render the table, marking verification status
-function updateRegisteredTeamsTable(registrations, verifiedSet) {
-  const tbody = document.getElementById('registeredDuosList');
-  if (!registrations || registrations.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No teams registered yet.</td></tr>';
-    return;
+  function updateRegisteredTeamsTable(registrations) {
+    if (!domElements.registeredDuosList) return;
+    
+    if (!registrations || registrations.length === 0) {
+      domElements.registeredDuosList.innerHTML = '<tr><td colspan="3" style="text-align:center;">No teams registered yet. Be the first!</td></tr>';
+      return;
+    }
+    
+    domElements.registeredDuosList.innerHTML = registrations
+      .slice(0, tournamentConfig.maxTeams)
+      .map(team => `
+        <tr>
+          <td>${team.id || 'N/A'}</td>
+          <td>${team.player || 'N/A'}</td>
+          <td>${team.duo || 'N/A'}</td>
+        </tr>
+      `).join('');
   }
-
-  tbody.innerHTML = registrations.slice(0, tournamentConfig.maxTeams).map(team => {
-    const p1    = team.player.trim();
-    const p2    = team.duo.trim();
-    const id1   = team.playerId?.trim() || ''; // if you ever add IDs
-    const id2   = team.duoId?.trim()    || '';
-    // match username OR ID OR displayName (all lowercased)
-    const ok1 = verifiedSet.has(p1.toLowerCase())
-             || (id1 && verifiedSet.has(id1.toLowerCase()));
-    const ok2 = verifiedSet.has(p2.toLowerCase())
-             || (id2 && verifiedSet.has(id2.toLowerCase()));
-    const allOK  = ok1 && ok2;
-    const status = allOK ? '✔️ Verified' : '❌ Not Verified';
-    const cls    = allOK ? 'verified-yes' : 'verified-no';
-
-    return `
-      <tr>
-        <td>${team.id}</td>
-        <td>${p1}</td>
-        <td>${p2}</td>
-        <td class="verified-cell ${cls}">${status}</td>
-      </tr>`;
-  }).join('');
-}
 
   function updateSpotsRemainingDisplay(registeredCount) {
     if (!domElements.spotsRemaining || !domElements.headerSpotsRemaining) return;
@@ -1222,9 +1176,10 @@ function updateRegisteredTeamsTable(registrations, verifiedSet) {
     const spotsColor = remainingSpots > 5 ? 'var(--accent-green)' : 
                       remainingSpots > 0 ? 'var(--accent-yellow)' : 'var(--accent-red)';
     
-    domElements.spotsRemaining.innerHTML = 
-      `Spots remaining: <strong style="color: ${spotsColor};">${Math.max(0, remainingSpots)}</strong>/${tournamentConfig.maxTeams}
-      ${remainingSpots <= 0 ? ' (Tournament Full!)' : ''}`;
+    domElements.spotsRemaining.innerHTML = `
+      Spots remaining: <strong style="color: ${spotsColor};">${Math.max(0, remainingSpots)}</strong>/${tournamentConfig.maxTeams}
+      ${remainingSpots <= 0 ? ' (Tournament Full!)' : ''}
+    `;
     
     domElements.headerSpotsRemaining.textContent = 
       remainingSpots <= 0 ? 'REGISTRATIONS CLOSED' : 
@@ -1242,16 +1197,17 @@ function updateRegisteredTeamsTable(registrations, verifiedSet) {
     if (!registrationSection) return;
 
     if (registeredCount >= tournamentConfig.maxTeams) {
-      registrationSection.innerHTML = 
-        `<div class="max-registered">
+      registrationSection.innerHTML = `
+        <div class="max-registered">
           <p>🚨 Registrations are now CLOSED!</p>
           <p>Maximum of ${tournamentConfig.maxTeams} teams has been reached.</p>
           <p>Join our <a href="${tournamentConfig.discordServerUrl}" target="_blank" style="color: var(--accent-blue);">Discord</a> for future tournaments!</p>
-        </div>`;
+        </div>
+      `;
     } else {
       // Ensure the form is visible if spots open up (unlikely but possible)
-      registrationSection.innerHTML = 
-        `<form id="duoForm">
+      registrationSection.innerHTML = `
+        <form id="duoForm">
           <label for="player">Your Discord Username:</label>
           <input id="player" placeholder="e.g. Player123#0000" required type="text"/>
           
@@ -1264,7 +1220,8 @@ function updateRegisteredTeamsTable(registrations, verifiedSet) {
           </button>
         </form>
         <div id="submitStatus"></div>
-        <div id="successMessage" class="success-message"></div>`;
+        <div id="successMessage" class="success-message"></div>
+      `;
       // Re-attach the form event listener
       setupRegistrationForm();
     }
