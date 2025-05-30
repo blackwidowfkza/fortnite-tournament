@@ -710,6 +710,42 @@
       .countdown-label {
         font-size: 0.7rem;
       }
+
+      .verified-both {
+  background-color: rgba(16, 185, 129, 0.15); /* green */
+      }
+
+.verified-one {
+  background-color: rgba(245, 158, 11, 0.15); /* yellow */
+}
+
+.verified-none {
+  background-color: rgba(239, 68, 68, 0.15); /* red */
+}
+
+.verification-legend {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.verification-legend div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.verification-legend .color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
     }
   </style>
 </head>
@@ -861,6 +897,36 @@
   <section>
     <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
     <div class="section-content collapsible-content" style="display: block;">
+    <section>
+  <h2 class="collapsible-toggle"><span>🏆 Registered Teams</span></h2>
+  <div class="section-content collapsible-content" style="display: block;">
+
+    <!-- 🔽 Add this legend block here -->
+    <div class="verification-legend">
+      <div><span class="color-box" style="background: rgba(16, 185, 129, 0.8);"></span>Both Verified</div>
+      <div><span class="color-box" style="background: rgba(245, 158, 11, 0.8);"></span>One Verified</div>
+      <div><span class="color-box" style="background: rgba(239, 68, 68, 0.8);"></span>None Verified</div>
+    </div>
+    <!-- 🔼 End legend block -->
+
+    <div class="registered-teams">
+      <table>
+        <thead>
+          <tr>
+            <th>Team ID</th>
+            <th>Player 1</th>
+            <th>Player 2</th>
+          </tr>
+        </thead>
+        <tbody id="registeredDuosList">
+          <tr><td colspan="3">Loading registered teams...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p id="spotsRemaining" class="spots-remaining">Spots remaining: 20/20</p>
+  </div>
+</section>
+
       <div class="registered-teams">
         <table>
           <thead>
@@ -978,6 +1044,58 @@
     tournamentDate: "2025-05-31T17:00:00+02:00", // SAST timezone
     discordServerUrl: "https://discord.gg/PC5ArHu6"
   };
+
+  const VERIFIED_API_URL = "https://your-bot-domain.com/verified-users";
+
+  async function fetchVerifiedUsers() {
+    try {
+      const response = await fetch(VERIFIED_API_URL);
+      if (!response.ok) throw new Error("Failed to fetch verified users");
+      return await response.json();
+    } catch (err) {
+      console.error("Error fetching verified users:", err);
+      return [];
+    }
+  }
+
+  // Modified updateTeamListUI with verification check
+  async function updateTeamListUIWithVerification(registrations) {
+    const verifiedUsernames = await fetchVerifiedUsers();
+    updateVerifiedTeamTable(registrations, verifiedUsernames);
+    updateSpotsRemainingDisplay(registrations.length);
+    checkRegistrationAvailability(registrations.length);
+  }
+
+  function updateVerifiedTeamTable(registrations, verifiedUsernames) {
+    if (!domElements.registeredDuosList) return;
+
+    if (!registrations || registrations.length === 0) {
+      domElements.registeredDuosList.innerHTML = '<tr><td colspan="3" style="text-align:center;">No teams registered yet. Be the first!</td></tr>';
+      return;
+    }
+
+    domElements.registeredDuosList.innerHTML = registrations.map(team => {
+      const player1 = team.player || 'N/A';
+      const player2 = team.duo || 'N/A';
+
+      const p1Verified = verifiedUsernames.includes(player1);
+      const p2Verified = verifiedUsernames.includes(player2);
+
+      let rowClass = '';
+      if (p1Verified && p2Verified) rowClass = 'verified-both';
+      else if (p1Verified || p2Verified) rowClass = 'verified-one';
+      else rowClass = 'verified-none';
+
+      return `
+        <tr class="${rowClass}">
+          <td>${team.id || 'N/A'}</td>
+          <td>${player1}</td>
+          <td>${player2}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
 
   // DOM elements cache
   const domElements = {
