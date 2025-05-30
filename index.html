@@ -1147,38 +1147,30 @@
     }
   }
 
-  // Team data management
+  // Fetch both lists, then render
   async function fetchRegisteredTeams() {
     try {
-      const [registrationsResponse, verifiedUsersResponse] = await Promise.all([
-        fetch(`${tournamentConfig.scriptUrl}?action=get`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        }),
-        fetch(tournamentConfig.verificationUrl, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }
-        })
+      const [regRes, verRes] = await Promise.all([
+        fetch(`${tournamentConfig.scriptUrl}?action=get`),
+        fetch('https://fkza-auto-verifier-bot.onrender.com/verified-users')
       ]);
+      if (!regRes.ok) throw new Error(`Teams HTTP ${regRes.status}`);
+      if (!verRes.ok) throw new Error(`Verified HTTP ${verRes.status}`);
 
-      if (!registrationsResponse.ok) throw new Error(`HTTP error ${registrationsResponse.status}`);
-      if (!verifiedUsersResponse.ok) throw new Error(`HTTP error ${verifiedUsersResponse.status}`);
-      
-      const registrationsData = await registrationsResponse.json();
-      const verifiedUsersData = await verifiedUsersResponse.json();
+      const { registrations } = await regRes.json();
+      const verifiedUsers    = await verRes.json();  // array of strings
 
-      if (registrationsData.error) throw new Error(registrationsData.error);
-      if (verifiedUsersData.error) throw new Error(verifiedUsersData.error);
-
-      updateTeamListUI(registrationsData.registrations || [], verifiedUsersData.users || []);
-    } catch (error) {
-      console.error("Failed to fetch registered teams:", error);
-      if (domElements.registeredDuosList) {
-        domElements.registeredDuosList.innerHTML = 
-          `<tr><td colspan="4" style="color:var(--accent-red); text-align:center;">
-            Error loading teams: ${getUserFriendlyError(error)}
-          </td></tr>`;
-      }
+      updateRegisteredTeamsTable(registrations, verifiedUsers);
+      updateSpotsRemainingDisplay(registrations.length);
+      checkRegistrationAvailability(registrations.length);
+    } catch (err) {
+      console.error("Fetch error:", err);
+      document.getElementById('registeredDuosList').innerHTML = `
+        <tr>
+          <td colspan="4" style="color:var(--accent-red); text-align:center;">
+            Error loading teams or verification data
+          </td>
+        </tr>`;
     }
   }
 
@@ -1188,34 +1180,33 @@
     checkRegistrationAvailability(registrations.length);
   }
 
+  // Render the table, marking verification status
   function updateRegisteredTeamsTable(registrations, verifiedUsers) {
-    if (!domElements.registeredDuosList) return;
-    
+    const tbody = document.getElementById('registeredDuosList');
     if (!registrations || registrations.length === 0) {
-      domElements.registeredDuosList.innerHTML = '<tr><td colspan="4" style="text-align:center;">No teams registered yet. Be the first!</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No teams registered yet.</td></tr>';
       return;
     }
-    
-    domElements.registeredDuosList.innerHTML = registrations
-      .slice(0, tournamentConfig.maxTeams)
+
+    tbody.innerHTML = registrations.slice(0, tournamentConfig.maxTeams)
       .map(team => {
-        const isPlayer1Verified = verifiedUsers.includes(team.player);
-        const isPlayer2Verified = verifiedUsers.includes(team.duo);
-        const isTeamVerified = isPlayer1Verified && isPlayer2Verified;
-        
+        const p1     = team.player.trim();
+        const p2     = team.duo.trim();
+        const ok1    = verifiedUsers.includes(p1);
+        const ok2    = verifiedUsers.includes(p2);
+        const allOK  = ok1 && ok2;
+        const status = allOK ? '✔️ Verified' : '❌ Not Verified';
+        const cls    = allOK ? 'verified-yes' : 'verified-no';
+
         return `
-        <tr>
-          <td>${team.id || 'N/A'}</td>
-          <td class="${isPlayer1Verified ? 'verified' : 'not-verified'}">${team.player || 'N/A'}</td>
-          <td class="${isPlayer2Verified ? 'verified' : 'not-verified'}">${team.duo || 'N/A'}</td>
-          <td class="verification-status">
-            ${isTeamVerified ? 
-              '<span class="verified-icon">✅ Verified</span>' : 
-              '<span class="not-verified-icon">❌ Not Verified</span>'}
-          </td>
-        </tr>
-        `;
-      }).join('');
+          <tr>
+            <td>${team.id}</td>
+            <td>${p1}</td>
+            <td>${p2}</td>
+            <td class="verified-cell ${cls}">${status}</td>
+          </tr>`;
+      })
+      .join('');
   }
 
   function updateSpotsRemainingDisplay(registeredCount) {
