@@ -45,6 +45,11 @@
       --glow: 0 0 15px rgba(109, 40, 217, 0.5);
     }
     
+      /* ─── Verification status cell colors ─── */
+      .verified-cell { text-align: center; font-weight: bold; }
+      .verified-yes  { background-color: rgba(16, 185, 129, 0.2); }  /* light green */
+      .verified-no   { background-color: rgba(239, 68, 68, 0.2); }   /* light red */
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -868,6 +873,7 @@
               <th>Team ID</th>
               <th>Player 1</th>
               <th>Player 2</th>
+              <th>Verified</th>
             </tr>
           </thead>
           <tbody id="registeredDuosList">
@@ -1121,26 +1127,30 @@
   // Team data management
   async function fetchRegisteredTeams() {
     try {
-      const response = await fetch(`${tournamentConfig.scriptUrl}?action=get`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" }
-      });
+      // fetch both lists in parallel
+      const [teamRes, verRes] = await Promise.all([
+        fetch(`${tournamentConfig.scriptUrl}?action=get`),
+        fetch('https://fkza-auto-verifier-bot.onrender.com/verified-users')
+      ]);
 
-      if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-      
-      const data = await response.json();
-      if (data.error) throw new Error(data.error);
+      if (!teamRes.ok) throw new Error(`Teams HTTP ${teamRes.status}`);
+      if (!verRes.ok)  throw new Error(`Verified HTTP ${verRes.status}`);
 
-      updateTeamListUI(data.registrations || []);
-    } catch (error) {
-      console.error("Failed to fetch registered teams:", error);
-      if (domElements.registeredDuosList) {
-        domElements.registeredDuosList.innerHTML = `
-          <tr><td colspan="3" style="color:var(--accent-red); text-align:center;">
-            Error loading teams: ${getUserFriendlyError(error)}
-          </td></tr>
-        `;
-      }
+      const { registrations } = await teamRes.json();
+      const verifiedUsers    = await verRes.json(); // expects array of usernames
+
+      updateRegisteredTeamsTable(registrations || [], verifiedUsers);
+      updateSpotsRemainingDisplay(registrations.length);
+      checkRegistrationAvailability(registrations.length);
+
+    } catch (err) {
+      console.error(err);
+      document.getElementById('registeredDuosList').innerHTML = `
+        <tr>
+          <td colspan="4" style="color: var(--accent-red); text-align: center;">
+            Error loading teams or verification data
+          </td>
+        </tr>`;
     }
   }
 
@@ -1150,24 +1160,31 @@
     checkRegistrationAvailability(registrations.length);
   }
 
-  function updateRegisteredTeamsTable(registrations) {
-    if (!domElements.registeredDuosList) return;
-    
-    if (!registrations || registrations.length === 0) {
-      domElements.registeredDuosList.innerHTML = '<tr><td colspan="3" style="text-align:center;">No teams registered yet. Be the first!</td></tr>';
-      return;
+    function updateRegisteredTeamsTable(registrations, verifiedUsers) {
+      const tbody = document.getElementById('registeredDuosList');
+      if (!registrations.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No teams registered yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = registrations.slice(0, tournamentConfig.maxTeams).map(team => {
+        const p1    = team.player || 'N/A';
+        const p2    = team.duo    || 'N/A';
+        const ok1   = verifiedUsers.includes(p1);
+        const ok2   = verifiedUsers.includes(p2);
+        const allOK = ok1 && ok2;
+        const mark  = allOK ? '✔️' : '❌';
+        const cls   = allOK ? 'verified-yes' : 'verified-no';
+
+        return `
+          <tr>
+            <td>${team.id || 'N/A'}</td>
+            <td>${p1}</td>
+            <td>${p2}</td>
+            <td class="verified-cell ${cls}">${mark}</td>
+          </tr>`;
+      }).join('');
     }
-    
-    domElements.registeredDuosList.innerHTML = registrations
-      .slice(0, tournamentConfig.maxTeams)
-      .map(team => `
-        <tr>
-          <td>${team.id || 'N/A'}</td>
-          <td>${team.player || 'N/A'}</td>
-          <td>${team.duo || 'N/A'}</td>
-        </tr>
-      `).join('');
-  }
 
   function updateSpotsRemainingDisplay(registeredCount) {
     if (!domElements.spotsRemaining || !domElements.headerSpotsRemaining) return;
