@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Epic Verification | FKZA Duo Cash Cup</title>
-  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
-
-  <!-- Google Fonts -->
+  <title>FKZA Duo Cash Cup - Epic Verification</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     :root {
       --bg-primary: #0f0f13;
@@ -21,355 +18,583 @@
       --accent-purple: #6d28d9;
       --accent-blue: #3b82f6;
       --accent-green: #10b981;
+      --accent-yellow: #f59e0b;
       --accent-red: #ef4444;
+      --accent-pink: #ec4899;
       --border-color: #3a3a4a;
       --border-radius: 12px;
-      --transition: all 0.25s ease;
+      --border-radius-lg: 16px;
+      --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --gradient-purple: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
+      --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      --glow: 0 0 15px rgba(109, 40, 217, 0.5);
     }
+    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+    
     body {
-      font-family: 'Rajdhani', sans-serif;
+      margin: 0;
+      font-family: 'Rajdhani', 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(109, 40, 217, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
     }
+    
+    h1, h2, h3 {
+      font-family: 'Oxanium', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    
     header {
       text-align: center;
-      padding: 1rem 0.5rem;
-      background: rgba(15,15,19,0.9);
+      padding: 2rem 1rem;
+      background: rgba(15, 15, 19, 0.8);
       border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(8px);
     }
-    header img {
-      height: 60px;
+    
+    .logo {
+      height: 80px;
+      width: 80px;
       border-radius: 50%;
-      border: 2px solid var(--accent-purple);
-      box-shadow: 0 0 12px rgba(109,40,217,0.5);
+      object-fit: cover;
+      border: 3px solid var(--accent-purple);
+      box-shadow: var(--glow);
       transition: var(--transition);
     }
-    header img:hover {
+    
+    .logo:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(109,40,217,0.7);
+      box-shadow: 0 0 25px rgba(109, 40, 217, 0.7);
     }
-    header h1 {
-      font-family: 'Oxanium', sans-serif;
-      font-size: 1.8rem;
-      margin-top: 0.5rem;
-      background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+    
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      margin: 0.5rem 0;
+      background: linear-gradient(to right, #8b5cf6, #3b82f6);
       -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
+      text-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
     }
-
-    main {
-      flex: 1;
-      width: 100%;
-      max-width: 1000px;
-      margin: 1rem auto;
-      padding: 0 1rem;
+    
+    .subtitle {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-weight: 500;
     }
-
-    .teams-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    @media (min-width: 600px) {
-      .teams-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (min-width: 900px) {
-      .teams-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .team-card {
+    
+    .card {
       background: var(--bg-card);
+      border-radius: var(--border-radius-lg);
       border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: var(--transition);
       overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      margin-bottom: 2rem;
     }
-    .team-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-    .team-header {
-      background: var(--bg-secondary);
-      padding: 0.75rem 1rem;
+    
+    .card-header {
+      padding: 1.2rem 1.5rem;
+      background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+      color: var(--accent-blue);
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
       border-bottom: 1px solid var(--border-color);
     }
-    .team-header h2 {
-      font-family: 'Oxanium', sans-serif;
-      font-size: 1.2rem;
-      color: var(--accent-blue);
+    
+    .card-body {
+      padding: 1.5rem;
     }
-    .team-body {
+    
+    .team-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-secondary);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .team-table th {
+      background: linear-gradient(90deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+      color: var(--accent-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.9rem;
+      text-align: left;
       padding: 1rem;
     }
-    .field-group {
-      margin-bottom: 0.75rem;
+    
+    .team-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
     }
-    label {
-      display: block;
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
-      color: var(--text-secondary);
+    
+    .team-table tr:last-child td {
+      border-bottom: none;
     }
-    .input-wrapper {
-      position: relative;
+    
+    .team-table tr:hover {
+      background: rgba(59, 130, 246, 0.05);
+    }
+    
+    .discord-name {
+      font-weight: 600;
+      color: var(--accent-blue);
+      white-space: nowrap;
+    }
+    
+    .epic-input {
       width: 100%;
-    }
-    input.epic-input {
-      width: 100%;
-      padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+      padding: 0.8rem;
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       color: var(--text-primary);
-      font-size: 0.95rem;
+      font-family: 'Rajdhani', sans-serif;
       transition: var(--transition);
     }
-    input.epic-input:focus {
+    
+    .epic-input:focus {
       outline: none;
       border-color: var(--accent-purple);
-      box-shadow: 0 0 0 2px rgba(109,40,217,0.3);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.3);
     }
-    input.epic-input[readonly] {
-      background: #2e2e3a;
-      color: var(--text-secondary);
-      cursor: default;
-      opacity: 0.7;
-    }
+    
     .save-btn {
-      position: absolute;
-      right: 0.25rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--accent-green);
+      background: var(--gradient-purple);
+      color: white;
       border: none;
-      color: var(--text-primary);
-      padding: 0.3rem 0.6rem;
-      font-size: 0.85rem;
+      padding: 0.8rem 1.5rem;
       border-radius: var(--border-radius);
       cursor: pointer;
+      font-weight: 600;
       transition: var(--transition);
+      white-space: nowrap;
+      font-family: 'Oxanium', sans-serif;
+      position: relative;
+      overflow: hidden;
     }
+    
+    .save-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0.3) 50%, 
+        rgba(255,255,255,0.1) 100%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+    
+    .save-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.6);
+    }
+    
+    .save-btn:hover::after {
+      transform: translateX(100%);
+    }
+    
     .save-btn:disabled {
-      display: none;
+      background: var(--bg-secondary);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+      color: var(--text-secondary);
     }
-    .save-btn:not(:disabled):hover {
-      background: var(--accent-blue);
-    }
-
-    #message {
+    
+    .status-message {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      border-radius: var(--border-radius);
       text-align: center;
-      margin-top: 0.75rem;
-      font-size: 0.95rem;
-      min-height: 1.2rem;
+    }
+    
+    .success {
+      background-color: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--accent-green);
       color: var(--accent-green);
     }
-    .loading-spinner {
-      border: 3px solid rgba(255,255,255,0.1);
-      border-radius: 50%;
-      border-top: 3px solid var(--accent-blue);
+    
+    .error {
+      background-color: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+    }
+    
+    .loading {
+      display: inline-block;
       width: 20px;
       height: 20px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 8px;
     }
+    
+    .refresh-btn {
+      background: var(--gradient-blue);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      font-family: 'Oxanium', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+    
+    .empty-state img {
+      max-width: 200px;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+    
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .team-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .team-table th, 
+      .team-table td {
+        padding: 0.8rem;
+      }
+      
+      header {
+        padding: 1.5rem 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .team-table td {
+        display: block;
+        width: 100%;
+      }
+      
+      .team-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+      
+      .team-table tr:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+      
+      .status-message {
+        margin-top: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" alt="FKZA Logo">
-    <h1>Epic Verification</h1>
+    <img src="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" alt="FKZA Logo" class="logo">
+    <h1>FKZA DUO CASH CUP</h1>
+    <div class="subtitle">Epic Games Username Verification</div>
   </header>
-
-  <main>
-    <div class="teams-grid" id="teamsContainer">
-      <div class="loading-spinner"></div>
+  
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <div style="display: flex; align-items: center;">
+          <span>Registered Teams</span>
+          <button class="refresh-btn" id="refreshBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+              <path d="M16 16h5v5"></path>
+            </svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="teamsContainer">
+          <div style="display: flex; justify-content: center; padding: 2rem;">
+            <div class="loading"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="message"></div>
-  </main>
+  </div>
 
   <script>
-    // Replace with your actual Apps Script Web App URL
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxuxwOmKKEvRa0IFEKVjZC0ZepyFDlX6OJgNQeOOhbAc4_VmFuZudQVR4I-67OfF-Rk/exec";
-
-    function showMessage(text, isError = false) {
-      const msgEl = document.getElementById("message");
-      msgEl.textContent = text;
-      msgEl.style.color = isError ? "var(--accent-red)" : "var(--accent-green)";
-      setTimeout(() => {
-        if (msgEl.textContent === text) {
-          msgEl.textContent = "";
-        }
-      }, 5000);
-    }
-
-    async function fetchTeams() {
-      const container = document.getElementById("teamsContainer");
-      container.innerHTML = '<div class="loading-spinner"></div>';
-      
+    // Configuration
+    const CONFIG = {
+      WEB_APP_URL: 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL', // Replace with your deployed Apps Script URL
+      SHEET_NAME: 'Registrations', // Your Google Sheet name
+      MAX_EPIC_LENGTH: 16,
+      MIN_EPIC_LENGTH: 3
+    };
+    
+    // DOM Elements
+    const teamsContainer = document.getElementById('teamsContainer');
+    const refreshBtn = document.getElementById('refreshBtn');
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadTeams();
+      refreshBtn.addEventListener('click', loadTeams);
+    });
+    
+    // Load teams from Google Sheets
+    async function loadTeams() {
       try {
-        const response = await fetch(`${SCRIPT_URL}?action=list&t=${Date.now()}`, {
-          redirect: 'follow',
-          headers: { 'Content-Type': 'application/json' }
-        });
+        showLoadingState();
+        
+        const response = await fetch(`${CONFIG.WEB_APP_URL}?action=getTeams&sheet=${CONFIG.SHEET_NAME}`);
         
         if (!response.ok) {
-          throw new Error(`Server returned ${response.status} status`);
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
         
-        if (data.error) {
-          throw new Error(data.error);
+        if (data.success) {
+          renderTeams(data.teams);
+        } else {
+          throw new Error(data.message || 'Failed to load teams');
         }
-        
-        renderTeams(data.registrations || [], data.epics || []);
-        
-      } catch (err) {
-        console.error("Failed to load teams:", err);
-        container.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;color:var(--accent-red)">
-            Error loading teams: ${err.message}<br>
-            <button onclick="fetchTeams()" style="
-              margin-top:10px;
-              padding:5px 15px;
-              background:var(--accent-purple);
-              border:none;
-              border-radius:5px;
-              color:white;
-              cursor:pointer;
-            ">Retry</button>
-          </div>
-        `;
+      } catch (error) {
+        showErrorState(error);
+        console.error('Error loading teams:', error);
       }
     }
-
-    function renderTeams(registrations, epics) {
-      const container = document.getElementById("teamsContainer");
-      
-      if (!Array.isArray(registrations) || registrations.length === 0) {
-        container.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;color:var(--text-secondary)">
-            No teams registered yet
+    
+    // Render teams in the UI
+    function renderTeams(teams) {
+      if (!teams || teams.length === 0) {
+        teamsContainer.innerHTML = `
+          <div class="empty-state fade-in">
+            <img src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png" alt="No teams">
+            <h3>No Teams Registered Yet</h3>
+            <p>There are currently no teams that need verification.</p>
           </div>
         `;
         return;
       }
-
-      container.innerHTML = '';
       
-      registrations.forEach(reg => {
-        const playerEpic = epics.find(e => e.discord === reg.player)?.epic || "";
-        const duoEpic = epics.find(e => e.discord === reg.duo)?.epic || "";
-        
-        const card = document.createElement("div");
-        card.className = "team-card";
-        card.innerHTML = `
-          <div class="team-header">
-            <h2>Team ${reg.id}</h2>
-          </div>
-          <div class="team-body">
-            <div class="field-group">
-              <label>Player: ${reg.player}</label>
-              <div class="input-wrapper">
-                <input
-                  class="epic-input"
-                  type="text"
-                  placeholder="Enter Epic Name"
-                  value="${playerEpic}"
-                  ${playerEpic ? 'readonly style="opacity:0.7"' : ''}
-                >
-                <button class="save-btn" ${playerEpic ? 'disabled' : ''}>✔</button>
-              </div>
-            </div>
-            <div class="field-group">
-              <label>Duo: ${reg.duo}</label>
-              <div class="input-wrapper">
-                <input
-                  class="epic-input"
-                  type="text"
-                  placeholder="Enter Epic Name"
-                  value="${duoEpic}"
-                  ${duoEpic ? 'readonly style="opacity:0.7"' : ''}
-                >
-                <button class="save-btn" ${duoEpic ? 'disabled' : ''}>✔</button>
-              </div>
-            </div>
-          </div>
+      let html = `
+        <table class="team-table">
+          <thead>
+            <tr>
+              <th>Team ID</th>
+              <th>Player 1 (Discord)</th>
+              <th>Player 1 (Epic)</th>
+              <th>Player 2 (Discord)</th>
+              <th>Player 2 (Epic)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      teams.forEach((team, index) => {
+        html += `
+          <tr class="fade-in" style="animation-delay: ${index * 0.05}s">
+            <td>${team.id || index + 1}</td>
+            <td><span class="discord-name">${team.player || 'N/A'}</span></td>
+            <td><input type="text" class="epic-input" id="epic-${team.id}-1" 
+                 placeholder="Enter Epic username" value="${team.player1Epic || ''}"
+                 maxlength="${CONFIG.MAX_EPIC_LENGTH}"></td>
+            <td><span class="discord-name">${team.duo || 'N/A'}</span></td>
+            <td><input type="text" class="epic-input" id="epic-${team.id}-2" 
+                 placeholder="Enter Epic username" value="${team.player2Epic || ''}"
+                 maxlength="${CONFIG.MAX_EPIC_LENGTH}"></td>
+            <td>
+              <button class="save-btn" data-team-id="${team.id}">
+                Save
+              </button>
+              <div class="status-message" id="status-${team.id}"></div>
+            </td>
+          </tr>
         `;
-        
-        // Add save functionality
-        const playerInput = card.querySelector(".field-group:first-child input");
-        const playerBtn = card.querySelector(".field-group:first-child button");
-        const duoInput = card.querySelector(".field-group:last-child input");
-        const duoBtn = card.querySelector(".field-group:last-child button");
-        
-        playerBtn.addEventListener("click", () => saveEpic(reg.player, playerInput, playerBtn));
-        duoBtn.addEventListener("click", () => saveEpic(reg.duo, duoInput, duoBtn));
-        
-        container.appendChild(card);
+      });
+      
+      html += `</tbody></table>`;
+      teamsContainer.innerHTML = html;
+      
+      // Add event listeners to all save buttons
+      document.querySelectorAll('.save-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const teamId = btn.getAttribute('data-team-id');
+          saveEpicNames(teamId);
+        });
       });
     }
-
-    async function saveEpic(discordName, inputEl, btnEl) {
-      const epicTag = inputEl.value.trim();
-      if (!epicTag) return;
-
-      inputEl.readOnly = true;
-      inputEl.style.opacity = 0.7;
-      btnEl.disabled = true;
-      showMessage(`Saving Epic for ${discordName}...`);
-
+    
+    // Save Epic names to Google Sheets
+    async function saveEpicNames(teamId) {
+      const player1Epic = document.getElementById(`epic-${teamId}-1`).value.trim();
+      const player2Epic = document.getElementById(`epic-${teamId}-2`).value.trim();
+      const statusElement = document.getElementById(`status-${teamId}`);
+      const saveBtn = document.querySelector(`button[data-team-id="${teamId}"]`);
+      
+      // Validate inputs
+      if (!player1Epic || !player2Epic) {
+        showStatusMessage(statusElement, 'Please enter Epic names for both players', 'error');
+        return;
+      }
+      
+      if (player1Epic.length < CONFIG.MIN_EPIC_LENGTH || player2Epic.length < CONFIG.MIN_EPIC_LENGTH) {
+        showStatusMessage(statusElement, `Epic names must be at least ${CONFIG.MIN_EPIC_LENGTH} characters`, 'error');
+        return;
+      }
+      
       try {
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ discord: discordName, epic: epicTag })
+        // Show loading state
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = `<span class="loading"></span> Saving...`;
+        showStatusMessage(statusElement, 'Saving your information...', '');
+        
+        // Send data to Google Sheets
+        const response = await fetch(CONFIG.WEB_APP_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'saveEpic',
+            sheet: CONFIG.SHEET_NAME,
+            teamId,
+            player1Epic,
+            player2Epic
+          })
         });
-
-        if (!response.ok) {
-          throw new Error(`Server returned ${response.status} status`);
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          showStatusMessage(statusElement, 'Epic names saved successfully!', 'success');
+          Swal.fire({
+            title: 'Success!',
+            text: 'Your Epic names have been saved successfully.',
+            icon: 'success',
+            confirmButtonColor: '#6d28d9',
+            background: '#252535',
+            color: '#f8f8ff'
+          });
+        } else {
+          throw new Error(data.message || 'Failed to save Epic names');
         }
-
-        const result = await response.json();
-        if (!result.success) {
-          throw new Error(result.message || "Failed to save Epic");
-        }
-
-        btnEl.style.display = "none";
-        showMessage(`Successfully saved Epic for ${discordName}`);
-        setTimeout(fetchTeams, 1500); // Refresh data after saving
-
-      } catch (err) {
-        console.error("Error saving Epic:", err);
-        inputEl.readOnly = false;
-        inputEl.style.opacity = 1;
-        btnEl.disabled = false;
-        showMessage(`Error: ${err.message}`, true);
+      } catch (error) {
+        console.error('Error saving Epic names:', error);
+        showStatusMessage(statusElement, `Error: ${error.message}`, 'error');
+        Swal.fire({
+          title: 'Error!',
+          text: error.message || 'Failed to save Epic names. Please try again.',
+          icon: 'error',
+          confirmButtonColor: '#ef4444',
+          background: '#252535',
+          color: '#f8f8ff'
+        });
+      } finally {
+        // Reset button state
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
       }
     }
-
-    // Initialize on page load
-    document.addEventListener("DOMContentLoaded", fetchTeams);
-
-    // Auto-refresh every 30 seconds
-    setInterval(fetchTeams, 30000);
+    
+    // Helper functions
+    function showLoadingState() {
+      teamsContainer.innerHTML = `
+        <div style="display: flex; justify-content: center; padding: 2rem;">
+          <div class="loading"></div>
+        </div>
+      `;
+      refreshBtn.disabled = true;
+    }
+    
+    function showErrorState(error) {
+      teamsContainer.innerHTML = `
+        <div class="empty-state">
+          <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" alt="Error">
+          <h3>Error Loading Teams</h3>
+          <p>${error.message || 'Failed to load team data. Please try again later.'}</p>
+          <button class="refresh-btn" onclick="location.reload()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+              <path d="M16 16h5v5"></path>
+            </svg>
+            Try Again
+          </button>
+        </div>
+      `;
+    }
+    
+    function showStatusMessage(element, message, type) {
+      element.textContent = message;
+      element.className = 'status-message';
+      if (type) element.classList.add(type);
+    }
   </script>
 </body>
 </html>
