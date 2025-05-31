@@ -4,9 +4,9 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Epic Verification | FKZA Duo Cash Cup</title>
-  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png"/>
+  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
 
-  <!-- Google Fonts (same as before) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"/>
@@ -195,18 +195,17 @@
 
   <script>
     // ─────────────────────────────────────────────────────────────────
-    //  Replace with your exact “/exec” URL from the Apps Script deployment:
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyatlRCwq7u8C1DgXuK14Sg92pY43p2siTikVu6C7aOiArJ2wbnLWCWMeGaOBwuaQen/exec";
+    // Replace this with your exact Apps Script Web App URL (ending in /exec):
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbyatlRCwq7u8C1DgXuK14Sg92pY43p2siTikVu6C7aOiArJ2wbnLWCWMeGaOBwuaQen/exec";
 
     /**
-     * Display a brief success or error message at the bottom of the page.
+     * Displays a brief success or error message at the bottom.
      */
     function showMessage(text, isError = false) {
       const msgEl = document.getElementById("message");
       msgEl.textContent = text;
-      msgEl.style.color = isError 
-        ? "var(--accent-red)" 
-        : "var(--accent-green)";
+      msgEl.style.color = isError ? "var(--accent-red)" : "var(--accent-green)";
       setTimeout(() => {
         if (msgEl.textContent === text) {
           msgEl.textContent = "";
@@ -215,40 +214,41 @@
     }
 
     /**
-     * JSONP callback: receives data from doGet()?action=list&callback=handleList
-     * The JSONP response arrives as: handleList({...});
+     * JSONP callback function. The Apps Script doGet returns:
+     *   handleList({ registrations: […], epics: […] });
      */
     function handleList(response) {
       if (response.error) {
         showMessage("Error loading teams: " + response.error, true);
         return;
       }
-      renderTeams(response.data);
+      renderTeams(response.registrations, response.epics);
     }
 
     /**
-     * Dynamically injects a <script> tag to call the JSONP endpoint.
+     * Dynamically inject a <script> tag to call the JSONP endpoint:
+     *   SCRIPT_URL + "?action=list&callback=handleList"
      */
     function fetchAllTeamsViaJSONP() {
-      // Remove any previously appended JSONP <script>
       const existing = document.getElementById("jsonpScript");
       if (existing) existing.remove();
 
       const script = document.createElement("script");
       script.id = "jsonpScript";
       script.src = `${SCRIPT_URL}?action=list&callback=handleList`;
-      // This will load and execute handleList(...) when the script arrives
       document.body.appendChild(script);
     }
 
     /**
-     * Given an array of team objects, build and display each “card”.
+     * Given arrays of registrations and epics, render each card:
+     *   registrations: [ { id, player, duo }, … ]
+     *   epics:         [ { discord, epic }, … ]
      */
-    function renderTeams(teams) {
+    function renderTeams(registrations, epics) {
       const container = document.getElementById("teamsContainer");
       container.innerHTML = ""; // clear "Loading…"
 
-      if (!Array.isArray(teams) || teams.length === 0) {
+      if (!Array.isArray(registrations) || registrations.length === 0) {
         const msg = document.createElement("div");
         msg.style.gridColumn = "1 / -1";
         msg.style.textAlign = "center";
@@ -258,14 +258,29 @@
         return;
       }
 
-      teams.forEach(team => {
-        const card = createTeamCard(team);
+      registrations.forEach(reg => {
+        // Find any saved epic for player or duo
+        const playerEpicObj = epics.find(e => e.discord === reg.player);
+        const duoEpicObj    = epics.find(e => e.discord === reg.duo);
+        const epic1 = playerEpicObj ? playerEpicObj.epic : "";
+        const epic2 = duoEpicObj    ? duoEpicObj.epic    : "";
+
+        const card = createTeamCard({
+          teamId: reg.id,
+          player: reg.player,
+          duo:    reg.duo,
+          epic1:  epic1,
+          epic2:  epic2
+        });
         container.appendChild(card);
       });
     }
 
     /**
-     * Create a “card” element for a single team.
+     * Create a “card” element for a single team with:
+     *   - Player label + input for epic1
+     *   - Duo label + input for epic2
+     *   Saved epics are read-only and greyed out, ticks are hidden.
      */
     function createTeamCard(team) {
       const { teamId, player, duo, epic1, epic2 } = team;
@@ -410,10 +425,8 @@
       return card;
     }
 
-    // On page load, use JSONP to get the list:
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchAllTeamsViaJSONP();
-    });
+    // Kick off JSONP fetch on page load
+    document.addEventListener("DOMContentLoaded", fetchAllTeamsViaJSONP);
   </script>
 </body>
 </html>
