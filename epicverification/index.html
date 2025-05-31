@@ -387,8 +387,7 @@
   <script>
     // Configuration
     const CONFIG = {
-      WEB_APP_URL: 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL', // Replace with your deployed Apps Script URL
-      SHEET_NAME: 'Registrations', // Your Google Sheet name
+      WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwCkj2z0aXeB7EfPD-uxLstknxQqmxV_S9b-4WiUDJO3zFjT1NdFYrqWG2k_DJ08L4Zcw/exec', // Replace with your deployed Apps Script URL
       MAX_EPIC_LENGTH: 16,
       MIN_EPIC_LENGTH: 3
     };
@@ -408,7 +407,7 @@
       try {
         showLoadingState();
         
-        const response = await fetch(`${CONFIG.WEB_APP_URL}?action=getTeams&sheet=${CONFIG.SHEET_NAME}`);
+        const response = await fetch(`${CONFIG.WEB_APP_URL}?action=getTeams`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -521,7 +520,6 @@
           },
           body: JSON.stringify({
             action: 'saveEpic',
-            sheet: CONFIG.SHEET_NAME,
             teamId,
             player1Epic,
             player2Epic
