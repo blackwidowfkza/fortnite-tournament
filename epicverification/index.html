@@ -227,14 +227,14 @@
       const container = document.getElementById("teamsContainer");
       container.innerHTML = "";
 
-      if (!Array.isArray(registrations) {
-        container.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align:center; color: var(--accent-red);">
-            Error: Invalid data format received
-          </div>
-        `;
-        return;
-      }
+if (!Array.isArray(registrations)) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align:center; color: var(--accent-red);">
+        Error: Invalid data format received
+      </div>
+    `;
+    return;
+}
 
       if (registrations.length === 0) {
         container.innerHTML = `
