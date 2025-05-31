@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Epic Verification | FKZA Duo Cash Cup</title>
   <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -176,6 +176,19 @@
       min-height: 1.2rem;
       color: var(--accent-green);
     }
+    .loading-spinner {
+      border: 3px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      border-top: 3px solid var(--accent-blue);
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -186,16 +199,14 @@
 
   <main>
     <div class="teams-grid" id="teamsContainer">
-      <div style="grid-column: 1 / -1; text-align:center; color: var(--text-secondary);">
-        Loading…
-      </div>
+      <div class="loading-spinner"></div>
     </div>
     <div id="message"></div>
   </main>
 
   <script>
-    // Replace with your actual Apps Script Web App URL (ends with "/exec")
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyatlRCwq7u8C1DgXuK14Sg92pY43p2siTikVu6C7aOiArJ2wbnLWCWMeGaOBwuaQen/exec";
+    // Replace with your actual Apps Script Web App URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxuxwOmKKEvRa0IFEKVjZC0ZepyFDlX6OJgNQeOOhbAc4_VmFuZudQVR4I-67OfF-Rk/exec";
 
     function showMessage(text, isError = false) {
       const msgEl = document.getElementById("message");
@@ -205,126 +216,115 @@
         if (msgEl.textContent === text) {
           msgEl.textContent = "";
         }
-      }, 3000);
+      }, 5000);
     }
 
     async function fetchTeams() {
+      const container = document.getElementById("teamsContainer");
+      container.innerHTML = '<div class="loading-spinner"></div>';
+      
       try {
-        showMessage("Loading teams...");
-        const response = await fetch(`${SCRIPT_URL}?action=list`);
-        if (!response.ok) throw new Error("Network response was not ok");
+        const response = await fetch(`${SCRIPT_URL}?action=list&t=${Date.now()}`, {
+          redirect: 'follow',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Server returned ${response.status} status`);
+        }
+        
         const data = await response.json();
-        if (data.error) throw new Error(data.error);
-        renderTeams(data.registrations, data.epics);
-        showMessage("Teams loaded successfully");
+        
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        
+        renderTeams(data.registrations || [], data.epics || []);
+        
       } catch (err) {
-        console.error("Error loading teams:", err);
-        showMessage("Error loading teams: " + err.message, true);
+        console.error("Failed to load teams:", err);
+        container.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;color:var(--accent-red)">
+            Error loading teams: ${err.message}<br>
+            <button onclick="fetchTeams()" style="
+              margin-top:10px;
+              padding:5px 15px;
+              background:var(--accent-purple);
+              border:none;
+              border-radius:5px;
+              color:white;
+              cursor:pointer;
+            ">Retry</button>
+          </div>
+        `;
       }
     }
 
     function renderTeams(registrations, epics) {
       const container = document.getElementById("teamsContainer");
-      container.innerHTML = "";
-
-if (!Array.isArray(registrations)) {
-    container.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align:center; color: var(--accent-red);">
-        Error: Invalid data format received
-      </div>
-    `;
-    return;
-}
-
-      if (registrations.length === 0) {
+      
+      if (!Array.isArray(registrations) || registrations.length === 0) {
         container.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align:center; color: var(--text-secondary);">
-            No registrations found
+          <div style="grid-column:1/-1;text-align:center;color:var(--text-secondary)">
+            No teams registered yet
           </div>
         `;
         return;
       }
 
+      container.innerHTML = '';
+      
       registrations.forEach(reg => {
-        const playerEpicObj = epics.find(e => e.discord === reg.player);
-        const duoEpicObj = epics.find(e => e.discord === reg.duo);
-        const epic1 = playerEpicObj ? playerEpicObj.epic : "";
-        const epic2 = duoEpicObj ? duoEpicObj.epic : "";
-
-        const card = createTeamCard({
-          teamId: reg.id,
-          player: reg.player,
-          duo: reg.duo,
-          epic1: epic1,
-          epic2: epic2
-        });
+        const playerEpic = epics.find(e => e.discord === reg.player)?.epic || "";
+        const duoEpic = epics.find(e => e.discord === reg.duo)?.epic || "";
+        
+        const card = document.createElement("div");
+        card.className = "team-card";
+        card.innerHTML = `
+          <div class="team-header">
+            <h2>Team ${reg.id}</h2>
+          </div>
+          <div class="team-body">
+            <div class="field-group">
+              <label>Player: ${reg.player}</label>
+              <div class="input-wrapper">
+                <input
+                  class="epic-input"
+                  type="text"
+                  placeholder="Enter Epic Name"
+                  value="${playerEpic}"
+                  ${playerEpic ? 'readonly style="opacity:0.7"' : ''}
+                >
+                <button class="save-btn" ${playerEpic ? 'disabled' : ''}>✔</button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label>Duo: ${reg.duo}</label>
+              <div class="input-wrapper">
+                <input
+                  class="epic-input"
+                  type="text"
+                  placeholder="Enter Epic Name"
+                  value="${duoEpic}"
+                  ${duoEpic ? 'readonly style="opacity:0.7"' : ''}
+                >
+                <button class="save-btn" ${duoEpic ? 'disabled' : ''}>✔</button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // Add save functionality
+        const playerInput = card.querySelector(".field-group:first-child input");
+        const playerBtn = card.querySelector(".field-group:first-child button");
+        const duoInput = card.querySelector(".field-group:last-child input");
+        const duoBtn = card.querySelector(".field-group:last-child button");
+        
+        playerBtn.addEventListener("click", () => saveEpic(reg.player, playerInput, playerBtn));
+        duoBtn.addEventListener("click", () => saveEpic(reg.duo, duoInput, duoBtn));
+        
         container.appendChild(card);
       });
-    }
-
-    function createTeamCard(team) {
-      const { teamId, player, duo, epic1, epic2 } = team;
-      const card = document.createElement("div");
-      card.classList.add("team-card");
-
-      // Header
-      const header = document.createElement("div");
-      header.classList.add("team-header");
-      header.innerHTML = `<h2>Team ${teamId}</h2>`;
-      card.appendChild(header);
-
-      // Body
-      const body = document.createElement("div");
-      body.classList.add("team-body");
-
-      // Player field
-      const playerGroup = document.createElement("div");
-      playerGroup.classList.add("field-group");
-      playerGroup.innerHTML = `
-        <label>Player: ${player}</label>
-        <div class="input-wrapper">
-          <input 
-            class="epic-input" 
-            type="text" 
-            placeholder="Enter Epic Name" 
-            value="${epic1 || ""}" 
-            ${epic1 ? 'readonly style="opacity:0.7"' : ''}
-          >
-          <button class="save-btn" ${epic1 ? 'disabled' : ''}>✔</button>
-        </div>
-      `;
-      body.appendChild(playerGroup);
-
-      // Duo field
-      const duoGroup = document.createElement("div");
-      duoGroup.classList.add("field-group");
-      duoGroup.innerHTML = `
-        <label>Duo: ${duo}</label>
-        <div class="input-wrapper">
-          <input 
-            class="epic-input" 
-            type="text" 
-            placeholder="Enter Epic Name" 
-            value="${epic2 || ""}" 
-            ${epic2 ? 'readonly style="opacity:0.7"' : ''}
-          >
-          <button class="save-btn" ${epic2 ? 'disabled' : ''}>✔</button>
-        </div>
-      `;
-      body.appendChild(duoGroup);
-
-      card.appendChild(body);
-
-      // Add event listeners
-      const playerInput = playerGroup.querySelector("input");
-      const playerBtn = playerGroup.querySelector("button");
-      const duoInput = duoGroup.querySelector("input");
-      const duoBtn = duoGroup.querySelector("button");
-
-      playerBtn.addEventListener("click", () => saveEpic(player, playerInput, playerBtn));
-      duoBtn.addEventListener("click", () => saveEpic(duo, duoInput, duoBtn));
-
-      return card;
     }
 
     async function saveEpic(discordName, inputEl, btnEl) {
@@ -339,19 +339,23 @@ if (!Array.isArray(registrations)) {
       try {
         const response = await fetch(SCRIPT_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ discord: discordName, epic: epicTag })
         });
 
-        if (!response.ok) throw new Error("Network response was not ok");
+        if (!response.ok) {
+          throw new Error(`Server returned ${response.status} status`);
+        }
 
         const result = await response.json();
-        if (!result.success) throw new Error(result.message || "Failed to save");
+        if (!result.success) {
+          throw new Error(result.message || "Failed to save Epic");
+        }
 
         btnEl.style.display = "none";
-        showMessage(`Epic saved for ${discordName}`);
+        showMessage(`Successfully saved Epic for ${discordName}`);
+        setTimeout(fetchTeams, 1500); // Refresh data after saving
+
       } catch (err) {
         console.error("Error saving Epic:", err);
         inputEl.readOnly = false;
@@ -363,6 +367,9 @@ if (!Array.isArray(registrations)) {
 
     // Initialize on page load
     document.addEventListener("DOMContentLoaded", fetchTeams);
+
+    // Auto-refresh every 30 seconds
+    setInterval(fetchTeams, 30000);
   </script>
 </body>
 </html>
