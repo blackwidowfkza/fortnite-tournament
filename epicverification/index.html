@@ -25,6 +25,8 @@
       --transition: all 0.3s ease;
       --gradient-purple: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
       --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      --disabled-bg: #3a3a4a;
+      --disabled-text: #888;
     }
 
     * {
@@ -125,6 +127,7 @@
       padding: 0.5rem;
       font-size: 0.85rem;
       text-align: left;
+      vertical-align: middle;
     }
 
     .team-table th {
@@ -137,23 +140,14 @@
 
     .team-table td {
       border-bottom: 1px solid var(--border-color);
-      vertical-align: middle;
     }
 
     .team-table tr:last-child td {
       border-bottom: none;
     }
 
-    .discord-name {
-      font-weight: 600;
-      color: var(--accent-blue);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
     .epic-input {
-      width: 100%;
+      width: calc(100% - 48px);
       padding: 0.4rem 0.5rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -169,6 +163,11 @@
       box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.3);
     }
 
+    .epic-input:disabled {
+      background: var(--disabled-bg);
+      color: var(--disabled-text);
+    }
+
     .tick {
       display: none;
       color: var(--accent-green);
@@ -181,15 +180,15 @@
       background: var(--gradient-purple);
       color: white;
       border: none;
-      padding: 0.4rem 0.8rem;
+      width: 32px;
+      height: 32px;
       border-radius: var(--border-radius);
-      font-size: 0.85rem;
       cursor: pointer;
-      transition: var(--transition);
-      position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      justify-content: center;
+      margin-left: 8px;
+      transition: var(--transition);
     }
 
     .save-btn:hover {
@@ -202,26 +201,6 @@
       cursor: not-allowed;
       box-shadow: none;
       color: var(--text-secondary);
-    }
-
-    .status-message {
-      font-size: 0.75rem;
-      margin-top: 0.25rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: var(--border-radius);
-      text-align: center;
-    }
-
-    .status-message.success {
-      background-color: rgba(16, 185, 129, 0.1);
-      border: 1px solid var(--accent-green);
-      color: var(--accent-green);
-    }
-
-    .status-message.error {
-      background-color: rgba(239, 68, 68, 0.1);
-      border: 1px solid var(--accent-red);
-      color: var(--accent-red);
     }
 
     .refresh-btn {
@@ -252,7 +231,7 @@
       border-top-color: #fff;
       animation: spin 1s ease-in-out infinite;
       vertical-align: middle;
-      margin-right: 4px;
+      margin: 0;
     }
 
     @keyframes spin {
@@ -265,7 +244,8 @@
         font-size: 0.8rem;
       }
       .save-btn, .refresh-btn {
-        padding: 0.3rem 0.6rem;
+        width: 28px;
+        height: 28px;
         font-size: 0.8rem;
       }
     }
@@ -312,33 +292,34 @@
   </div>
 
   <script>
-    // ─────── Hardcoded Data ───────
-    const HARD_CODED_TEAMS = [
-      { id: "1", player: "shameless697", duo: "ganief2705", player1Epic: "", player2Epic: "" },
-      { id: "2", player: "sam_rsa_bubbles", duo: "pagga0431", player1Epic: "", player2Epic: "" },
-      { id: "3", player: "savagefkza", duo: "topshotta3101", player1Epic: "", player2Epic: "" },
-      { id: "4", player: "austin021_fkza", duo: "meemz2011.", player1Epic: "", player2Epic: "" },
-      { id: "5", player: "aggies0213", duo: "priivate_flacko", player1Epic: "", player2Epic: "" },
-      { id: "6", player: "superm_01", duo: "darian4343", player1Epic: "", player2Epic: "" },
-      { id: "7", player: "blackwidow1947", duo: "hulk6919", player1Epic: "", player2Epic: "" },
-      { id: "8", player: "raiku2tact", duo: "bartontik_77350", player1Epic: "", player2Epic: "" },
-      { id: "9", player: "dk_riser", duo: "reza2548", player1Epic: "", player2Epic: "" },
-      { id: "10", player: "Savage_queen1505", duo: "tbnrbiscuits", player1Epic: "", player2Epic: "" },
-      { id: "11", player: "Doney4149", duo: "Fancy-Pair94", player1Epic: "", player2Epic: "" },
-      { id: "12", player: "FKZA_DarkSage", duo: "Retro0074908", player1Epic: "", player2Epic: "" },
-      { id: "13", player: "Pixi_michi", duo: "dman_devon", player1Epic: "", player2Epic: "" },
-      { id: "14", player: "Wizard FKZA", duo: "almightymaowi_sa", player1Epic: "", player2Epic: "" },
-      { id: "15", player: "riixybot.", duo: "veer3755.", player1Epic: "", player2Epic: "" },
-      { id: "16", player: "Wzetrxndz", duo: "Loading_dog31", player1Epic: "", player2Epic: "" },
-      { id: "17", player: "slurpy10.", duo: "sbuda0472", player1Epic: "", player2Epic: "" },
-      { id: "18", player: "ttv.xenic_47184", duo: "mraura0572_00687", player1Epic: "", player2Epic: "" }
-    ];
-
-    // Configuration (only for input validation)
+    // ─────── Configuration ───────
     const CONFIG = {
+      WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwCkj2z0aXeB7EfPD-uxLstknxQqmxV_S9b-4WiUDJO3zFjT1NdFYrqWG2k_DJ08L4Zcw/exec',
       MAX_EPIC_LENGTH: 16,
       MIN_EPIC_LENGTH: 3
     };
+
+    // ─────── Hardcoded Data ───────
+    const HARD_CODED_TEAMS = [
+      { id: "1", player: "shameless697", duo: "ganief2705" },
+      { id: "2", player: "sam_rsa_bubbles", duo: "pagga0431" },
+      { id: "3", player: "savagefkza", duo: "topshotta3101" },
+      { id: "4", player: "austin021_fkza", duo: "meemz2011." },
+      { id: "5", player: "aggies0213", duo: "priivate_flacko" },
+      { id: "6", player: "superm_01", duo: "darian4343" },
+      { id: "7", player: "blackwidow1947", duo: "hulk6919" },
+      { id: "8", player: "raiku2tact", duo: "bartontik_77350" },
+      { id: "9", player: "dk_riser", duo: "reza2548" },
+      { id: "10", player: "Savage_queen1505", duo: "tbnrbiscuits" },
+      { id: "11", player: "Doney4149", duo: "Fancy-Pair94" },
+      { id: "12", player: "FKZA_DarkSage", duo: "Retro0074908" },
+      { id: "13", player: "Pixi_michi", duo: "dman_devon" },
+      { id: "14", player: "Wizard FKZA", duo: "almightymaowi_sa" },
+      { id: "15", player: "riixybot.", duo: "veer3755." },
+      { id: "16", player: "Wzetrxndz", duo: "Loading_dog31" },
+      { id: "17", player: "slurpy10.", duo: "sbuda0472" },
+      { id: "18", player: "ttv.xenic_47184", duo: "mraura0572_00687" }
+    ];
 
     // DOM Elements
     const teamsContainer = document.getElementById('teamsContainer');
@@ -369,12 +350,9 @@
         <table class="team-table">
           <thead>
             <tr>
-              <th style="width: 5%;">ID</th>
-              <th style="width: 20%;">Player 1</th>
-              <th style="width: 25%;">Epic 1</th>
-              <th style="width: 20%;">Player 2</th>
-              <th style="width: 25%;">Epic 2</th>
-              <th style="width: 5%;"> </th>
+              <th style="width: 10%;">ID</th>
+              <th style="width: 45%;">Epic for Player</th>
+              <th style="width: 45%;">Epic for Duo</th>
             </tr>
           </thead>
           <tbody>
@@ -384,40 +362,43 @@
         html += `
           <tr class="fade-in" style="animation-delay: ${index * 0.03}s">
             <td>${team.id}</td>
-            <td><span class="discord-name">${team.player}</span></td>
             <td style="display: flex; align-items: center;">
               <input 
                 type="text" 
                 class="epic-input" 
                 id="epic-${team.id}-1" 
-                placeholder="Epic username" 
-                value="${team.player1Epic}"
+                placeholder="${team.player}" 
                 maxlength="${CONFIG.MAX_EPIC_LENGTH}"
               >
-              <span class="tick" id="tick-${team.id}-1">✔</span>
-            </td>
-            <td><span class="discord-name">${team.duo}</span></td>
-            <td style="display: flex; align-items: center;">
-              <input 
-                type="text" 
-                class="epic-input" 
-                id="epic-${team.id}-2" 
-                placeholder="Epic username" 
-                value="${team.player2Epic}"
-                maxlength="${CONFIG.MAX_EPIC_LENGTH}"
-              >
-              <span class="tick" id="tick-${team.id}-2">✔</span>
-            </td>
-            <td>
-              <button class="save-btn" data-team-id="${team.id}">
+              <button class="save-btn" 
+                      data-team-id="${team.id}" 
+                      data-player="1">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                      stroke-linecap="round" stroke-linejoin="round">
                   <path d="M5 12h14"></path>
                   <path d="M12 5l7 7-7 7"></path>
                 </svg>
-                <span> </span>
               </button>
-              <div class="status-message" id="status-${team.id}"></div>
+              <span class="tick" id="tick-${team.id}-1">✔</span>
+            </td>
+            <td style="display: flex; align-items: center;">
+              <input 
+                type="text" 
+                class="epic-input" 
+                id="epic-${team.id}-2" 
+                placeholder="${team.duo}" 
+                maxlength="${CONFIG.MAX_EPIC_LENGTH}"
+              >
+              <button class="save-btn" 
+                      data-team-id="${team.id}" 
+                      data-player="2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5l7 7-7 7"></path>
+                </svg>
+              </button>
+              <span class="tick" id="tick-${team.id}-2">✔</span>
             </td>
           </tr>
         `;
@@ -433,88 +414,107 @@
       document.querySelectorAll('.save-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const teamId = btn.getAttribute('data-team-id');
-          saveEpicNames(teamId);
+          const playerIdx = btn.getAttribute('data-player'); // "1" or "2"
+          saveEpicName(teamId, playerIdx);
         });
       });
     }
 
-    // ─────── Save Function ───────
-    async function saveEpicNames(teamId) {
-      const input1 = document.getElementById(`epic-${teamId}-1`);
-      const input2 = document.getElementById(`epic-${teamId}-2`);
-      const player1Epic = input1.value.trim();
-      const player2Epic = input2.value.trim();
-      const statusElement = document.getElementById(`status-${teamId}`);
-      const saveBtn = document.querySelector(`button[data-team-id="${teamId}"]`);
-      const tick1 = document.getElementById(`tick-${teamId}-1`);
-      const tick2 = document.getElementById(`tick-${teamId}-2`);
-      
+    // ─────── Save Function (per-field, posts to spreadsheet) ───────
+    async function saveEpicName(teamId, playerIdx) {
+      const input = document.getElementById(`epic-${teamId}-${playerIdx}`);
+      const epicValue = input.value.trim();
+      const saveBtn = document.querySelector(`button[data-team-id="${teamId}"][data-player="${playerIdx}"]`);
+      const tick = document.getElementById(`tick-${teamId}-${playerIdx}`);
+
       // Validate
-      if (!player1Epic || !player2Epic) {
-        showStatusMessage(statusElement, 'Enter both Epic names', 'error');
+      if (!epicValue) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Please enter your Epic username.',
+          icon: 'error',
+          confirmButtonColor: '#ef4444',
+          background: '#252535',
+          color: '#f8f8ff'
+        });
         return;
       }
-      if (player1Epic.length < CONFIG.MIN_EPIC_LENGTH || player2Epic.length < CONFIG.MIN_EPIC_LENGTH) {
-        showStatusMessage(statusElement, `Names ≥ ${CONFIG.MIN_EPIC_LENGTH} chars`, 'error');
+      if (epicValue.length < CONFIG.MIN_EPIC_LENGTH) {
+        Swal.fire({
+          title: 'Error',
+          text: `Epic username must be at least ${CONFIG.MIN_EPIC_LENGTH} characters.`,
+          icon: 'error',
+          confirmButtonColor: '#ef4444',
+          background: '#252535',
+          color: '#f8f8ff'
+        });
         return;
       }
+
+      // Gather both values (so backend can update entire row)
+      const otherIdx = playerIdx === "1" ? "2" : "1";
+      const otherInput = document.getElementById(`epic-${teamId}-${otherIdx}`);
+      const otherValue = otherInput.value.trim();
 
       try {
-        // Disable button & show loading
+        // Disable this button & show loading spinner
         saveBtn.disabled = true;
         saveBtn.innerHTML = `<span class="loading"></span>`;
-        showStatusMessage(statusElement, 'Saving…', '');
 
-        // Simulate a short delay
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Prepare payload: send both fields (empty if not entered yet)
+        const payload = {
+          action: 'saveEpic',
+          teamId: teamId,
+          player1Epic: playerIdx === "1" ? epicValue : otherValue,
+          player2Epic: playerIdx === "2" ? epicValue : otherValue
+        };
 
-        // Show ticks briefly
-        tick1.style.display = 'inline';
-        tick2.style.display = 'inline';
-        setTimeout(() => {
-          tick1.style.display = 'none';
-          tick2.style.display = 'none';
-        }, 1200);
+        const response = await fetch(CONFIG.WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-        // Show success notification
-        showStatusMessage(statusElement, 'Saved ✓', 'success');
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        if (!data.success) {
+          throw new Error(data.message || 'Save failed');
+        }
+
+        // On success, disable input & show tick
+        input.disabled = true;
+        tick.style.display = 'inline';
+
         Swal.fire({
-          title: 'Saved!',
-          text: 'Epic names have been saved locally.',
+          title: 'Success!',
+          text: 'Your Epic username has been saved to the spreadsheet.',
           icon: 'success',
           confirmButtonColor: '#6d28d9',
           background: '#252535',
           color: '#f8f8ff'
         });
       } catch (error) {
-        console.error('Error (simulated):', error);
-        showStatusMessage(statusElement, `Error`, 'error');
+        console.error('Error saving to spreadsheet:', error);
         Swal.fire({
           title: 'Error!',
-          text: error.message || 'Failed to save Epic names.',
+          text: error.message || 'Failed to save to spreadsheet.',
           icon: 'error',
           confirmButtonColor: '#ef4444',
           background: '#252535',
           color: '#f8f8ff'
         });
       } finally {
-        saveBtn.disabled = false;
+        // Revert button icon (arrow) even if disabled remains true
         saveBtn.innerHTML = `
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14"></path>
             <path d="M12 5l7 7-7 7"></path>
           </svg>
-          <span> </span>
         `;
       }
-    }
-
-    // ─────── Helper: Show Status Message ───────
-    function showStatusMessage(element, message, type) {
-      element.textContent = message;
-      element.className = 'status-message';
-      if (type) element.classList.add(type);
     }
   </script>
 </body>
