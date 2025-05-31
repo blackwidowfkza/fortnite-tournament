@@ -4,9 +4,9 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Epic Verification | FKZA Duo Cash Cup</title>
-  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png">
+  <link rel="icon" href="https://i.ibb.co/FbL2kmSn/Untitled-design-1.png" type="image/png"/>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts (same as before) -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"/>
@@ -195,19 +195,19 @@
 
   <script>
     // ─────────────────────────────────────────────────────────────────
-    //  1) Replace this with your exact “/exec” URL from your Apps Script deployment.
-    //     It must end in “/exec” and be set to “Anyone” → “Execute as: Me”.
-    //  2) After you paste your URL below, save & re‐publish the HTML.
-    // ─────────────────────────────────────────────────────────────────
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyatlRCwq7u8C1DgXuK14Sg92pY43p2siTikVu6C7aOiArJ2wbnLWCWMeGaOBwuaQen/exec";
+    //  Replace with your exact “/exec” URL from the Apps Script deployment:
+    const SCRIPT_URL = 
+      "https://script.google.com/macros/s/AKfycbyatlRCwq7u8C1DgXuK14Sg92pY43p2siTikVu6C7aOiArJ2wbnLWCWMeGaOBwuaQen/exec";
 
     /**
-     * Show a brief success or error message at the bottom.
+     * Display a brief success or error message at the bottom of the page.
      */
     function showMessage(text, isError = false) {
       const msgEl = document.getElementById("message");
       msgEl.textContent = text;
-      msgEl.style.color = isError ? "var(--accent-red)" : "var(--accent-green)";
+      msgEl.style.color = isError 
+        ? "var(--accent-red)" 
+        : "var(--accent-green)";
       setTimeout(() => {
         if (msgEl.textContent === text) {
           msgEl.textContent = "";
@@ -216,29 +216,57 @@
     }
 
     /**
-     * Fetches all teams from the “Registrations” sheet by calling:
-     *   GET SCRIPT_URL + "?action=list"
-     * Expects JSON { data: [ { teamId, player, duo, epic1, epic2 }, … ] }
+     * JSONP callback: receives data from doGet()?action=list&callback=handleList
+     * The JSONP response arrives as: handleList({...});
      */
-    async function fetchAllTeams() {
-      try {
-        const res = await fetch(SCRIPT_URL + "?action=list", { mode: "cors" });
-        console.log("GET list response:", res);
-        if (!res.ok) throw new Error(`Network error: ${res.status}`);
-        const json = await res.json();
-        console.log("List JSON:", json);
-        if (json.error) throw new Error(json.error);
-        return json.data;
-      } catch (err) {
-        console.error("fetchAllTeams error:", err);
-        throw new Error("Failed to load teams: " + err.message);
+    function handleList(response) {
+      if (response.error) {
+        showMessage("Error loading teams: " + response.error, true);
+        return;
       }
+      renderTeams(response.data);
     }
 
     /**
-     * Given a single team object { teamId, player, duo, epic1, epic2 },
-     * constructs a “card” element with two inputs (for Playeric and Duopic).
-     * If epic1 or epic2 is non-empty, that field is locked/read-only and the ✓ button is hidden.
+     * Dynamically injects a <script> tag to call the JSONP endpoint.
+     */
+    function fetchAllTeamsViaJSONP() {
+      // Remove any previously appended JSONP <script>
+      const existing = document.getElementById("jsonpScript");
+      if (existing) existing.remove();
+
+      const script = document.createElement("script");
+      script.id = "jsonpScript";
+      script.src = `${SCRIPT_URL}?action=list&callback=handleList`;
+      // This will load and execute handleList(...) when the script arrives
+      document.body.appendChild(script);
+    }
+
+    /**
+     * Given an array of team objects, build and display each “card”.
+     */
+    function renderTeams(teams) {
+      const container = document.getElementById("teamsContainer");
+      container.innerHTML = ""; // clear "Loading…"
+
+      if (!Array.isArray(teams) || teams.length === 0) {
+        const msg = document.createElement("div");
+        msg.style.gridColumn = "1 / -1";
+        msg.style.textAlign = "center";
+        msg.style.color = "var(--text-secondary)";
+        msg.textContent = "No registrations found.";
+        container.appendChild(msg);
+        return;
+      }
+
+      teams.forEach(team => {
+        const card = createTeamCard(team);
+        container.appendChild(card);
+      });
+    }
+
+    /**
+     * Create a “card” element for a single team.
      */
     function createTeamCard(team) {
       const { teamId, player, duo, epic1, epic2 } = team;
@@ -338,7 +366,6 @@
           const json = await res.json();
           console.log("POST response:", json);
           if (!json.success) throw new Error(json.message || "Error");
-          // Hide the tick and leave the field locked
           btn1.style.display = "none";
           showMessage(`Saved for ${player}`);
         } catch (err) {
@@ -384,39 +411,10 @@
       return card;
     }
 
-    /**
-     * Fetches and renders all team cards into the grid.
-     */
-    async function populateTeams() {
-      const container = document.getElementById("teamsContainer");
-      container.innerHTML = ""; // clear “Loading…”
-
-      try {
-        const teams = await fetchAllTeams();
-        if (!teams.length) {
-          const msg = document.createElement("div");
-          msg.style.gridColumn = "1 / -1";
-          msg.style.textAlign = "center";
-          msg.style.color = "var(--text-secondary)";
-          msg.textContent = "No registrations found.";
-          container.appendChild(msg);
-          return;
-        }
-        teams.forEach(team => {
-          container.appendChild(createTeamCard(team));
-        });
-      } catch (err) {
-        const msg = document.createElement("div");
-        msg.style.gridColumn = "1 / -1";
-        msg.style.textAlign = "center";
-        msg.style.color = "var(--accent-red)";
-        msg.textContent = "Error loading data: " + err.message;
-        container.appendChild(msg);
-      }
-    }
-
-    // Kick it off once DOM is ready
-    document.addEventListener("DOMContentLoaded", populateTeams);
+    // On page load, use JSONP to get the list:
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchAllTeamsViaJSONP();
+    });
   </script>
 </body>
 </html>
