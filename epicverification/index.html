@@ -18,337 +18,265 @@
       --accent-purple: #6d28d9;
       --accent-blue: #3b82f6;
       --accent-green: #10b981;
-      --accent-yellow: #f59e0b;
       --accent-red: #ef4444;
-      --accent-pink: #ec4899;
       --border-color: #3a3a4a;
-      --border-radius: 12px;
-      --border-radius-lg: 16px;
-      --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s ease;
       --gradient-purple: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
       --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-      --glow: 0 0 15px rgba(109, 40, 217, 0.5);
     }
-    
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
+
     body {
-      margin: 0;
       font-family: 'Rajdhani', 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
-      line-height: 1.6;
+      line-height: 1.4;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background-image: 
-        radial-gradient(circle at 25% 25%, rgba(109, 40, 217, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
     }
-    
-    h1, h2, h3 {
-      font-family: 'Oxanium', 'Segoe UI', system-ui, -apple-system, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-    
+
     header {
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 1rem;
       background: rgba(15, 15, 19, 0.8);
       border-bottom: 1px solid var(--border-color);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(6px);
     }
-    
+
     .logo {
-      height: 80px;
-      width: 80px;
+      height: 60px;
+      width: 60px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid var(--accent-purple);
-      box-shadow: var(--glow);
+      border: 2px solid var(--accent-purple);
       transition: var(--transition);
     }
-    
+
     .logo:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(109, 40, 217, 0.7);
     }
-    
+
     h1 {
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      margin: 0.5rem 0;
+      font-family: 'Oxanium', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      margin-top: 0.5rem;
       background: linear-gradient(to right, #8b5cf6, #3b82f6);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
     }
-    
+
     .subtitle {
-      font-size: clamp(1rem, 3vw, 1.2rem);
+      font-size: clamp(0.9rem, 3vw, 1rem);
       color: var(--text-secondary);
-      margin-bottom: 1rem;
-      font-weight: 500;
+      margin-top: 0.25rem;
     }
-    
+
+    .container {
+      flex: 1;
+      width: 100%;
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
     .card {
       background: var(--bg-card);
-      border-radius: var(--border-radius-lg);
+      border-radius: var(--border-radius);
       border: 1px solid var(--border-color);
-      overflow: hidden;
       box-shadow: var(--box-shadow);
-      transition: var(--transition);
-      margin-bottom: 2rem;
+      overflow: hidden;
     }
-    
+
     .card-header {
-      padding: 1.2rem 1.5rem;
-      background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
-      color: var(--accent-blue);
-      font-size: clamp(1.3rem, 4vw, 1.6rem);
-      border-bottom: 1px solid var(--border-color);
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      font-size: 1rem;
+      color: var(--accent-blue);
     }
-    
+
     .card-body {
-      padding: 1.5rem;
+      padding: 0.75rem 1rem;
     }
-    
+
     .team-table {
       width: 100%;
       border-collapse: collapse;
       background: var(--bg-secondary);
       border-radius: var(--border-radius);
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
-    
+
+    .team-table th, .team-table td {
+      padding: 0.5rem;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
     .team-table th {
-      background: linear-gradient(90deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+      background: var(--bg-card);
       color: var(--accent-blue);
-      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      font-size: 0.9rem;
-      text-align: left;
-      padding: 1rem;
-    }
-    
-    .team-table td {
-      padding: 1rem;
       border-bottom: 1px solid var(--border-color);
     }
-    
+
+    .team-table td {
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
     .team-table tr:last-child td {
       border-bottom: none;
     }
-    
-    .team-table tr:hover {
-      background: rgba(59, 130, 246, 0.05);
-    }
-    
+
     .discord-name {
       font-weight: 600;
       color: var(--accent-blue);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    
+
     .epic-input {
       width: 100%;
-      padding: 0.8rem;
-      background: var(--bg-secondary);
+      padding: 0.4rem 0.5rem;
+      background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
+      font-size: 0.85rem;
       color: var(--text-primary);
-      font-family: 'Rajdhani', sans-serif;
       transition: var(--transition);
     }
-    
+
     .epic-input:focus {
       outline: none;
       border-color: var(--accent-purple);
-      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.3);
+      box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.3);
     }
-    
+
+    .tick {
+      display: none;
+      color: var(--accent-green);
+      font-size: 1rem;
+      margin-left: 0.25rem;
+      vertical-align: middle;
+    }
+
     .save-btn {
       background: var(--gradient-purple);
       color: white;
       border: none;
-      padding: 0.8rem 1.5rem;
+      padding: 0.4rem 0.8rem;
       border-radius: var(--border-radius);
+      font-size: 0.85rem;
       cursor: pointer;
-      font-weight: 600;
       transition: var(--transition);
-      white-space: nowrap;
-      font-family: 'Oxanium', sans-serif;
       position: relative;
-      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
     }
-    
-    .save-btn::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, 
-        rgba(255,255,255,0.1) 0%, 
-        rgba(255,255,255,0.3) 50%, 
-        rgba(255,255,255,0.1) 100%);
-      transform: translateX(-100%);
-      transition: transform 0.6s ease;
-    }
-    
+
     .save-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.6);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.6);
     }
-    
-    .save-btn:hover::after {
-      transform: translateX(100%);
-    }
-    
+
     .save-btn:disabled {
       background: var(--bg-secondary);
       cursor: not-allowed;
-      transform: none;
       box-shadow: none;
       color: var(--text-secondary);
     }
-    
+
     .status-message {
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-      padding: 0.5rem;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding: 0.25rem 0.5rem;
       border-radius: var(--border-radius);
       text-align: center;
     }
-    
-    .success {
+
+    .status-message.success {
       background-color: rgba(16, 185, 129, 0.1);
       border: 1px solid var(--accent-green);
       color: var(--accent-green);
     }
-    
-    .error {
+
+    .status-message.error {
       background-color: rgba(239, 68, 68, 0.1);
       border: 1px solid var(--accent-red);
       color: var(--accent-red);
     }
-    
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      vertical-align: middle;
-      margin-right: 8px;
-    }
-    
+
     .refresh-btn {
       background: var(--gradient-blue);
       color: white;
       border: none;
-      padding: 0.8rem 1.5rem;
+      padding: 0.4rem 0.8rem;
       border-radius: var(--border-radius);
+      font-size: 0.85rem;
       cursor: pointer;
-      font-weight: 600;
-      transition: var(--transition);
-      font-family: 'Oxanium', sans-serif;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 0.25rem;
+      transition: var(--transition);
     }
-    
+
     .refresh-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
     }
-    
-    .empty-state {
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-secondary);
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 4px;
     }
-    
-    .empty-state img {
-      max-width: 200px;
-      opacity: 0.7;
-      margin-bottom: 1rem;
-    }
-    
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.5s ease-out forwards;
-    }
-    
-    /* Responsive adjustments */
+
     @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
+      .team-table th, .team-table td {
+        padding: 0.4rem;
+        font-size: 0.8rem;
       }
-      
+      .save-btn, .refresh-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
       .team-table {
         display: block;
         overflow-x: auto;
       }
-      
-      .team-table th, 
-      .team-table td {
-        padding: 0.8rem;
-      }
-      
-      header {
-        padding: 1.5rem 1rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .team-table td {
-        display: block;
-        width: 100%;
-      }
-      
-      .team-table tr {
-        display: block;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid var(--border-color);
-      }
-      
-      .team-table tr:last-child {
-        margin-bottom: 0;
-        border-bottom: none;
-      }
-      
-      .status-message {
-        margin-top: 1rem;
+      .team-table th, .team-table td {
+        white-space: nowrap;
       }
     }
   </style>
@@ -365,7 +293,8 @@
       <div class="card-header">
         <span>Registered Teams</span>
         <button class="refresh-btn" id="refreshBtn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
             <path d="M3 3v5h5"></path>
             <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
@@ -440,12 +369,12 @@
         <table class="team-table">
           <thead>
             <tr>
-              <th>Team ID</th>
-              <th>Player 1 (Discord)</th>
-              <th>Player 1 (Epic)</th>
-              <th>Player 2 (Discord)</th>
-              <th>Player 2 (Epic)</th>
-              <th>Action</th>
+              <th style="width: 5%;">ID</th>
+              <th style="width: 20%;">Player 1</th>
+              <th style="width: 25%;">Epic 1</th>
+              <th style="width: 20%;">Player 2</th>
+              <th style="width: 25%;">Epic 2</th>
+              <th style="width: 5%;"> </th>
             </tr>
           </thead>
           <tbody>
@@ -453,33 +382,40 @@
 
       teams.forEach((team, index) => {
         html += `
-          <tr class="fade-in" style="animation-delay: ${index * 0.05}s">
+          <tr class="fade-in" style="animation-delay: ${index * 0.03}s">
             <td>${team.id}</td>
             <td><span class="discord-name">${team.player}</span></td>
-            <td>
+            <td style="display: flex; align-items: center;">
               <input 
                 type="text" 
                 class="epic-input" 
                 id="epic-${team.id}-1" 
-                placeholder="Enter Epic username" 
+                placeholder="Epic username" 
                 value="${team.player1Epic}"
                 maxlength="${CONFIG.MAX_EPIC_LENGTH}"
               >
+              <span class="tick" id="tick-${team.id}-1">✔</span>
             </td>
             <td><span class="discord-name">${team.duo}</span></td>
-            <td>
+            <td style="display: flex; align-items: center;">
               <input 
                 type="text" 
                 class="epic-input" 
                 id="epic-${team.id}-2" 
-                placeholder="Enter Epic username" 
+                placeholder="Epic username" 
                 value="${team.player2Epic}"
                 maxlength="${CONFIG.MAX_EPIC_LENGTH}"
               >
+              <span class="tick" id="tick-${team.id}-2">✔</span>
             </td>
             <td>
               <button class="save-btn" data-team-id="${team.id}">
-                Save
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5l7 7-7 7"></path>
+                </svg>
+                <span> </span>
               </button>
               <div class="status-message" id="status-${team.id}"></div>
             </td>
@@ -502,37 +438,49 @@
       });
     }
 
-    // ─────── Save Function (now just shows a popup) ───────
+    // ─────── Save Function ───────
     async function saveEpicNames(teamId) {
-      const player1Epic = document.getElementById(`epic-${teamId}-1`).value.trim();
-      const player2Epic = document.getElementById(`epic-${teamId}-2`).value.trim();
+      const input1 = document.getElementById(`epic-${teamId}-1`);
+      const input2 = document.getElementById(`epic-${teamId}-2`);
+      const player1Epic = input1.value.trim();
+      const player2Epic = input2.value.trim();
       const statusElement = document.getElementById(`status-${teamId}`);
       const saveBtn = document.querySelector(`button[data-team-id="${teamId}"]`);
+      const tick1 = document.getElementById(`tick-${teamId}-1`);
+      const tick2 = document.getElementById(`tick-${teamId}-2`);
       
       // Validate
       if (!player1Epic || !player2Epic) {
-        showStatusMessage(statusElement, 'Please enter Epic names for both players', 'error');
+        showStatusMessage(statusElement, 'Enter both Epic names', 'error');
         return;
       }
       if (player1Epic.length < CONFIG.MIN_EPIC_LENGTH || player2Epic.length < CONFIG.MIN_EPIC_LENGTH) {
-        showStatusMessage(statusElement, `Epic names must be at least ${CONFIG.MIN_EPIC_LENGTH} characters`, 'error');
+        showStatusMessage(statusElement, `Names ≥ ${CONFIG.MIN_EPIC_LENGTH} chars`, 'error');
         return;
       }
 
       try {
         // Disable button & show loading
         saveBtn.disabled = true;
-        saveBtn.innerHTML = `<span class="loading"></span> Saving...`;
-        showStatusMessage(statusElement, 'Saving your information...', '');
+        saveBtn.innerHTML = `<span class="loading"></span>`;
+        showStatusMessage(statusElement, 'Saving…', '');
 
         // Simulate a short delay
         await new Promise(resolve => setTimeout(resolve, 500));
 
+        // Show ticks briefly
+        tick1.style.display = 'inline';
+        tick2.style.display = 'inline';
+        setTimeout(() => {
+          tick1.style.display = 'none';
+          tick2.style.display = 'none';
+        }, 1200);
+
         // Show success notification
-        showStatusMessage(statusElement, 'Epic names saved successfully!', 'success');
+        showStatusMessage(statusElement, 'Saved ✓', 'success');
         Swal.fire({
-          title: 'Success!',
-          text: 'Your Epic names have been saved (locally).',
+          title: 'Saved!',
+          text: 'Epic names have been saved locally.',
           icon: 'success',
           confirmButtonColor: '#6d28d9',
           background: '#252535',
@@ -540,7 +488,7 @@
         });
       } catch (error) {
         console.error('Error (simulated):', error);
-        showStatusMessage(statusElement, `Error: ${error.message}`, 'error');
+        showStatusMessage(statusElement, `Error`, 'error');
         Swal.fire({
           title: 'Error!',
           text: error.message || 'Failed to save Epic names.',
@@ -551,7 +499,14 @@
         });
       } finally {
         saveBtn.disabled = false;
-        saveBtn.textContent = 'Save';
+        saveBtn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="M12 5l7 7-7 7"></path>
+          </svg>
+          <span> </span>
+        `;
       }
     }
 
