@@ -194,13 +194,18 @@
   </main>
 
   <script>
-    // ─────────────────────────────────────────────────────────────────
-    // Replace this with your exact Apps Script Web App URL (ending in /exec):
-    const SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbxuxwOmKKEvRa0IFEKVjZC0ZepyFDlX6OJgNQeOOhbAc4_VmFuZudQVR4I-67OfF-Rk/exec";
+    // ─────────────────────────────────────────────────────────────────────
+    //  IMPORTANT: Replace the entire string below with your actual Apps Script
+    //  Web App URL (the one that ends in "/exec"). Example:
+    //    const SCRIPT_URL = 
+    //      "https://script.google.com/macros/s/AKfycbx12345abcdef67890abcdefg/exec";
+    //  Do NOT use any relative path like "exec?…". It must be the full /exec URL.
+    // ─────────────────────────────────────────────────────────────────────
+    const SCRIPT_URL = 
+      "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID_HERE/exec";
 
     /**
-     * Displays a brief success or error message at the bottom.
+     * Display a brief success or error message at the bottom.
      */
     function showMessage(text, isError = false) {
       const msgEl = document.getElementById("message");
@@ -214,8 +219,8 @@
     }
 
     /**
-     * JSONP callback function. The Apps Script doGet returns:
-     *   handleList({ registrations: […], epics: […] });
+     * JSONP callback function. The Apps Script doGet responds with:
+     *   handleList({ registrations:[…], epics:[…] });
      */
     function handleList(response) {
       if (response.error) {
@@ -226,8 +231,9 @@
     }
 
     /**
-     * Dynamically inject a <script> tag to call the JSONP endpoint:
-     *   SCRIPT_URL + "?action=list&callback=handleList"
+     * Inject a <script> tag that points to our Apps Script URL with:
+     *   ?action=list&callback=handleList
+     * This bypasses CORS by using JSONP.
      */
     function fetchAllTeamsViaJSONP() {
       const existing = document.getElementById("jsonpScript");
@@ -240,9 +246,10 @@
     }
 
     /**
-     * Given arrays of registrations and epics, render each card:
-     *   registrations: [ { id, player, duo }, … ]
-     *   epics:         [ { discord, epic }, … ]
+     * Given arrays of registrations and epics, render each team card.
+     *
+     * registrations: [ { id, player, duo }, … ]
+     * epics:         [ { discord, epic }, … ]
      */
     function renderTeams(registrations, epics) {
       const container = document.getElementById("teamsContainer");
@@ -259,7 +266,7 @@
       }
 
       registrations.forEach(reg => {
-        // Find any saved epic for player or duo
+        // Find saved epic for this player or duo (if any)
         const playerEpicObj = epics.find(e => e.discord === reg.player);
         const duoEpicObj    = epics.find(e => e.discord === reg.duo);
         const epic1 = playerEpicObj ? playerEpicObj.epic : "";
@@ -277,10 +284,10 @@
     }
 
     /**
-     * Create a “card” element for a single team with:
-     *   - Player label + input for epic1
-     *   - Duo label + input for epic2
-     *   Saved epics are read-only and greyed out, ticks are hidden.
+     * Create a “card” for a single team. Shows:
+     *   • Player: <input for epic1>
+     *   • Duo:    <input for epic2>
+     * If the epic is already filled, that field is read-only/greyed and the ✓ button is hidden.
      */
     function createTeamCard(team) {
       const { teamId, player, duo, epic1, epic2 } = team;
