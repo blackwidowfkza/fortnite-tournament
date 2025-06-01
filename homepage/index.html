@@ -1,987 +1,694 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FKZA – Fort Knights ZA</title>
-
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Oswald:wght@300;400;600;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-    /*----------------------------------
-      Variables & Base Styles
-    -----------------------------------*/
-    :root {
-      --color-bg: #0e0e0e;
-      --color-red: #e63946;
-      --color-dark-red: #a4161a;
-      --color-gray: #2e2e2e;
-      --color-light-gray: #d3d3d3;
-      --font-primary: 'Montserrat', sans-serif;
-      --font-secondary: 'Oswald', sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: var(--color-bg);
-      color: var(--color-light-gray);
-      font-family: var(--font-primary);
-      line-height: 1.6;
-    }
-
-    a {
-      color: var(--color-red);
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /*----------------------------------
-      Navigation
-    -----------------------------------*/
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(14, 14, 14, 0.95);
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0.5rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo img {
-      height: 50px;
-      width: auto;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav-links a {
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
-    }
-    .nav-links a:hover {
-      color: var(--color-red);
-    }
-
-    /* Mobile Menu Toggle */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 5px;
-    }
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: var(--color-light-gray);
-      border-radius: 2px;
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 250px;
-        flex-direction: column;
-        background: var(--color-gray);
-        padding-top: 4rem;
-        gap: 1.5rem;
-        transition: right 0.3s ease-in-out;
-      }
-      .nav-links.open {
-        right: 0;
-      }
-      .hamburger {
-        display: flex;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .nav-container {
-        padding: 0.5rem;
-      }
-      .nav-links {
-        width: 200px;
-      }
-      .nav-links a {
-        font-size: 0.9rem;
-      }
-    }
-
-    /*----------------------------------
-      Hero Section
-    -----------------------------------*/
-    .hero {
-      position: relative;
-      height: 100vh;
-      background: linear-gradient(
-          rgba(14, 14, 14, 0.75),
-          rgba(14, 14, 14, 0.75)
-        ),
-        url('https://images.unsplash.com/photo-1605902711622-cfb43c44345f?auto=format&fit=crop&w=1350&q=80')
-          center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 1rem;
-    }
-
-    .hero-content {
-      max-width: 800px;
-      color: #fff;
-      animation: fadeIn 1s ease-out forwards;
-      opacity: 0;
-    }
-
-    .hero h1 {
-      font-family: var(--font-secondary);
-      font-size: 3rem;
-      letter-spacing: 2px;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-
-    .hero .btn {
-      background: var(--color-red);
-      color: #fff;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.2s ease;
-    }
-    .hero .btn:hover {
-      background: var(--color-dark-red);
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      .hero .btn {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.95rem;
-      }
-    }
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .hero p {
-        font-size: 0.9rem;
-      }
-      .hero .btn {
-        padding: 0.5rem 1.25rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    /*----------------------------------
-      Section Titles
-    -----------------------------------*/
-    .section-title {
-      text-align: center;
-      font-family: var(--font-secondary);
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      position: relative;
-      color: var(--color-light-gray);
-    }
-    .section-title::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      bottom: -8px;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background: var(--color-red);
-      border-radius: 2px;
-    }
-    @media (max-width: 480px) {
-      .section-title {
-        font-size: 1.6rem;
-      }
-      .section-title::after {
-        width: 50px;
-        bottom: -6px;
-      }
-    }
-
-    /*----------------------------------
-      About Section
-    -----------------------------------*/
-    #about {
-      padding: 5rem 1rem 3rem;
-      background-color: var(--color-gray);
-    }
-
-    .about-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .about-text {
-      font-size: 1rem;
-      color: var(--color-light-gray);
-      line-height: 1.8;
-    }
-
-    .about-img {
-      display: flex;
-      justify-content: center;
-    }
-    .about-img img {
-      border-radius: 8px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
-    }
-
-    @media (max-width: 768px) {
-      .about-container {
-        grid-template-columns: 1fr;
-      }
-      .about-text {
-        text-align: center;
-      }
-      #about {
-        padding: 4rem 1rem 2rem;
-      }
-    }
-    @media (max-width: 480px) {
-      #about {
-        padding: 3rem 0.75rem 1.5rem;
-      }
-      .about-text {
-        font-size: 0.95rem;
-      }
-    }
-
-    /*----------------------------------
-      Team Section
-    -----------------------------------*/
-    #team {
-      padding: 5rem 1rem 3rem;
-    }
-
-    .team-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem;
-    }
-
-    .team-card {
-      background: var(--color-gray);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .team-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-    }
-    .team-image img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .team-info {
-      padding: 0.75rem;
-      text-align: center;
-    }
-    .team-info h3 {
-      font-family: var(--font-secondary);
-      font-size: 1.1rem;
-      margin-bottom: 0.25rem;
-    }
-    .team-info p {
-      font-size: 0.85rem;
-      color: var(--color-light-gray);
-    }
-
-    @media (max-width: 480px) {
-      #team {
-        padding: 4rem 0.75rem 2rem;
-      }
-      .team-info h3 {
-        font-size: 1rem;
-      }
-      .team-info p {
-        font-size: 0.8rem;
-      }
-    }
-
-    /*----------------------------------
-      News/Announcements Section
-    -----------------------------------*/
-    #news {
-      padding: 5rem 1rem 3rem;
-      background-color: var(--color-gray);
-    }
-
-    .news-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .news-card {
-      background: var(--color-bg);
-      border: 1px solid var(--color-gray);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .news-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-    }
-    .news-image img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .news-content {
-      padding: 1rem;
-    }
-    .news-content h4 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      color: var(--color-light-gray);
-    }
-    .news-content p {
-      font-size: 0.9rem;
-      color: var(--color-light-gray);
-      margin-bottom: 1rem;
-    }
-    .news-content a {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--color-red);
-    }
-
-    @media (max-width: 480px) {
-      #news {
-        padding: 4rem 0.75rem 2rem;
-      }
-      .news-image img {
-        height: 140px;
-      }
-      .news-content h4 {
-        font-size: 1rem;
-      }
-      .news-content p {
-        font-size: 0.85rem;
-      }
-    }
-
-    /*----------------------------------
-      Events Section (Countdown)
-    -----------------------------------*/
-    #events {
-      padding: 5rem 1rem 3rem;
-    }
-
-    .events-container {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .events-container p {
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-    .countdown-box {
-      background: var(--color-gray);
-      padding: 1.25rem;
-      border-radius: 8px;
-      min-width: 90px;
-      transition: transform 0.3s ease;
-    }
-    .countdown-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
-    }
-    .countdown-box h3 {
-      font-size: 1.8rem;
-      font-family: var(--font-secondary);
-      margin-bottom: 0.25rem;
-      color: var(--color-red);
-    }
-    .countdown-box p {
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      color: var(--color-light-gray);
-      text-transform: uppercase;
-    }
-
-    @media (max-width: 768px) {
-      #events {
-        padding: 4rem 1rem 2rem;
-      }
-      .events-container p {
-        font-size: 0.95rem;
-      }
-      .countdown-box {
-        padding: 1rem;
-        min-width: 75px;
-      }
-      .countdown-box h3 {
-        font-size: 1.6rem;
-      }
-      .countdown-box p {
-        font-size: 0.8rem;
-      }
-    }
-    @media (max-width: 480px) {
-      #events {
-        padding: 3rem 0.75rem 1.5rem;
-      }
-      .countdown {
-        gap: 1rem;
-      }
-      .countdown-box {
-        padding: 0.8rem;
-        min-width: 60px;
-      }
-      .countdown-box h3 {
-        font-size: 1.4rem;
-      }
-      .countdown-box p {
-        font-size: 0.75rem;
-      }
-    }
-
-    /*----------------------------------
-      Join Section
-    -----------------------------------*/
-    #join {
-      padding: 5rem 1rem 3rem;
-      background-color: var(--color-gray);
-      text-align: center;
-    }
-    #join h2 {
-      margin-bottom: 1rem;
-    }
-    #join p {
-      font-size: 1.05rem;
-      margin-bottom: 1.5rem;
-    }
-    #join .btn-secondary {
-      background: transparent;
-      border: 2px solid var(--color-red);
-      color: var(--color-red);
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-    #join .btn-secondary:hover {
-      background: var(--color-red);
-      color: #fff;
-    }
-
-    @media (max-width: 768px) {
-      #join {
-        padding: 4rem 1rem 2rem;
-      }
-      #join p {
-        font-size: 0.95rem;
-      }
-      #join .btn-secondary {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.95rem;
-      }
-    }
-    @media (max-width: 480px) {
-      #join {
-        padding: 3rem 0.75rem 1.5rem;
-      }
-      #join p {
-        font-size: 0.9rem;
-      }
-      #join .btn-secondary {
-        padding: 0.5rem 1.25rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    /*----------------------------------
-      Contact Section
-    -----------------------------------*/
-    #contact {
-      padding: 3rem 1rem 2rem;
-      text-align: center;
-    }
-    #contact h2 {
-      margin-bottom: 1rem;
-    }
-    #contact p {
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    #contact a {
-      color: var(--color-red);
-      font-weight: 600;
-    }
-    @media (max-width: 480px) {
-      #contact {
-        padding: 2.5rem 0.75rem 1rem;
-      }
-      #contact p {
-        font-size: 0.9rem;
-      }
-    }
-
-    /*----------------------------------
-      Footer
-    -----------------------------------*/
-    footer {
-      background: var(--color-gray);
-      padding: 2rem 1rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--color-light-gray);
-    }
-    .social-icons {
-      margin-bottom: 1rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .social-icons a {
-      font-size: 1.5rem;
-      transition: color 0.2s ease;
-    }
-    .social-icons a:hover {
-      color: var(--color-red);
-    }
-    @media (max-width: 480px) {
-      footer {
-        padding: 1.5rem 0.75rem;
-      }
-      .social-icons a {
-        font-size: 1.3rem;
-      }
-      footer p {
-        font-size: 0.8rem;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <!--===============================================
-    NAVIGATION
-  ================================================-->
-  <nav>
-    <div class="nav-container">
-      <div class="nav-logo">
-        <!-- Make sure “FKZA Logo.png” is in the same folder, or adjust path -->
-        <a href="#hero">
-          <img src="FKZA Logo.png" alt="FKZA Logo" />
-        </a>
-      </div>
-
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <div class="nav-links" id="nav-links">
-        <a href="#hero">Home</a>
-        <a href="#about">About</a>
-        <a href="#team">Team</a>
-        <a href="#news">News</a>
-        <a href="#events">Events</a>
-        <a href="#join">Join</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
-  </nav>
-
-  <!--===============================================
-    HERO SECTION
-  ================================================-->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <h1>Fort Knights ZA</h1>
-      <p>
-        Welcome to FKZA – South Africa’s fiercest Fortnite gaming clan. Join us
-        in our next conquest!
-      </p>
-      <button
-        class="btn"
-        onclick="document.querySelector('#join').scrollIntoView({ behavior: 'smooth' });"
-      >
-        Join the Clan
-      </button>
-    </div>
-  </section>
-
-  <!--===============================================
-    ABOUT SECTION
-  ================================================-->
-  <section id="about">
-    <h2 class="section-title">About FKZA</h2>
-    <div class="about-container">
-      <div class="about-text">
-        <p>
-          Fort Knights ZA (FKZA) is a competitive Fortnite clan based in
-          Johannesburg, South Africa. We pride ourselves on teamwork, skill,
-          and community. Whether you’re a seasoned pro or a rising talent, we
-          welcome anyone passionate about Fortnite. Our mission is to compete
-          at the highest level, foster camaraderie among members, and support
-          each other through training, scrims, and major tournaments.
-        </p>
-        <p>
-          Founded in 2022, our roster has grown to include players from all
-          across SA. We regularly participate in local and online events,
-          host weekly scrims, and have a dedicated coaching staff to help you
-          level up. Become a part of FKZA and conquer the island with us!
-        </p>
-      </div>
-      <div class="about-img">
-        <!-- Replace with a local or hosted image of your choosing -->
-        <img
-          src="https://images.unsplash.com/photo-1571850324829-f5b68a4d09f7?auto=format&fit=crop&w=800&q=80"
-          alt="Fortnite Combat"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!--===============================================
-    TEAM SECTION
-  ================================================-->
-  <section id="team">
-    <h2 class="section-title">Our Champions</h2>
-    <div class="team-container">
-      <!-- Repeat this block for each team member -->
-      <div class="team-card">
-        <div class="team-image">
-          <img src="https://i.pravatar.cc/300?img=12" alt="Player Avatar" />
-        </div>
-        <div class="team-info">
-          <h3>ShadowSlayer</h3>
-          <p>Clan Leader / Coach</p>
-        </div>
-      </div>
-
-      <div class="team-card">
-        <div class="team-image">
-          <img src="https://i.pravatar.cc/300?img=15" alt="Player Avatar" />
-        </div>
-        <div class="team-info">
-          <h3>NiteFury</h3>
-          <p>Squad Captain</p>
-        </div>
-      </div>
-
-      <div class="team-card">
-        <div class="team-image">
-          <img src="https://i.pravatar.cc/300?img=23" alt="Player Avatar" />
-        </div>
-        <div class="team-info">
-          <h3>ValkyrieZA</h3>
-          <p>Shotcaller</p>
-        </div>
-      </div>
-
-      <div class="team-card">
-        <div class="team-image">
-          <img src="https://i.pravatar.cc/300?img=48" alt="Player Avatar" />
-        </div>
-        <div class="team-info">
-          <h3>BlazeRider</h3>
-          <p>Strategist</p>
-        </div>
-      </div>
-      <!-- …add more members as needed… -->
-    </div>
-  </section>
-
-  <!--===============================================
-    NEWS/ANNOUNCEMENTS SECTION
-  ================================================-->
-  <section id="news">
-    <h2 class="section-title">Latest News</h2>
-    <div class="news-container">
-      <!-- Repeat this block for each announcement -->
-      <div class="news-card">
-        <div class="news-image">
-          <img
-            src="https://images.unsplash.com/photo-1615512130675-6f2d50576b68?auto=format&fit=crop&w=600&q=80"
-            alt="News Image"
-          />
-        </div>
-        <div class="news-content">
-          <h4>FKZA Qualifies for SA Regional Finals</h4>
-          <p>
-            Our squad secured a spot in the SA Regional Finals after an epic
-            showdown. Congratulations to all participants! Stay tuned for
-            match updates.
-          </p>
-          <a href="#">Read More →</a>
-        </div>
-      </div>
-
-      <div class="news-card">
-        <div class="news-image">
-          <img
-            src="https://images.unsplash.com/photo-1606813909246-4b2e10ad1389?auto=format&fit=crop&w=600&q=80"
-            alt="News Image"
-          />
-        </div>
-        <div class="news-content">
-          <h4>New Coaching Sessions Available</h4>
-          <p>
-            We’re launching weekly coaching sessions for aspiring members.
-            Improve your building, editing, and game sense with our pro staff.
-          </p>
-          <a href="#">Read More →</a>
-        </div>
-      </div>
-
-      <div class="news-card">
-        <div class="news-image">
-          <img
-            src="https://images.unsplash.com/photo-1587372953245-c39b18413240?auto=format&fit=crop&w=600&q=80"
-            alt="News Image"
-          />
-        </div>
-        <div class="news-content">
-          <h4>Monthly Scrim Night Recap</h4>
-          <p>
-            Last night’s scrim was intense! Check out the highlights and
-            MVP performances from our top players. Shoutout to everyone who
-            participated.
-          </p>
-          <a href="#">Read More →</a>
-        </div>
-      </div>
-      <!-- …add more cards as needed… -->
-    </div>
-  </section>
-
-  <!--===============================================
-    EVENTS SECTION (COUNTDOWN)
-  ================================================-->
-  <section id="events">
-    <h2 class="section-title">Next FKZA Tournament</h2>
-    <div class="events-container">
-      <p>
-        Join us for our next FKZA Showdown on:<br />
-        <strong>June 30, 2025 &nbsp;|&nbsp; 7:00 PM SAST</strong>
-      </p>
-      <div class="countdown" id="countdown">
-        <div class="countdown-box">
-          <h3 id="days">00</h3>
-          <p>Days</p>
-        </div>
-        <div class="countdown-box">
-          <h3 id="hours">00</h3>
-          <p>Hours</p>
-        </div>
-        <div class="countdown-box">
-          <h3 id="minutes">00</h3>
-          <p>Minutes</p>
-        </div>
-        <div class="countdown-box">
-          <h3 id="seconds">00</h3>
-          <p>Seconds</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!--===============================================
-    JOIN SECTION
-  ================================================-->
-  <section id="join">
-    <h2 class="section-title">Join FKZA</h2>
-    <p>
-      Ready to climb the ranks and fight alongside the best? Apply now to be
-      a part of Fort Knights ZA. Whether you’re aiming for competitive play or
-      community scrims, we have a spot for you.
-    </p>
-    <button
-      class="btn-secondary"
-      onclick="window.open('https://discord.gg/your-invite-link', '_blank')"
-    >
-      Join Our Discord
-    </button>
-  </section>
-
-  <!--===============================================
-    CONTACT SECTION
-  ================================================-->
-  <section id="contact">
-    <h2 class="section-title">Get in Touch</h2>
-    <p>
-      Have questions or collaboration ideas? Reach out to us at:
-      <br />
-      <a href="mailto:contact@fkza.gg">contact@fkza.gg</a>
-    </p>
-    <p style="margin-top: 1rem;">
-      Follow us on:
-      <br />
-      <span
-        style="
-          font-size: 1.5rem;
-          gap: 1rem;
-          display: inline-flex;
-          margin-top: 0.5rem;
-        "
-      >
-        <a href="https://twitter.com/FKZA_Official" target="_blank" aria-label="Twitter">
-          🐦
-        </a>
-        <a href="https://instagram.com/FKZA_Official" target="_blank" aria-label="Instagram">
-          📸
-        </a>
-        <a href="https://youtube.com/FKZA_Official" target="_blank" aria-label="YouTube">
-          ▶️
-        </a>
-        <a href="https://discord.gg/your-invite-link" target="_blank" aria-label="Discord">
-          💬
-        </a>
-      </span>
-    </p>
-  </section>
-
-  <!--===============================================
-    FOOTER
-  ================================================-->
-  <footer>
-    <div class="social-icons">
-      <a href="https://twitter.com/FKZA_Official" target="_blank" aria-label="Twitter">🐦</a>
-      <a href="https://instagram.com/FKZA_Official" target="_blank" aria-label="Instagram">📸</a>
-      <a href="https://youtube.com/FKZA_Official" target="_blank" aria-label="YouTube">▶️</a>
-      <a href="https://discord.gg/your-invite-link" target="_blank" aria-label="Discord">💬</a>
-    </div>
-    <p>© 2025 Fort Knights ZA. All Rights Reserved.</p>
-  </footer>
-
-  <!--===============================================
-    SCRIPTS
-  ================================================-->
-  <script>
-    // Mobile navigation toggle
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-    });
-
-    // Countdown Timer for Next Tournament
-    (function () {
-      // Set target date/time (YYYY-MM-DDTHH:MM:SS). SAST is UTC+2.
-      const tournamentDate = new Date('2025-06-30T19:00:00');
-      const daysEl = document.getElementById('days');
-      const hoursEl = document.getElementById('hours');
-      const minutesEl = document.getElementById('minutes');
-      const secondsEl = document.getElementById('seconds');
-
-      function updateCountdown() {
-        const now = new Date();
-        const diff = tournamentDate - now;
-
-        if (diff <= 0) {
-          daysEl.textContent = '00';
-          hoursEl.textContent = '00';
-          minutesEl.textContent = '00';
-          secondsEl.textContent = '00';
-          clearInterval(intervalId);
-          return;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FKZA | For Knights ZA - Fortnite Clan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff3e6c;
+            --secondary: #6c5ce7;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --accent: #00cec9;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
         }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 62, 108, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 62, 108, 0.6);
+        }
+        
+        /* About Section */
+        .section {
+            padding: 6rem 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Members Section */
+        .members {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .member-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .member-image {
+            height: 200px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .member-image i {
+            font-size: 5rem;
+            color: white;
+        }
+        
+        .member-info {
+            padding: 1.5rem;
+        }
+        
+        .member-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .member-info p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #aaa;
+        }
+        
+        /* Join Section */
+        .join {
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1543489822-c49534f0ad62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+        
+        .join::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+        }
+        
+        .join .section-title, .join p, .join .cta-button {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .join p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            background: #0f0f1a;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #aaa;
+            margin-bottom: 0.8rem;
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: var(--light);
+        }
+        
+        .social-footer {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-footer a:hover {
+            background: var(--gradient);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--dark);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 3rem;
+                transition: all 0.5s ease;
+            }
+            
+            nav ul.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="FKZA Logo.png" alt="FKZA Logo">
+            <div class="logo-text">FKZA</div>
+        </div>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#members">Members</a></li>
+                <li><a href="#stats">Stats</a></li>
+                <li><a href="#join">Join Us</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
 
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((diff / (1000 * 60)) % 60);
-        const s = Math.floor((diff / 1000) % 60);
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>FOR KNIGHTS ZA</h1>
+            <p>Join South Africa's most competitive Fortnite clan. We dominate the battlefield with strategy, skill, and teamwork. Ready to take your game to the next level?</p>
+            <a href="#join" class="cta-button">Join Our Clan</a>
+        </div>
+    </section>
 
-        daysEl.textContent = d < 10 ? '0' + d : d;
-        hoursEl.textContent = h < 10 ? '0' + h : h;
-        minutesEl.textContent = m < 10 ? '0' + m : m;
-        secondsEl.textContent = s < 10 ? '0' + s : s;
-      }
+    <section class="section" id="about">
+        <h2 class="section-title">About FKZA</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Dominate The Battlefield</h3>
+                <p>FKZA (For Knights ZA) is a premier Fortnite clan based in South Africa, dedicated to competitive play, community building, and pushing the limits of what's possible in Fortnite.</p>
+                <p>Founded in 2020, we've grown from a small group of friends to one of the most respected clans in the region, with multiple tournament wins under our belt.</p>
+                <p>Our philosophy is simple: play hard, play smart, and most importantly, play together. We believe in fostering a positive community where players can grow and excel.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1560253023-3ec5d502959f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="FKZA Team">
+            </div>
+        </div>
+    </section>
 
-      // Initial call + interval
-      updateCountdown();
-      const intervalId = setInterval(updateCountdown, 1000);
-    })();
-  </script>
+    <section class="section members" id="members">
+        <h2 class="section-title">Meet Our Knights</h2>
+        <div class="members-grid">
+            <div class="member-card">
+                <div class="member-image">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="member-info">
+                    <h3>ShadowZA</h3>
+                    <p>Founder & Leader</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-twitch"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-image">
+                    <i class="fas fa-skull"></i>
+                </div>
+                <div class="member-info">
+                    <h3>Viper</h3>
+                    <p>Competitive Captain</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-twitch"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="member-info">
+                    <h3>Byte</h3>
+                    <p>Builder Specialist</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="member-card">
+                <div class="member-image">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="member-info">
+                    <h3>Nova</h3>
+                    <p>Editor & Content Creator</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="stats">
+        <h2 class="section-title">By The Numbers</h2>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">250+</div>
+                <div class="stat-label">Tournaments Played</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">75</div>
+                <div class="stat-label">Tournament Wins</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1.2M</div>
+                <div class="stat-label">Total Earnings</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">42</div>
+                <div class="stat-label">Active Members</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section join" id="join">
+        <h2 class="section-title">Ready To Join?</h2>
+        <p>We're always looking for skilled, dedicated players to join our ranks. Whether you're a competitive player or just looking for a great community, FKZA has a place for you.</p>
+        <a href="#" class="cta-button">Apply Now</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About FKZA</h3>
+                <p>South Africa's premier Fortnite clan, dedicated to competitive excellence and community building since 2020.</p>
+                <div class="social-footer">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-twitch"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#members">Members</a>
+                <a href="#stats">Stats</a>
+                <a href="#join">Join Us</a>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <a href="mailto:contact@fkza.com">contact@fkza.com</a>
+                <a href="#">Discord Server</a>
+                <a href="#">Twitter DM</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 FKZA Clan. All rights reserved. Not affiliated with Epic Games.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add shadow to header on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.style.boxShadow = window.scrollY > 10 
+                ? '0 4px 30px rgba(0, 0, 0, 0.3)' 
+                : '0 4px 30px rgba(0, 0, 0, 0.1)';
+        });
+    </script>
 </body>
 </html>
